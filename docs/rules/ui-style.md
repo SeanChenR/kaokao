@@ -1,18 +1,53 @@
 # UI Style Guide
 
-**狀態:待定** — 視覺方向將另行討論(`frontend-design` skill + Claude Design 協作),定案後填入此文件。
+定案日:2026-07-10(與 Sean 討論)。視覺概念:**星空自習室** — 配色取自 [Aura Theme](https://github.com/daltonmenezes/aura-theme)。
 
-## 已知約束(來自題目)
+## 概念
 
-- 受眾:國小/國中學生 — 活潑、清楚、有親和力,但不失專業與可讀性
-- 狀態回饋要明確:hover、選取、已答/未答、答對/答錯
-- RWD:手機與桌機都要順
-- 加分項全拿:注音 Ruby annotation、a11y(鍵盤操作/語意標籤)、適度動效、深淺色主題
+一個隱喻貫穿雙主題:**淡色 = 白天的天空,深色 = 夜空**。星星白天也在(淡淡的),入夜點亮。所有裝飾元素(進度星軌、題卡光暈)都從這個隱喻長出來,不另加無關花樣。
 
-## 待討論後補上
+## 色彩系統
 
-- 色彩系統(tokens)
-- 字體定案(候選:jf open 粉圓 / 芫荽 Iansui)與中文 + 注音的字級關係
-- 圓角 / 間距 / 陰影尺度
-- 動效原則(哪些互動有動畫、spring 參數基調)
-- 音效風格(答對/答錯提示音)
+色相 DNA 來自 Aura,明度雙軌:深色模式近原生 Aura;淡色模式同色相加深以過 WCAG AA(下表淡色值為候選,實作時以對比檢核工具定稿)。
+
+| Token       | 深色(Aura 原生) | 淡色(衍生候選) | 測驗語意             |
+| ----------- | --------------- | -------------- | -------------------- |
+| `bg`        | `#15141b`       | `#f7f5fb`      | 背景                 |
+| `surface`   | `#1f1d2b`       | `#ffffff`      | 卡片                 |
+| `text`      | `#edecee`       | `#2b2640`      | 主文字               |
+| `muted`     | `#6d6d6d`       | `#6b6880`      | 次要文字、未答       |
+| `primary`   | `#a277ff`       | `#7c4dff`      | 選取中、已答、主按鈕 |
+| `success`   | `#61ffca`       | `#0e9f6e`      | 答對                 |
+| `error`     | `#ff6767`       | `#e5484d`      | 答錯                 |
+| `warning`   | `#ffca85`       | `#c47716`      | 計時器倒數警示       |
+| `info`      | `#82e2ff`       | `#0891b2`      | 進度、提示           |
+| `accent`    | `#f694ff`       | `#c026d3`      | 配對題連線高亮       |
+| `selection` | `#3d375e7f`     | `#a277ff26`    | 選取底色             |
+
+- 全部以 CSS custom properties 定義,Tailwind v4 `@theme` 接進 utility
+- 主題:跟隨系統 `prefers-color-scheme`,提供手動切換(儲存於 zustand persist)
+
+## 字體
+
+- **jf open 粉圓**(OFL 開源,自架 woff2,subset 減載入量)— 全站單一家族,weight 400/700
+- 注音 ruby:`0.5em`,題目內文字級 ≥ `1.25rem`、`line-height ≥ 1.9` 給注音留空間
+- 數字/計時可用等寬變體或 `font-variant-numeric: tabular-nums`
+
+## 簽名元素(統一在星空隱喻下)
+
+1. **星空進度軌道**:進度條是一條星軌,每答一題點亮一顆星(Aura 紫/綠/粉輪替);答對發光、答錯暫灰。深色模式 = 夜空點燈,淡色模式 = 白天淡星
+2. **題卡光暈**:選項卡選取/答對時的 glow 邊框 + Motion spring 彈跳;深色模式 neon 全開,淡色模式光暈收斂為柔和陰影(同一元件、兩種曝光)
+
+## 動效原則
+
+- 狀態回饋(hover/focus/選取)= 純 CSS transition(≤150ms)
+- 題目切換、星星點亮、結果頁 = Motion spring(活潑但不拖沓,stiffness 偏高)
+- 結果頁:canvas-confetti 用 Aura 六色
+- 一律尊重 `prefers-reduced-motion`
+
+## 品質底線
+
+- RWD:手機直式優先設計,桌機加寬不變形
+- 鍵盤可完整作答,focus ring 明顯(primary 色)
+- 語意標籤:題目用 `fieldset/legend`,選項用 Radix RadioGroup/Checkbox
+- 深淺兩模式所有文字/互動元件過 WCAG AA
