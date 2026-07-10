@@ -10,7 +10,7 @@
 
 ## 3. 防 FOUC 與設定 store
 
-- [ ] 3.1 src/index.html 加入 blocking pre-paint inline script(try/catch 讀 localStorage `kaokao-settings` + matchMedia,依 resolveTheme 同規則設 `<html data-theme>`)(spec: Flash-free first paint);行為:深色 OS 首繪即深色、localStorage 例外時回退 auto。驗證:src/theme/prepaint.test.ts 讀 index.html 斷言 persist key 與 data-theme 賦值邏輯存在;手動 DevTools 模擬深色重載無白閃
+- [x] 3.1 src/index.html 加入 blocking pre-paint inline script(try/catch 讀 localStorage `kaokao-settings` + matchMedia,依 resolveTheme 同規則設 `<html data-theme>`)(spec: Flash-free first paint);行為:深色 OS 首繪即深色、localStorage 例外時回退 auto。驗證:src/theme/prepaint.test.ts 讀 index.html 斷言 persist key 與 data-theme 賦值邏輯存在;手動 DevTools 模擬深色重載無白閃
 - [ ] 3.2 實作 src/stores/settings.ts(zustand persist,`{ theme: 'auto'|'light'|'dark', setTheme }`,key `kaokao-settings`)與 effective theme 套用(訂閱 store + matchMedia change → 更新 `data-theme`)(spec: Theme persistence、Theme resolution with three-state preference);行為:setTheme('dark') 後 root 屬性翻轉、auto 時 OS 變動即時跟隨、localStorage 毀損回退 auto。驗證:src/stores/settings.test.ts(happy-dom 模擬 matchMedia)全綠
 
 ## 4. 字型自架
