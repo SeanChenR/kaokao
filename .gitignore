@@ -1,0 +1,18 @@
+# deps / build
+node_modules/
+dist/
+
+# spectra
+.spectra/
+openspec/.vector-search.db*
+
+# source docs (不進版控)
+docs/reference/*.pdf
+
+# misc
+.DS_Store
+*.log
+
+# playwright
+test-results/
+playwright-report/

@@ -1,0 +1,22 @@
+schema: spec-driven
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+context: |
+  產品:國小/國中學生線上測驗頁(single page take-home,見 docs/reference/JD_SeniorProgrammer_frontend.pdf)
+  題型全做:單選、多選、填空、配對、圖片題;題庫寫死單一 JSON(含預寫注音),隨機抽 5 題,不串後端
+  加分項全拿:注音 Ruby annotation、a11y、適度動效、深淺色主題;RWD 必備
+  Tech stack(詳見 docs/rules/stack.md):Bun 原生 bundler/dev server、TypeScript 7(tsgo)、React 19、
+  Tailwind v4、Zustand(persist→localStorage)、Radix Primitives 自刻樣式、Motion、lucide-react、
+  canvas-confetti、Web Audio 音效;測試 bun test + RTL + happy-dom,E2E 用 Playwright
+  規範:conventional commits;流程紀律見 docs/rules/workflow.md;UI 風格見 docs/rules/ui-style.md
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours

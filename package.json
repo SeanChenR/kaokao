@@ -1,0 +1,40 @@
+{
+  "name": "kaokao",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "start": "NODE_ENV=production bun src/index.ts",
+    "build": "bun run build.ts",
+    "typecheck": "tsgo --noEmit",
+    "lint": "oxlint",
+    "format": "oxfmt",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "bun-plugin-tailwind": "^0.1.2",
+    "canvas-confetti": "^1.9.4",
+    "lucide-react": "^1.24.0",
+    "motion": "^12.42.2",
+    "radix-ui": "^1.6.2",
+    "react": "^19",
+    "react-dom": "^19",
+    "tailwindcss": "^4.1.11",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/bun": "latest",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@typescript/native-preview": "^7.0.0-dev.20260707.2",
+    "happy-dom": "^20.10.6",
+    "oxfmt": "^0.58.0",
+    "oxlint": "^1.73.0",
+    "pinyin-pro": "^3.28.1"
+  }
+}
