@@ -1,6 +1,6 @@
 ## 1. Schema 與驗證
 
-- [ ] 1.1 實作 src/data/schema.ts(Token/Segment/Rich 與五題型 TS 型別,照 design.md Implementation Contract)與 src/data/validate.ts 的 `validateBank`(spec: Question bank data shape);行為:對缺注音、非法注音、索引越界、配對非 1:1、型別題數不足回報含題 id 的錯誤。驗證:src/data/validate.test.ts 以壞資料樣本斷言各錯誤類型(RED→GREEN)
+- [x] 1.1 實作 src/data/schema.ts(Token/Segment/Rich 與五題型 TS 型別,照 design.md Implementation Contract)與 src/data/validate.ts 的 `validateBank`(spec: Question bank data shape);行為:對缺注音、非法注音、索引越界、配對非 1:1、型別題數不足回報含題 id 的錯誤。驗證:src/data/validate.test.ts 以壞資料樣本斷言各錯誤類型(RED→GREEN)
 
 ## 2. Authoring 工具鏈
 
