@@ -8,7 +8,7 @@ export interface BankError {
 }
 
 const CJK = /\p{Script=Han}/u;
-const ZHUYIN = /^[ㄅ-ㄩ]+[ˊˇˋ˙]?$/u;
+const ZHUYIN = /^(?:˙[ㄅ-ㄩ]+|[ㄅ-ㄩ]+[ˊˇˋ]?)$/u; // 輕聲 ˙ 前置(台灣正字法),二三四聲後置
 const MIN_PER_TYPE = 3;
 
 function checkRich(rich: Rich, questionId: string, field: string, errors: BankError[]): void {

@@ -14,10 +14,10 @@
 
 ## 4. 注音渲染
 
-- [ ] 4.1 settings store 加 `zhuyin: boolean` 預設 true(spec: Zhuyin display toggle);行為:舊 `{theme}`-only payload rehydrate 後 zhuyin=true 且 theme 保留(不加 version/migrate)。驗證:settings.test.ts 補 legacy payload 測試(RED→GREEN)
-- [ ] 4.2 實作 src/components/ZhuyinText.tsx(spec: Ruby rendering of rich zhuyin text):開=ruby+rt(aria-hidden、0.55em、lang="zh-TW")、詞組 nowrap;關=純文字無 ruby/rt;非中文 token 永遠純文字。驗證:ZhuyinText.test.tsx 斷言兩態 DOM 契約(RED→GREEN)
-- [ ] 4.3 實作 src/components/ui/ZhuyinToggle.tsx(spec: Zhuyin display toggle):原生 button、aria-pressed、44px、focus ring、切換 persist。驗證:ZhuyinToggle.test.tsx(點擊後 aria-pressed 翻轉、store 值變、reload 模擬保留)
-- [ ] 4.4 App 殼掛 ZhuyinToggle(與 ThemeToggle 並列)並將歡迎詞改為含注音的 Rich 範例文字經 ZhuyinText 渲染(spec: Zhuyin display toggle 的 reachable from the app shell);行為:切換立即顯示/隱藏注音。驗證:App.test.tsx 更新斷言;`bun dev` 目視
+- [x] 4.1 settings store 加 `zhuyin: boolean` 預設 true(spec: Zhuyin display toggle);行為:舊 `{theme}`-only payload rehydrate 後 zhuyin=true 且 theme 保留(不加 version/migrate)。驗證:settings.test.ts 補 legacy payload 測試(RED→GREEN)
+- [x] 4.2 實作 src/components/ZhuyinText.tsx(spec: Ruby rendering of rich zhuyin text):開=ruby+rt(aria-hidden、0.55em、lang="zh-TW")、詞組 nowrap;關=純文字無 ruby/rt;非中文 token 永遠純文字。驗證:ZhuyinText.test.tsx 斷言兩態 DOM 契約(RED→GREEN)
+- [x] 4.3 實作 src/components/ui/ZhuyinToggle.tsx(spec: Zhuyin display toggle):原生 button、aria-pressed、44px、focus ring、切換 persist。驗證:ZhuyinToggle.test.tsx(點擊後 aria-pressed 翻轉、store 值變、reload 模擬保留)
+- [x] 4.4 App 殼掛 ZhuyinToggle(與 ThemeToggle 並列)並將歡迎詞改為含注音的 Rich 範例文字經 ZhuyinText 渲染(spec: Zhuyin display toggle 的 reachable from the app shell);行為:切換立即顯示/隱藏注音。驗證:App.test.tsx 更新斷言;`bun dev` 目視
 
 ## 5. 收尾
 

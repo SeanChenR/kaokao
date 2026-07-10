@@ -68,3 +68,11 @@ describe("validateBank", () => {
     expect(validateBank(bankWith([bad])).some((e) => e.questionId === "bad-multi")).toBe(true);
   });
 });
+
+describe("neutral tone orthography", () => {
+  test("leading ˙ is legal, trailing ˙ is not", () => {
+    const mk = (z: string): Question => ({ ...goodSingle, id: "tone", stem: [[{ t: "吧", z }]] });
+    expect(validateBank(bankWith([mk("˙ㄅㄚ")])).filter((e) => e.questionId === "tone")).toHaveLength(0);
+    expect(validateBank(bankWith([mk("ㄅㄚ˙")])).some((e) => e.questionId === "tone")).toBe(true);
+  });
+});
