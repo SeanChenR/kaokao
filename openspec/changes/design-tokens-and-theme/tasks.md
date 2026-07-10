@@ -23,9 +23,9 @@
 - [x] 5.1 實作 src/components/ui/Button.tsx(primary/secondary/ghost、hover、primary 色 focus ring、disabled、min-h/min-w 44px、原生屬性透傳)(spec: Button component variants and states、Minimum touch target);行為:三 variant 與各狀態符合 spec。驗證:src/components/ui/Button.test.tsx(RTL:三 variant render、disabled 不觸發 onClick、focus ring class)先紅後綠
 - [x] 5.2 實作 src/components/ui/Card.tsx(surface + border + 主題感知 cardShadow token)(spec: Card surface container);行為:兩主題下用各自 token。驗證:Card.test.tsx render 斷言 class 組成
 - [x] 5.3 實作 src/components/ui/ThemeToggle.tsx(原生 button、44px 命中區、aria-label 隨狀態更新、Enter/Space 可觸發、切換寫入 store 手動偏好)(spec: Theme toggle control、Minimum touch target);行為:符合 theme toggle spec 情境。驗證:ThemeToggle.test.tsx(鍵盤觸發後 data-theme 翻轉 + aria-label 更新)
-- [ ] 5.4 實作 src/components/StarField.tsx(fixed、aria-hidden、兩主題 radial-gradient 變體)並組進 src/App.tsx 殼層(星空 + 置中 Card 品牌標題「考考」+ 右上 ThemeToggle;正文皆在 Card 上)(spec: Starfield background layer);行為:首頁雙主題呈現符合 mockup 氛圍、報讀器略過星空層。驗證:App.test.tsx smoke render 含 aria-hidden 斷言;`bun dev` 目視雙主題
+- [x] 5.4 實作 src/components/StarField.tsx(fixed、aria-hidden、兩主題 radial-gradient 變體)並組進 src/App.tsx 殼層(星空 + 置中 Card 品牌標題「考考」+ 右上 ThemeToggle;正文皆在 Card 上)(spec: Starfield background layer);行為:首頁雙主題呈現符合 mockup 氛圍、報讀器略過星空層。驗證:App.test.tsx smoke render 含 aria-hidden 斷言;`bun dev` 目視雙主題
 
 ## 6. 收尾
 
-- [ ] 6.1 主題切換 transition 包在 `@media (prefers-reduced-motion: no-preference)` 內(spec: Reduced-motion theme transition);行為:reduced-motion 使用者切換無動畫。驗證:theme.css 內容斷言(測試)+ DevTools 模擬 reduce 目視
+- [x] 6.1 主題切換 transition 包在 `@media (prefers-reduced-motion: no-preference)` 內(spec: Reduced-motion theme transition);行為:reduced-motion 使用者切換無動畫。驗證:theme.css 內容斷言(測試)+ DevTools 模擬 reduce 目視
 - [ ] 6.2 全套本地驗證與文件同步:`bun run typecheck && bun run lint && bun test && bun run build` 全過;README 的指令段補 `bun run subset-fonts`。驗證:指令輸出零錯誤;git diff 檢視 docs/rules/ui-style.md 僅 token 表數值變動
