@@ -5,6 +5,9 @@ import { resolveTheme, type ThemePreference } from "../theme/resolve";
 interface SettingsState {
   theme: ThemePreference;
   setTheme: (theme: ThemePreference) => void;
+  /** 注音顯示(預設開;舊 payload 靠 persist shallow merge 自動補上) */
+  zhuyin: boolean;
+  setZhuyin: (zhuyin: boolean) => void;
 }
 
 export const useSettings = create<SettingsState>()(
@@ -12,6 +15,8 @@ export const useSettings = create<SettingsState>()(
     (set) => ({
       theme: "auto",
       setTheme: (theme) => set({ theme }),
+      zhuyin: true,
+      setZhuyin: (zhuyin) => set({ zhuyin }),
     }),
     { name: "kaokao-settings" },
   ),
