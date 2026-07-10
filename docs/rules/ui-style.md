@@ -8,20 +8,20 @@
 
 ## 色彩系統
 
-色相 DNA 來自 Aura,明度雙軌:深色模式近原生 Aura;淡色模式同色相加深以過 WCAG AA(下表淡色值為候選,實作時以對比檢核工具定稿)。
+色相 DNA 來自 Aura,明度雙軌:深色模式近原生 Aura;淡色模式同色相加深以過 WCAG AA(已定稿:src/styles/theme-contrast.test.ts 以 WCAG AA 斷言把關,改值需過該測試)。
 
 | Token       | 深色(Aura 原生) | 淡色(衍生候選) | 測驗語意             |
 | ----------- | --------------- | -------------- | -------------------- |
 | `bg`        | `#15141b`       | `#f7f5fb`      | 背景                 |
 | `surface`   | `#1f1d2b`       | `#ffffff`      | 卡片                 |
 | `text`      | `#edecee`       | `#2b2640`      | 主文字               |
-| `muted`     | `#6d6d6d`       | `#6b6880`      | 次要文字、未答       |
-| `primary`   | `#a277ff`       | `#7c4dff`      | 選取中、已答、主按鈕 |
-| `success`   | `#61ffca`       | `#0e9f6e`      | 答對                 |
-| `error`     | `#ff6767`       | `#e5484d`      | 答錯                 |
-| `warning`   | `#ffca85`       | `#c47716`      | 計時器倒數警示       |
-| `info`      | `#82e2ff`       | `#0891b2`      | 進度、提示           |
-| `accent`    | `#f694ff`       | `#c026d3`      | 配對題連線高亮       |
+| `muted`     | `#9d9aa7`       | `#625e78`      | 次要文字、未答       |
+| `primary`   | `#a277ff`       | `#6d3fe0`      | 選取中、已答、主按鈕 |
+| `success`   | `#61ffca`       | `#0b7d57`      | 答對                 |
+| `error`     | `#ff6767`       | `#d33840`      | 答錯                 |
+| `warning`   | `#ffca85`       | `#8f5410`      | 計時器倒數警示       |
+| `info`      | `#82e2ff`       | `#076e86`      | 進度、提示           |
+| `accent`    | `#f694ff`       | `#a21caf`      | 配對題連線高亮       |
 | `selection` | `#3d375e7f`     | `#a277ff26`    | 選取底色             |
 
 - 全部以 CSS custom properties 定義,Tailwind v4 `@theme` 接進 utility
