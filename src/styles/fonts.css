@@ -1,6 +1,15 @@
+/* jf open 粉圓 (open-huninn 2.1, OFL), subset via `bun run subset-fonts`.
+   v2.1 ships a single Regular weight; bold is browser-synthesised (font-synthesis). */
 @font-face {
   font-family: "Huninn";
+  font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url("../assets/fonts/huninn-400.woff2") format("woff2");
+}
+
+:root {
+  font-family: "Huninn", ui-rounded, "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  /* Only one weight is shipped — let the browser fake 700 for bold text. */
+  font-synthesis: weight style;
 }
