@@ -5,7 +5,7 @@
 ## 2. 主題解析與色彩 tokens
 
 - [x] 2.1 實作 src/theme/resolve.ts 的 `resolveTheme(stored, systemDark)`(spec: Theme resolution with three-state preference);行為:六種組合輸出符合 spec 解析表。驗證:src/theme/resolve.test.ts 全綠(先寫 test:RED → GREEN)
-- [ ] 2.2 完成 src/styles/theme.css:兩主題全部色彩 tokens(`[data-theme="light|dark"]` 原始變數 + `@theme inline` 映射)、glow/shadow tokens、type scale、`font-num`(tabular-nums)utility、`@custom-variant dark`(spec: Single CSS theme source);行為:`bg-surface` 等 utility 在兩主題自動翻色、CSS 不含以 media query 定義的色值。驗證:bun test 的 utility 存在性檢查 + 手動 `bun dev` 切 data-theme 目視
+- [x] 2.2 完成 src/styles/theme.css:兩主題全部色彩 tokens(`[data-theme="light|dark"]` 原始變數 + `@theme inline` 映射)、glow/shadow tokens、type scale、`font-num`(tabular-nums)utility、`@custom-variant dark`(spec: Single CSS theme source);行為:`bg-surface` 等 utility 在兩主題自動翻色、CSS 不含以 media query 定義的色值。驗證:bun test 的 utility 存在性檢查 + 手動 `bun dev` 切 data-theme 目視
 - [ ] 2.3 撰寫 src/styles/theme-contrast.test.ts(WCAG 相對亮度公式,斷言 text/muted on bg+surface ≥ 4.5、六個 accent on surface ≥ 3.0,兩主題)(spec: Token contrast compliance);行為:任何 token 不達標即測試失敗。驗證:調整淡色候選值至 bun test 全綠,定稿值回寫 docs/rules/ui-style.md token 表
 
 ## 3. 防 FOUC 與設定 store
