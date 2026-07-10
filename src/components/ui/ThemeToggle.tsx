@@ -24,7 +24,7 @@ export function ThemeToggle() {
       onClick={() => useSettings.getState().setTheme(next)}
       className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-2xl
         bg-surface text-text border border-line cursor-pointer text-xl
-        transition-[border-color,box-shadow] duration-150 hover:border-primary
+        motion-safe:transition-[border-color,box-shadow] motion-safe:duration-150 hover:border-primary
         focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none"
     >
       {effective === "dark" ? "☀️" : "🌙"}

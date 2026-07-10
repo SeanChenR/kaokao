@@ -15,7 +15,7 @@
 
 ## 4. 字型自架
 
-- [x] 4.1 下載 jf open 粉圓 400/700 TTF 與 OFL 授權檔入 assets-src/fonts/;建立 scripts/charset.txt(常用字 4808 + ASCII + 注音符號 + 全形標點)與 scripts/subset-fonts.ts(subset-font 套件)(spec: Self-hosted subset font);行為:`bun run subset-fonts` 產出 src/assets/fonts/huninn-400.woff2 與 huninn-700.woff2,每檔 ≤ 1.5MB。驗證:執行 script 後 `ls -la src/assets/fonts/` 確認大小,spot-check 注音符號「ㄅㄆㄇ」在字集內
+- [x] 4.1 下載 jf open 粉圓 400/700 TTF 與 OFL 授權檔入 assets-src/fonts/;建立 scripts/charset.txt(常用字 4808 + ASCII + 注音符號 + 全形標點)與 scripts/subset-fonts.ts(subset-font 套件)(spec: Self-hosted subset font);行為:`bun run subset-fonts` 產出 src/assets/fonts/huninn-400.woff2(≤ 1.5MB;上游僅 Regular,700 由 font-synthesis 合成 — 實作時定案的偏差)。驗證:執行 script 後 `ls -la src/assets/fonts/` 確認大小,spot-check 注音符號「ㄅㄆㄇ」在字集內
 - [x] 4.2 src/styles/fonts.css 定義兩個 @font-face(`font-display: swap`)並設全站 font-family(spec: Self-hosted subset font);行為:頁面文字以粉圓渲染、無外部字型請求。驗證:`bun run build && ! grep -r "fonts.googleapis" dist/`;瀏覽器 Network 面板無 CDN 請求
 
 ## 5. 基礎元件與 App 殼層

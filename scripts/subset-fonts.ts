@@ -18,7 +18,14 @@ const charset = await readFile(path.join(root, "scripts/charset.txt"), "utf8");
 await mkdir(outDir, { recursive: true });
 
 for (const { weight, src } of weights) {
-  const ttf = await readFile(path.join(srcDir, src));
+  let ttf: Buffer;
+  try {
+    ttf = await readFile(path.join(srcDir, src));
+  } catch {
+    throw new Error(
+      `找不到來源字型 assets-src/fonts/${src} — 從 https://github.com/justfont/open-huninn-font releases 下載後放入該目錄再執行`,
+    );
+  }
   const woff2 = await subsetFont(ttf, charset, { targetFormat: "woff2" });
   const outPath = path.join(outDir, `huninn-${weight}.woff2`);
   await writeFile(outPath, woff2);

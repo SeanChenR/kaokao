@@ -25,10 +25,15 @@ function apply(theme: ThemePreference, systemDark: boolean): void {
   document.documentElement.dataset.theme = resolveTheme(theme, systemDark);
 }
 
-/** 訂閱 store 與 OS 偏好,持續把 effective theme 寫到 <html data-theme>。App 啟動時呼叫一次。 */
-export function initThemeSync(): void {
+/** 訂閱 store 與 OS 偏好,持續把 effective theme 寫到 <html data-theme>。回傳 cleanup(StrictMode 雙掛載安全)。 */
+export function initThemeSync(): () => void {
   const media = systemDarkQuery();
   apply(useSettings.getState().theme, media.matches);
-  useSettings.subscribe((s) => apply(s.theme, systemDarkQuery().matches));
-  media.addEventListener("change", (e) => apply(useSettings.getState().theme, e.matches));
+  const unsubscribe = useSettings.subscribe((s) => apply(s.theme, systemDarkQuery().matches));
+  const onChange = (e: MediaQueryListEvent) => apply(useSettings.getState().theme, e.matches);
+  media.addEventListener("change", onChange);
+  return () => {
+    unsubscribe();
+    media.removeEventListener("change", onChange);
+  };
 }

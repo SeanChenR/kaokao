@@ -29,7 +29,7 @@
 
 ## 字體
 
-- **jf open 粉圓**(OFL 開源,自架 woff2,subset 減載入量)— 全站單一家族,weight 400/700
+- **jf open 粉圓**(OFL 開源,自架 woff2,subset 減載入量)— 全站單一家族,weight 400(粗體由 font-synthesis 合成,上游僅出 Regular)
 - 注音 ruby:`0.5em`,題目內文字級 ≥ `1.25rem`、`line-height ≥ 1.9` 給注音留空間
 - 注音範圍:題目與選項的**每個中文字都要標**(不是只有特定詞);介面 chrome(按鈕/標籤)不標;提供注音顯示開關
 - 數字/計時可用等寬變體或 `font-variant-numeric: tabular-nums`

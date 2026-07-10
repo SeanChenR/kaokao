@@ -1,11 +1,13 @@
 import { defineConfig } from "@playwright/test";
 
+const PORT = Number(process.env.E2E_PORT) || 3100;
+
 export default defineConfig({
   testDir: "e2e",
-  use: { baseURL: "http://localhost:3100" },
+  use: { baseURL: `http://localhost:${PORT}` },
   webServer: {
-    command: "PORT=3100 bun src/index.ts",
-    port: 3100,
-    reuseExistingServer: true,
+    command: `PORT=${PORT} bun src/index.ts`,
+    port: PORT,
+    reuseExistingServer: !process.env.CI,
   },
 });

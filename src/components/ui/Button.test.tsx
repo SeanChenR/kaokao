@@ -8,13 +8,13 @@ describe("Button", () => {
   test.each(["primary", "secondary", "ghost"] as const)("renders %s variant", (variant) => {
     render(<Button variant={variant}>按鈕</Button>);
     const btn = screen.getByRole("button", { name: "按鈕" });
-    expect(btn.className).toContain(variant);
+    expect(btn.getAttribute("data-variant")).toBe(variant);
     expect(btn.className).toContain("min-h-11"); // 44px 觸控底線
   });
 
   test("defaults to primary", () => {
     render(<Button>送出</Button>);
-    expect(screen.getByRole("button").className).toContain("primary");
+    expect(screen.getByRole("button").getAttribute("data-variant")).toBe("primary");
   });
 
   test("disabled button does not fire onClick", () => {

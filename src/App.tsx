@@ -6,9 +6,7 @@ import { ThemeToggle } from "./components/ui/ThemeToggle";
 import { initThemeSync } from "./stores/settings";
 
 export function App() {
-  useEffect(() => {
-    initThemeSync();
-  }, []);
+  useEffect(() => initThemeSync(), []);
 
   return (
     <>
