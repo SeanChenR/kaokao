@@ -8,10 +8,119 @@
 // Run with: bun run annotate
 import { readdir, readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import path from "node:path";
-import { pinyin, segment, OutputFormat } from "pinyin-pro";
+import { pinyin, segment, OutputFormat, addTraditionalDict } from "pinyin-pro";
 import type { Rich, Segment, Token } from "../src/data/schema";
 
 const HAN = /\p{Script=Han}/u;
+
+// ---------------------------------------------------------------------------
+// Traditional word segmentation / polyphone support
+// ---------------------------------------------------------------------------
+//
+// pinyin-pro ships an EMPTY traditional dictionary (getTraditionalDict() -> []),
+// so `traditional: true` alone still mis-reads common polyphones on Traditional
+// text (音樂→lè, 長大→cháng, 銀行→xíng). Feeding addTraditionalDict a
+// traditional→simplified CHARACTER map lets pinyin-pro reuse its rich Simplified
+// word dictionary for segmentation AND context-aware polyphone resolution, which
+// fixes those readings at the source. This is a curated, high-confidence subset
+// aimed at mid-grade elementary vocabulary; drop in @pinyin-pro/data's full map
+// (or an OpenCC table) for exhaustive coverage. It only improves the *draft* —
+// the canonical bank is still human-proofread and locked by polyphone.test.ts.
+const TRAD_TO_SIMP: Record<string, string> = {
+  長: "长",
+  樂: "乐",
+  銀: "银",
+  覺: "觉",
+  為: "为",
+  種: "种",
+  過: "过",
+  來: "来",
+  這: "这",
+  個: "个",
+  們: "们",
+  時: "时",
+  會: "会",
+  東: "东",
+  動: "动",
+  對: "对",
+  錢: "钱",
+  買: "买",
+  賣: "卖",
+  場: "场",
+  醫: "医",
+  圓: "圆",
+  邊: "边",
+  頭: "头",
+  條: "条",
+  魚: "鱼",
+  鳥: "鸟",
+  馬: "马",
+  點: "点",
+  還: "还",
+  幾: "几",
+  麼: "么",
+  給: "给",
+  從: "从",
+  變: "变",
+  隻: "只",
+  裡: "里",
+  顏: "颜",
+  蟲: "虫",
+  讀: "读",
+  車: "车",
+  開: "开",
+  關: "关",
+  聽: "听",
+  說: "说",
+  話: "话",
+  語: "语",
+  詞: "词",
+  樣: "样",
+  歡: "欢",
+  紅: "红",
+  綠: "绿",
+  黃: "黄",
+  藍: "蓝",
+  圖: "图",
+  課: "课",
+  寫: "写",
+  讓: "让",
+  應: "应",
+  該: "该",
+  願: "愿",
+  學: "学",
+  國: "国",
+  華: "华",
+  見: "见",
+  兒: "儿",
+  園: "园",
+  灣: "湾",
+  適: "适",
+  傷: "伤",
+  難: "难",
+  鋼: "钢",
+  鉛: "铅",
+  筆: "笔",
+  書: "书",
+  獅: "狮",
+  蘋: "苹",
+  蘿: "萝",
+  蔔: "卜",
+  顆: "颗",
+  幫: "帮",
+  聲: "声",
+  響: "响",
+  貓: "猫",
+};
+
+let traditionalDictLoaded = false;
+/** Register the traditional→simplified map once (pinyin-pro keeps it in global
+ * state). Idempotent; called at the start of the annotate pipeline. */
+function loadTraditionalDict(): void {
+  if (traditionalDictLoaded) return;
+  addTraditionalDict(TRAD_TO_SIMP);
+  traditionalDictLoaded = true;
+}
 
 // ---------------------------------------------------------------------------
 // pinyin -> zhuyin
@@ -327,6 +436,7 @@ export async function annotate(opts: AnnotateOptions): Promise<string[]> {
     );
   }
 
+  loadTraditionalDict();
   const files = (await readdir(opts.draftsDir)).filter((f) => f.endsWith(".txt")).sort();
   await mkdir(opts.stagingDir, { recursive: true });
 

@@ -21,7 +21,7 @@ interface QuestionBase {
   id: string;
   type: QType;
   stem: Rich;
-  hint?: string;
+  hint?: Rich;
 }
 
 export interface SingleQ extends QuestionBase {

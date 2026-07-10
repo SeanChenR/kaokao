@@ -37,6 +37,7 @@ function checkRich(rich: Rich, questionId: string, field: string, errors: BankEr
 
 function checkQuestion(q: Question, errors: BankError[]): void {
   checkRich(q.stem, q.id, "stem", errors);
+  if (q.hint) checkRich(q.hint, q.id, "hint", errors);
 
   switch (q.type) {
     case "single":
