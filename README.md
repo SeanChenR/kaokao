@@ -19,6 +19,7 @@ bun run lint       # oxlint
 bun run format     # oxfmt
 bun run build      # 產出靜態檔
 bun run subset-fonts  # 重建自架字型(改 scripts/charset.txt 後執行)
+bun run annotate      # 題目草稿 → 注音初稿(drafts/ → staging/,人工校對後入 questions.json)
 ```
 
 ## 技術棧與設計思路
