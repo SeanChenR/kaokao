@@ -21,5 +21,5 @@
 
 ## 5. 收尾
 
-- [ ] 5.1 注音字級 0.55em 進 theme.css(rt 樣式集中定義)並同步 docs/rules/ui-style.md 的 0.5em → 0.55em(附理由);行為:rt 實際渲染 0.55em。驗證:theme.test.ts 補 rt 樣式斷言;git diff 檢視 ui-style.md 僅此處變動
+- [x] 5.1 注音字級 0.55em 進 theme.css(rt 樣式集中定義)並同步 docs/rules/ui-style.md 的 0.5em → 0.55em(附理由);行為:rt 實際渲染 0.55em。驗證:theme.test.ts 補 rt 樣式斷言;git diff 檢視 ui-style.md 僅此處變動
 - [ ] 5.2 全套本地驗證:`bun run typecheck && bun run lint && bun test && bun run e2e && bun run build` 全過;README 指令段補 `bun run annotate`。驗證:指令零錯誤

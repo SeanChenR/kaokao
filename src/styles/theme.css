@@ -86,6 +86,17 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* 注音 ruby — 0.55em(0.5em 對中年級偏小,見 question-bank design Decision 9) */
+ruby {
+  ruby-align: center;
+}
+rt {
+  font-size: 0.55em;
+  font-weight: 400;
+  color: var(--info);
+  letter-spacing: 0.02em;
+}
+
 ::selection {
   background: var(--selection);
 }

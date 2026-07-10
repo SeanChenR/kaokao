@@ -45,3 +45,8 @@ describe("theme.css contract", () => {
     expect(css).toContain("--text-question--line-height: 1.9");
   });
 });
+
+test("ruby rt styling is centralized at 0.55em with info color", () => {
+  expect(css).toContain("font-size: 0.55em");
+  expect(css).toMatch(/rt\s*\{[^}]*color: var\(--info\)/);
+});
