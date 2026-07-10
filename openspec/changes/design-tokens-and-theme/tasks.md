@@ -1,6 +1,6 @@
 ## 1. Tracer bullet — 建置管線驗證
 
-- [ ] 1.1 建立最小 src/styles/theme.css(僅含一個 `[data-theme]` 變數與 `@theme inline` 映射)與假 woff2 資產,經 src/index.css `@import` 串起;行為:`bun run build` 後 dist 含該 CSS 變數與 hash 後的 woff2、`bun dev` 正常渲染(支撐 spec: Single CSS theme source、Self-hosted subset font 的建置前提)。驗證:`bun run build && grep -r "data-theme" dist/ && ls dist/*.woff2`;失敗則記錄並改用單檔 index.css 降級方案(design.md Risks 定義)
+- [x] 1.1 建立最小 src/styles/theme.css(僅含一個 `[data-theme]` 變數與 `@theme inline` 映射)與假 woff2 資產,經 src/index.css `@import` 串起;行為:`bun run build` 後 dist 含該 CSS 變數與 hash 後的 woff2、`bun dev` 正常渲染(支撐 spec: Single CSS theme source、Self-hosted subset font 的建置前提)。驗證:`bun run build && grep -r "data-theme" dist/ && ls dist/*.woff2`;失敗則記錄並改用單檔 index.css 降級方案(design.md Risks 定義)
 
 ## 2. 主題解析與色彩 tokens
 

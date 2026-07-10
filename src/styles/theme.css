@@ -1,0 +1,9 @@
+[data-theme="dark"] {
+  --surface: #1f1d2b;
+}
+[data-theme="light"] {
+  --surface: #ffffff;
+}
+@theme inline {
+  --color-surface: var(--surface);
+}
