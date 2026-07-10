@@ -18,6 +18,7 @@ bun run typecheck  # tsgo --noEmit
 bun run lint       # oxlint
 bun run format     # oxfmt
 bun run build      # 產出靜態檔
+bun run subset-fonts  # 重建自架字型(改 scripts/charset.txt 後執行)
 ```
 
 ## 技術棧與設計思路

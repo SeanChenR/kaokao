@@ -21,7 +21,7 @@
 1. **主題以 `<html data-theme="light|dark">` 為唯一 CSS 真相**,不用 `@media (prefers-color-scheme)` 定色。理由:media query 定色與手動覆蓋會有特異性衝突(深色 OS 強制淡色時 media 內的 `:root` 蓋不掉);單一屬性讓 Tailwind `@custom-variant dark ([data-theme="dark"] &)` 乾淨運作。替代方案(class `.dark` + media fallback)被否決:雙軌真相易漂移。
 2. **token 走間接層**:`[data-theme="light"]` / `[data-theme="dark"]` 各給 `--surface`、`--primary` 等原始變數值;`@theme inline` 映射 `--color-surface: var(--surface)` 等,讓 utility(`bg-surface`)自動隨主題翻轉。理由:Tailwind v4 `@theme` 值需編譯期已知,間接層是 runtime 主題切換的標準解法。
 3. **三態解析單一真相放 `src/theme/resolve.ts`**:`resolveTheme(stored, systemDark) → 'light'|'dark'`(stored: `'auto'|'light'|'dark'`,auto 時看 systemDark)。index.html 的 pre-paint inline script 與 zustand store 都呼叫同一規則(inline script 因無法 import,由註解標記「與 resolve.ts 同步」的 5 行複本,並以 unit test 鎖住兩者行為一致——test 直接讀 index.html 字串驗證關鍵邏輯存在)。理由:防 FOUC 需要 blocking script,而規則本體要可測。
-4. **字型 subset 用 `subset-font`(harfbuzz-wasm,純 JS)**,`scripts/subset-fonts.ts` 以 `bun run` 執行:輸入 assets-src/fonts/ 的粉圓 TTF(400/700),字集 = 教育部常用字 4808 字 + ASCII + 注音符號 + 全形標點(字集清單存 scripts/charset.txt),輸出 woff2 至 src/assets/fonts/。理由:純 Bun 工具鏈(stack.md 禁引 Python);靜態字集在題庫未定時可用,注音符號必須涵蓋(ㄅ-ㄩ、聲調)。預期產物:每檔 ≤ 1.5MB。
+4. **字型 subset 用 `subset-font`(harfbuzz-wasm,純 JS)**,`scripts/subset-fonts.ts` 以 `bun run` 執行:輸入 assets-src/fonts/ 的粉圓 TTF(上游僅出 Regular 單一 weight,映射為 400;700 由瀏覽器 font-synthesis 合成),字集 = 教育部常用字 4808 字 + ASCII + 注音符號 + 全形標點(字集清單存 scripts/charset.txt),輸出 woff2 至 src/assets/fonts/。理由:純 Bun 工具鏈(stack.md 禁引 Python);靜態字集在題庫未定時可用,注音符號必須涵蓋(ㄅ-ㄩ、聲調)。預期產物:每檔 ≤ 1.5MB。
 5. **zustand store 採 per-domain slice**:本 change 只建 `src/stores/settings.ts`(theme 三態 + 未來的 sound),persist key `kaokao-settings`。理由:stack.md 要求 store 分域,避免 quiz/排行榜混入。
 6. **星空層是固定 background-image(多層 radial-gradient)**,不是 DOM 星點;twinkle 動畫延後到 polish。理由:零 DOM 成本、無 reduced-motion 疑慮(靜態),分層規則(正文在 surface 卡上)由元件慣例保證。
 7. **AA 檢核在測試內自動化**:以 WCAG 相對亮度公式寫 `src/styles/theme-contrast.test.ts`,對兩主題斷言 text/muted on bg+surface ≥ 4.5、primary/success/error/warning/info/accent on surface ≥ 3(UI 元件),token 值調整至全過。理由:把「定稿」變成可重跑的 gate,而非一次性人工檢查。
@@ -41,7 +41,7 @@
 - `useSettings` store:`{ theme: 'auto'|'light'|'dark', setTheme(t): void }`,persist key `kaokao-settings`,storage shape `{"state":{"theme":"auto"},"version":0}`
 - CSS 契約:`html[data-theme="dark"]` 與 `html[data-theme="light"]` 必有;utility 名:`bg-bg`、`bg-surface`、`text-text`、`text-muted`、`text-primary`、`bg-primary`、`text-success/error/warning/info/accent`、`shadow-glow-primary/success/error/accent`(主題感知)、`font-num`(tabular-nums)
 - 元件 props:`Button { variant?: 'primary'|'secondary'|'ghost', ... }` 原生 button 屬性透傳;`Card` 為 surface 容器;`ThemeToggle` 無 props
-- `bun run subset-fonts` 重建字型;輸出檔名 `huninn-400.woff2`、`huninn-700.woff2`
+- `bun run subset-fonts` 重建字型;輸出檔名 `huninn-400.woff2`(上游無 Bold 來源;粗體由 font-synthesis 合成)
 
 **失敗模式:**
 

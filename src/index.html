@@ -4,6 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kaokao 考考 — 學生線上測驗</title>
+    <script>
+      // pre-paint 主題解析 — 與 src/theme/resolve.ts 的 resolveTheme 同一規則,修改需同步
+      (() => {
+        var stored = "auto";
+        try {
+          var raw = localStorage.getItem("kaokao-settings");
+          if (raw) {
+            var t = JSON.parse(raw).state.theme;
+            if (t === "light" || t === "dark") stored = t;
+          }
+        } catch (e) {}
+        var dark = false;
+        try {
+          dark = matchMedia("(prefers-color-scheme: dark)").matches;
+        } catch (e) {}
+        document.documentElement.dataset.theme =
+          stored === "auto" ? (dark ? "dark" : "light") : stored;
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

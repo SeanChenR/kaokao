@@ -68,7 +68,7 @@ The finalized token values SHALL satisfy WCAG AA in both themes: body-text pairs
 
 ### Requirement: Self-hosted subset font
 
-The system SHALL serve jf open 粉圓 (Huninn) weights 400 and 700 as self-hosted woff2 files subset to a static charset covering common Traditional Chinese characters, ASCII, zhuyin symbols (ㄅ–ㄩ plus tone marks), and full-width punctuation. The page SHALL make no requests to external font CDNs, and `font-display: swap` SHALL keep text visible while fonts load.
+The system SHALL serve jf open 粉圓 (Huninn) weight 400 as a self-hosted woff2 file subset to a static charset (the upstream release ships Regular only; bold text SHALL render via browser font-synthesis) covering common Traditional Chinese characters, ASCII, zhuyin symbols (ㄅ–ㄩ plus tone marks), and full-width punctuation. The page SHALL make no requests to external font CDNs, and `font-display: swap` SHALL keep text visible while fonts load.
 
 #### Scenario: Offline-capable fonts
 
