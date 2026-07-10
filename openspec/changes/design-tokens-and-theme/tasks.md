@@ -28,4 +28,4 @@
 ## 6. 收尾
 
 - [x] 6.1 主題切換 transition 包在 `@media (prefers-reduced-motion: no-preference)` 內(spec: Reduced-motion theme transition);行為:reduced-motion 使用者切換無動畫。驗證:theme.css 內容斷言(測試)+ DevTools 模擬 reduce 目視
-- [ ] 6.2 全套本地驗證與文件同步:`bun run typecheck && bun run lint && bun test && bun run build` 全過;README 的指令段補 `bun run subset-fonts`。驗證:指令輸出零錯誤;git diff 檢視 docs/rules/ui-style.md 僅 token 表數值變動
+- [x] 6.2 全套本地驗證與文件同步:`bun run typecheck && bun run lint && bun test && bun run build` 全過;README 的指令段補 `bun run subset-fonts`。驗證:指令輸出零錯誤;git diff 檢視 docs/rules/ui-style.md 僅 token 表數值變動
