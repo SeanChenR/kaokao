@@ -15,7 +15,7 @@
 ## Decisions
 
 1. **計時唯一真相 = deadline 時間戳**(`startedAt + 600_000`);每 tick `deadline - Date.now()` 重算,不做遞減計數。理由:setInterval drift 與背景分頁 throttle 會讓遞減錯位。tick 用 1s interval 僅觸發重算。
-2. **quiz store 以 sessionStorage persist**(zustand persist + `createJSONStorage(() => sessionStorage)`),partialize `{phase, drawnIds, answers, name, startedAt}`。理由:誤觸重整續命(deadline 由 startedAt 推回),關分頁自然重來;localStorage 留給 settings/排行榜。
+2. **quiz store 以 sessionStorage persist**(zustand persist + `createJSONStorage(() => sessionStorage)`),partialize `{phase, drawnIds, answers, name, startedAt, current, autoSubmitted}`(current/autoSubmitted 讓 reload 停在同題並保留 ack)。理由:誤觸重整續命(deadline 由 startedAt 推回),關分頁自然重來;localStorage 留給 settings/排行榜。
 3. **AnswerValue 型別映射 + isAnswered 由本 change 擁有**:`AnswerValueMap = { single: number|null; multi: number[]; fill: string; match: (number|null)[]; image: number|null }`;`isAnswered(q, v)`:single/image=非 null、multi=length>0、fill=trim 非空、match=全部配對完成(部分連線 = 未答)。SubmitDialog 計數與星軌點亮共用。理由:未答語意是跨元件契約,不能散落。
 4. **QuestionSlot 契約**(本 change 定義 + 佔位實作,change 4 替換內容):`QuestionSlot(props: { question: Question; value: AnswerValueMap[Q["type"]] | undefined; onChange(v): void })`,以 type narrow 的 switch 分派;佔位版渲染題幹(ZhuyinText)+「作答元件開發中」。
 5. **抽題 `draw(bank, rng = Math.random)`**:每型過濾後 `Math.floor(rng() * n)` 選一,固定順序輸出 5 題;不用 Fisher-Yates(每型只取一,無需洗牌)。等機率以 seeded rng 統計測試把關。

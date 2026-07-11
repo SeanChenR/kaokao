@@ -13,6 +13,7 @@ export function CountdownTimer({ deadline }: CountdownTimerProps) {
   const [announcement, setAnnouncement] = useState("");
 
   useEffect(() => {
+    announced.current = { min: false, ten: false }; // deadline 變更即重置一次性播報
     const tick = () => {
       const ms = remainingMs(deadline, Date.now());
       setRemaining(ms);

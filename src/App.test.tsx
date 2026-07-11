@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from "bun:test";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 
 // spec: theme-system / Starfield background layer + App 殼層 smoke
 
@@ -30,11 +30,11 @@ describe("App shell", () => {
     const starfield = container.querySelector('[aria-hidden="true"]');
     expect(starfield!.className).toContain("pointer-events-none");
 
-    useQuiz.getState().start("小星");
+    act(() => useQuiz.getState().start("小星"));
     expect(await screen.findByRole("timer")).toBeTruthy();
     expect(screen.getByText(/第 1\/5 題/)).toBeTruthy();
 
-    useQuiz.getState().submit({ auto: true });
+    act(() => useQuiz.getState().submit({ auto: true }));
     expect(await screen.findByText("時間到,自動交卷!")).toBeTruthy();
   });
 });

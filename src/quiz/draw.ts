@@ -7,7 +7,7 @@ export const TYPE_ORDER: readonly QType[] = ["single", "multi", "fill", "match",
 export function draw(bank: QuestionBank, rng: () => number = Math.random): Question[] {
   return TYPE_ORDER.map((type) => {
     const pool = bank.questions.filter((q) => q.type === type);
-    if (pool.length === 0) throw new Error(`題庫缺題型:${type}`);
+    if (pool.length === 0) throw new Error(`題庫缺題型:${type}`); // 受 src/data/bank.test.ts 每型 ≥3 守護,理論不可達
     return pool[Math.floor(rng() * pool.length)]!;
   });
 }
