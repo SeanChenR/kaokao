@@ -9,7 +9,7 @@
 
 ## Decisions
 
-1. **Playwright projects**:`desktop`(現況全 spec)+ `mobile`(iPhone 14 device preset,只跑 quiz-flow/results 核心流程與 a11y — 截圖 spec 已自帶視口設定,排除)。`fullyParallel` + CI 時 `workers: 2, retries: 1`(本地 flake 經驗)
+1. **Playwright projects**:`desktop`(現況全 spec)+ `mobile`(Pixel 7 device preset — Chromium 系免裝 WebKit;原定 iPhone 14 需 WebKit,只跑 quiz-flow/results 核心流程與 a11y — 截圖 spec 已自帶視口設定,排除)。`fullyParallel` + CI 時 `workers: 2, retries: 1`(本地 flake 經驗)
 2. **README 結構**:Demo 連結置頂 → 快速開始 → 玩法截圖(雙主題)→ 架構(檔案地圖 + 資料流)→ 設計思路(概念/注音工程含破音字防護/a11y/動效)→ 加分項對照 JD 表 → 測試策略 → 若有更多時間 → 授權(字型 OFL 標註)
 3. **線上冒煙**:`E2E_BASE_URL` 環境變數讓 playwright 可指向 production;README 記載 `E2E_BASE_URL=https://… bunx playwright test e2e/theme-smoke.spec.ts` 用法;本 change 執行一次並記錄結果
 4. **依賴掃描**:knip 不引入;用 `bun pm ls` + grep 手查未使用套件
