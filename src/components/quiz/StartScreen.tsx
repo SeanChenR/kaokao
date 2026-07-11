@@ -27,7 +27,7 @@ export function StartScreen() {
     <main className="min-h-screen flex items-center justify-center p-5">
       <Card className="w-full max-w-md px-8 py-9 text-center">
         <p className="text-sm text-info mb-1.5 leading-[1.9]"><ZhuyinText rich={UI.studio!} /></p>
-        <h1 className="text-5xl font-bold text-text">考考</h1>
+        <h1 className="text-5xl font-bold text-text leading-[1.6]"><ZhuyinText rich={UI.brand!} /></h1>
         <p className="mt-3.5 text-muted leading-[1.9]">
           <ZhuyinText rich={UI.welcome1!} />
           <span aria-hidden="true"> ✨</span>
@@ -45,7 +45,7 @@ export function StartScreen() {
             type="text"
             value={name}
             maxLength={12}
-            placeholder="寫上名字"
+            placeholder={UI_PLAIN.namePlaceholder}
             aria-invalid={showError || undefined}
             aria-describedby={showError ? errorId : undefined}
             onChange={(e) => {

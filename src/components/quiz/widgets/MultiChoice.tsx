@@ -4,6 +4,7 @@ import { optionCard } from "./shared";
 import { blip } from "../../../audio/blip";
 import { motion, useReducedMotion } from "motion/react";
 import { springSoft } from "../../../motion/presets";
+import { UI } from "../../../ui-text.gen";
 
 interface MultiChoiceProps {
   question: MultiQ;
@@ -48,7 +49,7 @@ export function MultiChoice({ question, value = [], onChange }: MultiChoiceProps
         );
       })}
       <p className="text-xs text-muted min-h-4" aria-hidden="true">
-        {value.length > 0 ? "還能再選喔!" : ""}
+        {value.length > 0 ? <ZhuyinText rich={UI.morePick!} /> : ""}
       </p>
     </div>
   );
