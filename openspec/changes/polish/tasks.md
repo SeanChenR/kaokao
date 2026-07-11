@@ -1,8 +1,8 @@
 ## 1. 基建
 
 - [ ] 1.1 src/motion/presets.ts(springSnappy/springSoft)+ happydom.ts 加 MotionGlobalConfig.instantAnimations(design Decision 2/6);驗證:bun test 既有 183 案全綠不因 Motion 掛掉
-- [ ] 1.2 src/audio/blip.ts(單例 getContext/unlock/blip/melody,no-op 守門、gain 包絡)(spec: Gentle audio feedback);驗證:blip.test.ts(無 AudioContext 環境全 API 不拋、sound=false 不播)
-- [ ] 1.3 settings.sound(interface/initial/partialize)+ SoundToggle(🔕/🔔、aria-pressed、click 內 unlock)掛殼層(spec: Gentle audio feedback);驗證:SoundToggle.test.tsx + settings.test 補(RED→GREEN)
+- [ ] 1.2 src/audio/blip.ts(單例 getContext/unlock/blip/melody,no-op 守門、gain 包絡)(spec: Gentle audio feedback, off by default);驗證:blip.test.ts(無 AudioContext 環境全 API 不拋、sound=false 不播)
+- [ ] 1.3 settings.sound(interface/initial/partialize)+ SoundToggle(🔕/🔔、aria-pressed、click 內 unlock)掛殼層(spec: Gentle audio feedback, off by default);驗證:SoundToggle.test.tsx + settings.test 補(RED→GREEN)
 
 ## 2. 動效
 
@@ -12,7 +12,7 @@
 
 ## 3. 音效接線
 
-- [ ] 3.1 觸發點接線:單選/圖片/多選勾選(取消靜音)、配對成功、送出、結果旋律(分級,播前 running gate)(spec: Gentle audio feedback 兩 Scenario);驗證:widgets 測試斷言 blip 呼叫(mock blip 模組)含「取消不響」
+- [ ] 3.1 觸發點接線:單選/圖片/多選勾選(取消靜音)、配對成功、送出、結果旋律(分級,播前 running gate)(spec: Gentle audio feedback, off by default 兩 Scenario);驗證:widgets 測試斷言 blip 呼叫(mock blip 模組)含「取消不響」
 
 ## 4. 總檢
 
