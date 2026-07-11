@@ -47,7 +47,7 @@ describe("ResultScreen", () => {
     await submitWith("all");
     const { ResultScreen } = await import("./ResultScreen");
     render(<ResultScreen />);
-    expect(screen.getByRole("status").textContent).toBe("答對 5 題,共 5 題");
+    expect(screen.getByRole("status").textContent).toBe("答對 5 題，共 5 題");
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading.textContent).toContain("滿天星");
     expect(document.activeElement).toBe(heading);

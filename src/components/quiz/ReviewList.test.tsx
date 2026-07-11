@@ -24,30 +24,30 @@ const singleQ: SingleQ = { id: "s", type: "single", stem: seg("單選"), options
 describe("ReviewList", () => {
   test("multi shows delta: correct, missed, wrongly chosen", () => {
     render(<ReviewList questions={[multiQ]} answers={{ m: [0, 3] }} />);
-    expect(screen.getByText("(選對了)")).toBeTruthy(); // 0
-    expect(screen.getByText("(漏選了)")).toBeTruthy(); // 2
-    expect(screen.getByText("(多選了)")).toBeTruthy(); // 3
+    expect(screen.getByText("（選對了）")).toBeTruthy(); // 0
+    expect(screen.getByText("（漏選了）")).toBeTruthy(); // 2
+    expect(screen.getByText("（多選了）")).toBeTruthy(); // 3
     expect(screen.getByText("再想想看")).toBeTruthy();
   });
 
   test("match shows partial connections as-is with correct pairing", () => {
     render(<ReviewList questions={[matchQ]} answers={{ mt: [1, null] }} />);
     const text = document.body.textContent!;
-    expect(text).toContain("(沒有作答)"); // 鳥未連
-    expect(text).toContain("正解:");
+    expect(text).toContain("（沒有作答）"); // 鳥未連
+    expect(text).toContain("正解：");
   });
 
   test("unanswered single shows placeholder and correct answer", () => {
     render(<ReviewList questions={[singleQ]} answers={{}} />);
     const text = document.body.textContent!;
-    expect(text).toContain("(沒有作答)");
-    expect(text).toContain("正確答案:");
+    expect(text).toContain("（沒有作答）");
+    expect(text).toContain("正確答案：");
     expect(screen.getByText("再想想看")).toBeTruthy();
   });
 
   test("correct single shows praise badge and hides correct-answer row", () => {
     render(<ReviewList questions={[singleQ]} answers={{ s: 0 }} />);
-    expect(screen.getByText("答對了!")).toBeTruthy();
-    expect(document.body.textContent).not.toContain("正確答案:");
+    expect(screen.getByText("答對了！")).toBeTruthy();
+    expect(document.body.textContent).not.toContain("正確答案：");
   });
 });

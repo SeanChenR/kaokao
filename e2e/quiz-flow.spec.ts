@@ -11,7 +11,7 @@ async function startQuiz(page: Page, name = "測試星") {
 test("blank name shows accessible error", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "開始測驗" }).click();
-  await expect(page.getByText(zt("先寫上名字才能出發喔!"))).toBeVisible();
+  await expect(page.getByText(zt("先寫上名字才能出發喔！"))).toBeVisible();
   await expect(page.getByLabel("你的名字")).toHaveAttribute("aria-invalid", "true");
 });
 
