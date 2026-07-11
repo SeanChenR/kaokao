@@ -14,14 +14,14 @@ for (const theme of ["light", "dark"] as const) {
       await page.waitForTimeout(350);
       for (const [i, type] of ["single", "multi", "fill", "match", "image"].entries()) {
         await page.screenshot({ path: `${SHOT}/q-${type}-${theme}-${tag}.png` });
-        if (i < 4) await page.getByRole("button", { name: "下一題" }).click();
+        if (i < 4) await nextQuestion(page);
         await page.waitForTimeout(250);
       }
     });
   }
 }
 
-import { answerCorrectly, currentQuestion } from "./helpers";
+import { answerCorrectly, currentQuestion, nextQuestion } from "./helpers";
 
 
 for (const theme of ["light", "dark"] as const) {
@@ -33,7 +33,7 @@ for (const theme of ["light", "dark"] as const) {
     // 快速全對作答
     for (let i = 0; i < 5; i++) {
       await answerCorrectly(page, await currentQuestion(page));
-      if (i < 4) await page.getByRole("button", { name: "下一題" }).click();
+      if (i < 4) await nextQuestion(page);
     }
     await page.getByRole("button", { name: "送出答案" }).click();
     await page.waitForTimeout(700);

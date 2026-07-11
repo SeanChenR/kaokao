@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { answerCorrectly, currentQuestion } from "./helpers";
+import { answerCorrectly, currentQuestion, nextQuestion } from "./helpers";
 
 
 async function playPerfect(page: Page, name: string) {
@@ -9,7 +9,7 @@ async function playPerfect(page: Page, name: string) {
   await expect(page.getByRole("timer")).toBeVisible();
   for (let i = 0; i < 5; i++) {
     await answerCorrectly(page, await currentQuestion(page));
-    if (i < 4) await page.getByRole("button", { name: "下一題" }).click();
+    if (i < 4) await nextQuestion(page);
   }
   await page.getByRole("button", { name: "送出答案" }).click();
 }

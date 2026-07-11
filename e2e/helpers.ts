@@ -26,3 +26,13 @@ export async function answerCorrectly(page: Page, q: Q): Promise<void> {
     }
   }
 }
+
+import { expect } from "@playwright/test";
+
+/** 點下一題並等切換完成(mode="wait" 離場期間舊 h2 仍在,直接讀會拿到舊題) */
+export async function nextQuestion(page: Page): Promise<void> {
+  const stem = page.getByRole("heading", { level: 2 });
+  const before = await stem.getAttribute("data-question-id");
+  await page.getByRole("button", { name: "下一題" }).click();
+  await expect(stem).not.toHaveAttribute("data-question-id", before ?? "");
+}
