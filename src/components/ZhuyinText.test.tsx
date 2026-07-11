@@ -70,8 +70,22 @@ describe("right-side vertical layout structure", () => {
     );
     const rts = container.querySelectorAll("rt");
     expect(rts[0]!.querySelector(".zy-col")!.textContent).toBe("ㄒㄩㄢ");
-    expect(rts[0]!.querySelector(".zy-tone")!.textContent).toBe("ˇ");
+    expect(rts[0]!.querySelector(".zy-lane")!.textContent).toBe("ˇ");
     expect(rts[1]!.querySelector(".zy-col")!.textContent).toBe("˙ㄉㄜ");
-    expect(rts[1]!.querySelector(".zy-tone")).toBeNull();
+    expect(rts[1]!.querySelector(".zy-dot")!.textContent).toBe("˙"); // 輕聲緊貼欄頂
+    expect(rts[1]!.querySelector(".zy-lane")!.textContent).toBe(""); // lane 恆佔位
+    expect(rts[0]!.querySelectorAll(".zy-col > span").length).toBe(3); // 逐符號堆疊
   });
+});
+
+test("leading punctuation merges into previous group (避頭點)", async () => {
+  const { useSettings } = await import("../stores/settings");
+  useSettings.setState({ zhuyin: true });
+  const { ZhuyinText: ZT } = await import("./ZhuyinText");
+  const { container } = render(
+    <ZT rich={[[{ t: "好", z: "ㄏㄠˇ" }], [{ t: "," }], [{ t: "走", z: "ㄗㄡˇ" }]]} />,
+  );
+  const groups = container.querySelectorAll("span.whitespace-nowrap");
+  expect(groups).toHaveLength(2); // 逗號併入「好」那組,不能落行首
+  expect(groups[0]!.textContent).toContain(",");
 });

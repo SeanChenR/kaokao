@@ -46,10 +46,10 @@ describe("theme.css contract", () => {
   });
 });
 
-test("ruby renders a fixed-width right-side vertical column (uniform rhythm)", () => {
-  expect(css).toMatch(/rt\s*\{[^}]*font-size: 1em/); // 必須蓋掉 UA rt{font-size:50%}
-  expect(css).toMatch(/rt\s*\{[^}]*width: 0\.72em/); // 等寬字塊(Sean:字距均勻)
+test("ruby v2: flex stacked column, reserved tone lane, no writing-mode/absolute", () => {
+  expect(css).toMatch(/rt\s*\{[^}]*font-size: 1em/); // 蓋掉 UA rt font-size 50%
   expect(css).toMatch(/rt\s*\{[^}]*color: var\(--info\)/);
-  expect(css).toContain("writing-mode: vertical-lr");
-  expect(css).toMatch(/zy-tone[\s\S]*?position: absolute/);
+  expect(css).toMatch(/zy-lane[\s\S]*?width: 0\.42em/); // 恆佔位聲調 lane(等寬)
+  expect(css).not.toContain("writing-mode:"); // 屬性不得使用(註解提及不算)
+  expect(css).not.toMatch(/zy-(tone|lane)[\s\S]*?position: absolute/);
 });
