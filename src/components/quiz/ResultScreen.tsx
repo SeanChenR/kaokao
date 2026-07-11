@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { springSnappy } from "../../motion/presets";
+import { melody } from "../../audio/blip";
 import { isCorrect } from "../../quiz/score";
 import { formatMs } from "../../quiz/time";
 import { drawnQuestions, useQuiz } from "../../stores/quiz";
@@ -75,8 +76,10 @@ export function ResultScreen() {
     headingRef.current?.focus();
     if (firedRef.current) return; // StrictMode 雙掛載冪等
     firedRef.current = true;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduced && tier.confetti !== "none") void fireConfetti(tier.confetti);
+    const reducedMedia = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reducedMedia && tier.confetti !== "none") void fireConfetti(tier.confetti);
+    if (tier.confetti === "full") melody([523, 659, 784]);
+    else if (tier.confetti === "light") melody([523, 659]);
     // 只在掛載時觸發一次
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

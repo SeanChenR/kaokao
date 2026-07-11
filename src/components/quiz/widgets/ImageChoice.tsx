@@ -3,6 +3,7 @@ import type { ImageQ } from "../../../data/schema";
 import { ZhuyinText } from "../../ZhuyinText";
 import { plainText } from "./shared";
 import { ShapeIcon } from "./ShapeIcon";
+import { blip } from "../../../audio/blip";
 
 interface ImageChoiceProps {
   question: ImageQ;
@@ -16,7 +17,11 @@ export function ImageChoice({ question, value, onChange }: ImageChoiceProps) {
     <RadioGroup.Root
       aria-labelledby={`stem-${question.id}`}
       value={value === null || value === undefined ? "" : String(value)}
-      onValueChange={(v) => onChange(Number(v))}
+      onValueChange={(v) => {
+        const n = Number(v);
+        if (n !== value) blip(660, 0.09);
+        onChange(n);
+      }}
       className="mt-6 grid grid-cols-2 gap-3.5 max-w-105"
     >
       {question.shapes.map((shape, i) => {

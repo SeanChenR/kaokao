@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { springSoft } from "../../../motion/presets";
+import { blip } from "../../../audio/blip";
 import type { MatchQ } from "../../../data/schema";
 import { useSettings } from "../../../stores/settings";
 import { ZhuyinText } from "../../ZhuyinText";
@@ -105,6 +106,7 @@ export function Matching({ question, value, onChange }: MatchingProps) {
     const next = pairs.map((v) => (v === ri ? null : v)); // 右項被佔用 → 重配
     next[selectedLeft] = ri;
     onChange(next);
+    blip(840, 0.1);
     setAnnouncement(`${plainText(question.left[selectedLeft]!)} 和 ${plainText(question.right[ri]!)} 配對了`);
     setSelectedLeft(null);
   };

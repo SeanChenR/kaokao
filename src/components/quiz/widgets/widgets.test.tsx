@@ -129,3 +129,18 @@ describe("ImageChoice", () => {
     expect(onChange).toHaveBeenLastCalledWith(1);
   });
 });
+
+describe("sound triggers", () => {
+  test("multi: adding blips, removing stays silent", async () => {
+    const blipMock = mock(() => {});
+    mock.module("../../../audio/blip", () => ({ blip: blipMock, unlock: mock(() => {}), melody: mock(() => {}) }));
+    const { MultiChoice: Fresh } = await import(`./MultiChoice.tsx?sound=${Math.random()}`);
+    const onChange = mock(() => {});
+    const { rerender } = render(<Fresh question={multiQ} value={[]} onChange={onChange} />);
+    fireEvent.click(screen.getAllByRole("checkbox")[1]!);
+    expect(blipMock).toHaveBeenCalledTimes(1);
+    rerender(<Fresh question={multiQ} value={[1]} onChange={onChange} />);
+    fireEvent.click(screen.getAllByRole("checkbox")[1]!); // 取消
+    expect(blipMock).toHaveBeenCalledTimes(1); // 不再響
+  });
+});

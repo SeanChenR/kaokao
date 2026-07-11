@@ -12,7 +12,7 @@
 
 ## 3. 音效接線
 
-- [ ] 3.1 觸發點接線:單選/圖片/多選勾選(取消靜音)、配對成功、送出、結果旋律(分級,播前 running gate)(spec: Gentle audio feedback, off by default 兩 Scenario);驗證:widgets 測試斷言 blip 呼叫(mock blip 模組)含「取消不響」
+- [x] 3.1 觸發點接線:單選/圖片/多選勾選(取消靜音)、配對成功、送出、結果旋律(分級,播前 running gate)(spec: Gentle audio feedback, off by default 兩 Scenario);驗證:widgets 測試斷言 blip 呼叫(mock blip 模組)含「取消不響」
 
 ## 4. 總檢
 

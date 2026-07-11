@@ -1,6 +1,7 @@
 import type { MultiQ } from "../../../data/schema";
 import { ZhuyinText } from "../../ZhuyinText";
 import { optionCard } from "./shared";
+import { blip } from "../../../audio/blip";
 
 interface MultiChoiceProps {
   question: MultiQ;
@@ -11,7 +12,9 @@ interface MultiChoiceProps {
 /** 多選 — 手刻 role=checkbox 卡(design Decision 3);回報遞增不重複索引 */
 export function MultiChoice({ question, value = [], onChange }: MultiChoiceProps) {
   const toggle = (i: number) => {
-    const next = value.includes(i) ? value.filter((x) => x !== i) : [...value, i].sort((a, b) => a - b);
+    const adding = !value.includes(i);
+    if (adding) blip(660, 0.09); // 取消不響(spec: Deselection stays silent)
+    const next = adding ? [...value, i].sort((a, b) => a - b) : value.filter((x) => x !== i);
     onChange(next);
   };
 
