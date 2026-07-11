@@ -131,3 +131,19 @@ test("three-symbol zhuyin column never exceeds the base character height", async
   });
   expect(bad).toEqual([]);
 });
+
+test("dialog buttons keep their zhuyin text on a single line", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("你的名字").fill("單行星");
+  await page.getByRole("button", { name: "開始測驗" }).click();
+  await page.getByRole("button", { name: /第 5 題/ }).click();
+  await page.getByRole("button", { name: "送出答案" }).click();
+  for (const name of ["回去作答", "直接送出"]) {
+    const btn = page.getByRole("button", { name });
+    const { btnH, lineH } = await btn.evaluate((el) => ({
+      btnH: el.getBoundingClientRect().height,
+      lineH: parseFloat(getComputedStyle(el).fontSize) * 1.6,
+    }));
+    expect(btnH).toBeLessThan(lineH * 2 + 24); // 單行(含 padding 容差)
+  }
+});
