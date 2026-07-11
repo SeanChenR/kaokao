@@ -6,3 +6,7 @@ GlobalRegistrator.register();
 const { afterEach } = await import("bun:test");
 const { cleanup } = await import("@testing-library/react");
 afterEach(cleanup);
+
+// Motion 動畫在 happy-dom 無 WAAPI 支撐:全部瞬時,AnimatePresence 卸載可預測
+const { MotionGlobalConfig } = await import("motion/react");
+MotionGlobalConfig.instantAnimations = true;

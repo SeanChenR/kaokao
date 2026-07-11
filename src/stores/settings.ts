@@ -11,6 +11,9 @@ interface SettingsState {
   /** 上次作答姓名 — 下次預填種子;本場名字在 quiz store(跨 change 契約見 quiz-flow design) */
   lastName: string;
   setLastName: (lastName: string) => void;
+  /** 音效(預設關 — 教室情境與 autoplay policy) */
+  sound: boolean;
+  setSound: (sound: boolean) => void;
 }
 
 export const useSettings = create<SettingsState>()(
@@ -22,13 +25,15 @@ export const useSettings = create<SettingsState>()(
       setZhuyin: (zhuyin) => set({ zhuyin }),
       lastName: "",
       setLastName: (lastName) => set({ lastName }),
+      sound: false,
+      setSound: (sound) => set({ sound }),
     }),
     {
       name: "kaokao-settings",
       version: 1,
       // v0(僅 theme)→ v1:欄位皆為加法,原樣沿用即可;未來非加法變更在此轉換
       migrate: (persisted) => persisted as Record<string, unknown>,
-      partialize: (s) => ({ theme: s.theme, zhuyin: s.zhuyin, lastName: s.lastName }),
+      partialize: (s) => ({ theme: s.theme, zhuyin: s.zhuyin, lastName: s.lastName, sound: s.sound }),
     },
   ),
 );
