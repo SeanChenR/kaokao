@@ -133,6 +133,8 @@ rt .zy-tone {
 }
 
 html {
+  /* 全站等比放大 12.5%(16→18px):所有 rem 基準的元件一起長(Sean:整體同等放大) */
+  font-size: 112.5%;
   background: var(--bg);
   color: var(--text);
 }
