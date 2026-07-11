@@ -19,8 +19,8 @@ change 1 已建立主題/字型/基礎元件地基(openspec/specs/ 有 theme-sys
 
 1. **token 採「詞組分段」兩層結構**:文字 = `Segment[]`,`Segment = Token[]`,`Token = { t: string, z?: string }`(一個中文字一 token 且必有 z;連續非中文字元一 run 一 token 且無 z)。理由:逐字 token 才能讓 ruby 注音對齊;詞組層供渲染時 `nowrap` 防止詞中斷行、也是報讀分組單位。替代方案(扁平 token 陣列)被否決:行末會把「昆蟲」拆成兩行。
 2. **authoring script 冪等且永不覆寫 canonical**:`scripts/annotate-zhuyin.ts` 讀 `src/data/drafts/*.txt`(純文字草稿)輸出 `src/data/staging/*.json`(pinyin-pro 斷詞+注音初稿);人工校對後手動搬入 canonical `src/data/questions.json`。script 不寫 questions.json。`pinyin-pro` 釘精確版本(去 `^`),防詞庫改版漂移。
-3. **破音字策略**:題庫內容必含至少 3 組「同字兩讀」對照(如 長:ㄔㄤˊ 長度/ㄓㄤˇ 長大;行:ㄒㄧㄥˊ 行走/ㄏㄤˊ 銀行;樂:ㄌㄜˋ 快樂/ㄩㄝˋ 音樂),分佈於不同題。`src/data/polyphone.test.ts` 為 golden 測試:硬編這些字在特定題的正確讀音,題庫改動若標錯即紅燈。
-4. **驗證放測試層,不進 runtime**:`src/data/validate.ts` 匯出 `validateBank(bank)`(每中文字必有 z、z 為合法注音組合 `^[ㄅ-ㄩ]+[ˊˇˋ˙]?$`、答案索引在範圍、配對 1:1、每型 ≥3 題),由 `bank.test.ts` 呼叫;app 執行期直接信任 canonical JSON(靜態資料,CI 已把關)。
+3. **破音字策略**:題庫內容必含至少 3 組「同字兩讀」對照(如 長:ㄔㄤˊ 長度/ㄓㄤˇ 長大;行:ㄒㄧㄥˊ 行走/ㄏㄤˊ 銀行;樂:ㄌㄜˋ 快樂/ㄩㄝˋ 音樂),分佈於不同題(長/行/樂為詞義破音字;「一」的變調另作補充組)。`src/data/polyphone.test.ts` 為 golden 測試:硬編這些字在特定題的正確讀音,題庫改動若標錯即紅燈。
+4. **驗證放測試層,不進 runtime**:`src/data/validate.ts` 匯出 `validateBank(bank)`(每中文字必有 z、z 為合法注音組合 `^(?:˙[ㄅ-ㄩ]+|[ㄅ-ㄩ]+[ˊˇˋ]?)$`(輕聲 ˙ 前置)、答案索引在範圍、配對 1:1、每型 ≥3 題),由 `bank.test.ts` 呼叫;app 執行期直接信任 canonical JSON(靜態資料,CI 已把關)。
 5. **字集覆蓋測橫跨到字型產物**:`src/data/charset-coverage.test.ts` 以 `fontkit`(devDependency,測試工具層)讀 `src/assets/fonts/huninn-400.woff2` 的 cmap,斷言題庫所有用字(含注音符號與聲調)都有 glyph。理由:只對 charset.txt 斷言關不住「改字集沒重跑 subset」的洞。
 6. **ruby a11y 契約**:`<ruby lang="zh-TW">字<rt aria-hidden="true">ㄗˋ</rt></ruby>`;注音關閉時不渲染 rt(輸出純文字),而非 display:none。理由:rt 對讀屏是雜訊(base 已正確發音);off 時純文字對複製/報讀語意最乾淨。
 7. **ZhuyinToggle 用 `aria-pressed` switch 語意**(非 ThemeToggle 的雙向動作語意),44px、原生 button、persist 於 settings store `zhuyin: boolean` 預設 true;本 change 先掛 App 殼與 ThemeToggle 並列(quiz-flow 再統一佈局)。settings persist 不加 version/migrate — zustand 預設 shallow merge 讓舊 `{theme}` payload 自動補 `zhuyin:true`,以測試鎖住此行為。
