@@ -93,7 +93,7 @@ ruby {
   align-items: center;
   vertical-align: baseline;
   /* 字塊自帶左右間距(右側較大)— 不依賴相鄰選擇器(Sean 調校) */
-  margin-inline: 0.1em 0.3em;
+  margin-inline: 0.16em 0.3em; /* 左距加大(Sean) */
 }
 button rt {
   color: inherit; /* 按鈕內注音與國字同色(Sean) */
@@ -110,15 +110,15 @@ rt .zy-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 0.4em;
+  font-size: 0.33em; /* 3 符號 × 0.33 ≤ 1em:注音不超國字高(Sean) */
   line-height: 1; /* 符號緊排 */
 }
 rt .zy-col .zy-dot {
   line-height: 0.7; /* 輕聲緊貼首符號(Sean:太遠) */
 }
 rt .zy-lane {
-  width: 0.42em; /* 恆佔位聲調 lane:有無聲調同寬,等寬字塊 */
-  font-size: 0.42em;
+  width: 0.38em; /* 恆佔位聲調 lane:有無聲調同寬,等寬字塊 */
+  font-size: 0.36em;
   line-height: 1;
   transform: translateY(-0.55em); /* 上移至最後符號的右上(CMEX) */
 }
@@ -129,7 +129,7 @@ rt .zy-lane {
 
 html {
   /* 全站等比放大 12.5%(16→18px):所有 rem 基準的元件一起長(Sean:整體同等放大) */
-  font-size: 112.5%;
+  font-size: 118.75%; /* 國字再放大一級(Sean):16→19px,注音絕對大小不變 */
   background: var(--bg);
   color: var(--text);
 }
