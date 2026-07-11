@@ -91,3 +91,22 @@ test("navbar does not overlap main content", async ({ page }) => {
   });
   expect(overlap).toBe(false);
 });
+
+test("every adjacent zhuyin block pair has a visible gap (cross-segment too)", async ({ page }) => {
+  await page.goto("/");
+  const gaps = await page.evaluate(() => {
+    const rubies = [...document.querySelectorAll("ruby")].map((r) => r.getBoundingClientRect());
+    const out: number[] = [];
+    for (let i = 0; i < rubies.length; i++) {
+      for (let j = 0; j < rubies.length; j++) {
+        if (i === j) continue;
+        const a = rubies[i]!, b = rubies[j]!;
+        const sameLine = Math.abs(a.top - b.top) < a.height / 2;
+        if (sameLine && b.left >= a.right - 1 && b.left - a.right < a.height) out.push(b.left - a.right);
+      }
+    }
+    return out;
+  });
+  expect(gaps.length).toBeGreaterThan(5);
+  expect(Math.min(...gaps)).toBeGreaterThanOrEqual(2); // 任兩相鄰字塊實際像素間隙
+});
