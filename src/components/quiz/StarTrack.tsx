@@ -31,8 +31,8 @@ export function StarTrack({ questions, answers, current }: StarTrackProps) {
         {questions.map((q, i) => {
           const lit = answered[i];
           const isCurrent = i === current;
-          const xPercent = [10, 30, 50, 70, 90][i];
-          const bottomPx = [10, 22, 26, 22, 10][i];
+          const xPercent = [10, 30, 50, 70, 90][i] ?? 50;
+          const bottomPx = [10, 22, 26, 22, 10][i] ?? 20;
           return (
             <button
               key={q.id}
