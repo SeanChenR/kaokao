@@ -5,6 +5,9 @@ dist/
 # authoring 中繼產物(bun run annotate 可重現)
 src/data/staging/
 
+# vercel CLI
+.vercel/
+
 # spectra
 .spectra/
 openspec/.vector-search.db*
