@@ -23,6 +23,8 @@ describe("App shell", () => {
     const { container } = render(<App />);
     expect(screen.getByRole("heading", { name: /考考/ })).toBeTruthy();
     expect(screen.getByRole("button", { name: /切換為/ })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /注音/ })).toBeTruthy();
+    expect(container.querySelector("ruby")).toBeTruthy(); // 預設注音開,歡迎詞有 ruby
     const starfield = container.querySelector('[aria-hidden="true"]');
     expect(starfield).toBeTruthy();
     expect(starfield!.className).toContain("pointer-events-none");

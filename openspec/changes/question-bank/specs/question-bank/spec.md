@@ -7,7 +7,7 @@ The question bank SHALL be a single static JSON file containing at least three q
 #### Scenario: Bank passes structural validation
 
 - **WHEN** validateBank runs against the canonical question bank
-- **THEN** it reports zero errors: every Chinese character has a zhuyin reading matching `^[ㄅ-ㄩ]+[ˊˇˋ˙]?$`, every answer index is in range, every match question maps left to right one-to-one, and every type has at least three questions
+- **THEN** it reports zero errors: every Chinese character has a zhuyin reading matching `^(?:˙[ㄅ-ㄩ]+|[ㄅ-ㄩ]+[ˊˇˋ]?)$` (neutral tone dot leads, per Taiwan orthography), every answer index is in range, every match question maps left to right one-to-one, and every type has at least three questions
 
 #### Scenario: Broken data is caught with actionable errors
 

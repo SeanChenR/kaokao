@@ -70,3 +70,26 @@ describe("settings store", () => {
     expect(document.documentElement.dataset.theme).toBe("dark");
   });
 });
+
+describe("zhuyin preference", () => {
+  test("defaults to true", async () => {
+    stubMatchMedia(false);
+    const { useSettings } = await freshStore();
+    expect(useSettings.getState().zhuyin).toBe(true);
+  });
+
+  test("legacy theme-only payload rehydrates with zhuyin=true and theme preserved", async () => {
+    stubMatchMedia(false);
+    localStorage.setItem("kaokao-settings", JSON.stringify({ state: { theme: "dark" }, version: 0 }));
+    const { useSettings } = await freshStore();
+    expect(useSettings.getState().zhuyin).toBe(true);
+    expect(useSettings.getState().theme).toBe("dark");
+  });
+
+  test("setZhuyin persists", async () => {
+    stubMatchMedia(false);
+    const { useSettings } = await freshStore();
+    useSettings.getState().setZhuyin(false);
+    expect(localStorage.getItem("kaokao-settings")).toContain('"zhuyin":false');
+  });
+});
