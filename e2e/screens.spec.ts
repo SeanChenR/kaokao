@@ -12,7 +12,11 @@ for (const theme of ["light", "dark"] as const) {
       await page.getByLabel("你的名字").fill("小星");
       await page.getByRole("button", { name: "開始測驗" }).click();
       await page.waitForTimeout(350);
-      await page.screenshot({ path: `${SHOT}/quiz-${theme}-${tag}.png` });
+      for (const [i, type] of ["single", "multi", "fill", "match", "image"].entries()) {
+        await page.screenshot({ path: `${SHOT}/q-${type}-${theme}-${tag}.png` });
+        if (i < 4) await page.getByRole("button", { name: "下一題" }).click();
+        await page.waitForTimeout(250);
+      }
     });
   }
 }

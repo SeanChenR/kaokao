@@ -15,10 +15,12 @@ function stubMatchMedia() {
   })) as never;
 }
 
-beforeEach(() => {
+beforeEach(async () => {
   localStorage.clear();
   sessionStorage.clear();
   stubMatchMedia();
+  const { useSettings } = await import("../../../stores/settings");
+  useSettings.setState({ zhuyin: true }); // 防其他測試檔留下的單例狀態污染
 });
 
 const seg = (t: string) => t.split("").map((ch) => (/\p{Script=Han}/u.test(ch) ? { t: ch, z: "ㄅ" } : { t: ch }));

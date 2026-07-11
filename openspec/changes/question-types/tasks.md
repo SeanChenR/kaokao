@@ -17,5 +17,5 @@
 
 ## 4. 整合與收尾
 
-- [ ] 4.1 e2e 補「真實作答全五題」路徑:五題各完成作答(single 點選/multi 兩選/fill 輸入/match 三連線/image 點選)→ 星軌 5/5 → 直接送出無 dialog → result;补注音開關影響選項斷言、match line 數量斷言(spec: Widget accessibility contract、Connection lines stay anchored);驗證:bunx playwright test 綠
-- [ ] 4.2 五題型 × 雙主題截圖自檢對照 mockup;全套 gate(typecheck/lint/test/e2e/build)。驗證:指令零錯 + 截圖目視
+- [x] 4.1 e2e 補「真實作答全五題」路徑:五題各完成作答(single 點選/multi 兩選/fill 輸入/match 三連線/image 點選)→ 星軌 5/5 → 直接送出無 dialog → result;补注音開關影響選項斷言、match line 數量斷言(spec: Widget accessibility contract、Connection lines stay anchored);驗證:bunx playwright test 綠
+- [x] 4.2 五題型 × 雙主題截圖自檢對照 mockup;全套 gate(typecheck/lint/test/e2e/build)。驗證:指令零錯 + 截圖目視

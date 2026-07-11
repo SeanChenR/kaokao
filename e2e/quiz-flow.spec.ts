@@ -51,3 +51,44 @@ test("keyboard: next moves focus to the new stem", async ({ page }) => {
   const focused = await page.evaluate(() => document.activeElement?.tagName);
   expect(focused).toBe("H2");
 });
+
+test("real answering: all five types, star track fills, direct submit", async ({ page }) => {
+  await startQuiz(page, "全答星");
+  // 1 單選
+  await page.getByRole("radio").first().click();
+  await page.getByRole("button", { name: "下一題" }).click();
+  // 2 多選:勾兩個
+  const boxes = page.getByRole("checkbox");
+  await boxes.nth(0).click();
+  await boxes.nth(1).click();
+  await page.getByRole("button", { name: "下一題" }).click();
+  // 3 填空
+  await page.getByRole("textbox").fill("12");
+  await page.getByRole("button", { name: "下一題" }).click();
+  // 4 配對:依序全連
+  const group = page.getByRole("group");
+  const items = group.getByRole("button");
+  const n = await items.count();
+  const half = n / 2;
+  for (let i = 0; i < half; i++) {
+    await items.nth(i).click();
+    await items.nth(half + i).click();
+  }
+  await expect(page.locator("svg line")).toHaveCount(half);
+  await page.getByRole("button", { name: "下一題" }).click();
+  // 5 圖片
+  await page.getByRole("radio").first().click();
+  await expect(page.getByText("已答 5/5")).toBeVisible();
+  // 全答 → 直接送出,無 dialog
+  await page.getByRole("button", { name: "送出答案" }).click();
+  await expect(page.getByText("作答完成 🎉")).toBeVisible();
+});
+
+test("zhuyin toggle strips ruby from option cards too", async ({ page }) => {
+  await startQuiz(page, "注音星");
+  await expect(page.locator("[role=radiogroup] ruby").first()).toBeVisible();
+  await page.getByRole("button", { name: "注音顯示" }).click();
+  await expect(page.locator("[role=radiogroup] ruby")).toHaveCount(0);
+  await page.getByRole("button", { name: "注音顯示" }).click();
+  await expect(page.locator("[role=radiogroup] ruby").first()).toBeVisible();
+});

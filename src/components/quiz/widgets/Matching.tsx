@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { MatchQ, Rich } from "../../../data/schema";
 import { useSettings } from "../../../stores/settings";
 import { ZhuyinText } from "../../ZhuyinText";
@@ -28,7 +28,11 @@ const itemCard =
 
 /** 配對題 — 狀態機與連線量測契約見 design Decision 5 / spec: Matching interaction state machine */
 export function Matching({ question, value, onChange }: MatchingProps) {
-  const pairs: (number | null)[] = value ?? question.left.map(() => null);
+  // memo 穩定引用 — 否則每 render 新陣列會讓 measure 身份改變,useLayoutEffect 無限重跑
+  const pairs: (number | null)[] = useMemo(
+    () => value ?? question.left.map(() => null),
+    [value, question],
+  );
   const [selectedLeft, setSelectedLeft] = useState<number | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const [lines, setLines] = useState<Line[]>([]);
@@ -57,7 +61,8 @@ export function Matching({ question, value, onChange }: MatchingProps) {
         key: `${li}-${ri}`,
       });
     });
-    setLines(next);
+    // 座標未變不 setState,阻斷 measure→setLines→rerender 迴圈
+    setLines((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
   }, [pairs]);
 
   // 量測時機:layout 後 + 容器 resize + 字型載入完成 + 注音切換(design Decision 5)
