@@ -26,9 +26,9 @@ export function StartScreen() {
   return (
     <main className="min-h-screen flex items-center justify-center p-5">
       <Card className="w-full max-w-md px-8 py-9 text-center">
-        <p className="text-sm text-info mb-1.5 leading-[1.9]"><ZhuyinText rich={UI.studio!} /></p>
+        <p className="text-sm text-info mb-1.5 leading-[1.6]"><ZhuyinText rich={UI.studio!} /></p>
         <h1 className="text-5xl font-bold text-text leading-[1.6]"><ZhuyinText rich={UI.brand!} /></h1>
-        <p className="mt-3.5 text-muted leading-[1.9]">
+        <p className="mt-3.5 text-muted leading-[1.6]">
           <ZhuyinText rich={UI.welcome1!} />
           <span aria-hidden="true"> ✨</span>
           <br />
@@ -36,7 +36,7 @@ export function StartScreen() {
         </p>
 
         <div className="mt-6 text-left">
-          <label htmlFor={inputId} className="block text-sm text-muted mb-2 leading-[1.9]">
+          <label htmlFor={inputId} className="block text-sm text-muted mb-2 leading-[1.6]">
             <ZhuyinText rich={UI.nameLabel!} />
           </label>
           <input
@@ -63,13 +63,13 @@ export function StartScreen() {
           </p>
         </div>
 
-        <Button aria-label={UI_PLAIN.startQuiz} className="w-full mt-4 py-3.5 text-lg leading-[1.9]" onClick={tryStart}>
+        <Button aria-label={UI_PLAIN.startQuiz} className="w-full mt-4 py-3.5 text-lg leading-[1.6]" onClick={tryStart}>
           <ZhuyinText rich={UI.startQuiz!} />
         </Button>
 
         <div className="mt-7 text-left">
           <div className="flex items-center gap-2.5 mb-3">
-            <h2 className="text-sm font-bold text-text leading-[1.9]"><ZhuyinText rich={UI.leaderboardTitle!} /></h2>
+            <h2 className="text-sm font-bold text-text leading-[1.6]"><ZhuyinText rich={UI.leaderboardTitle!} /></h2>
             <span className="flex-1 h-px bg-line" aria-hidden="true" />
           </div>
           <LeaderboardList limit={5} />

@@ -9,11 +9,11 @@
 
 ## Decisions
 
-1. **保留 ruby/rt 語意,以 display 覆蓋內建版面**:`ruby { display: inline-flex; align-items: center; }`、`rt { display: inline-flex; }` — 設定非 ruby display 即停用瀏覽器 ruby 佈局,DOM 與 a11y 契約(rt aria-hidden)完全不變,既有測試斷言續用
+1. **保留 ruby/rt 語意,以 display 覆蓋內建版面**:`ruby { display: inline-flex; align-items: center; }`、`rt { display: inline-flex; font-size: 1em(蓋 UA 50% 預設); }` — 設定非 ruby display 即停用瀏覽器 ruby 佈局,DOM 與 a11y 契約(rt aria-hidden)完全不變,既有測試斷言續用
 2. **rt 內部結構**:`<rt aria-hidden><span class="zy-col">˙?+符號</span><span class="zy-tone">ˊˇˋ</span></rt>`;解析規則沿用正字法 regex — 前置 ˙ 留在直欄頂端(直排天然在上),尾聲調拆進 tone span
-3. **直欄樣式**:`.zy-col { writing-mode: vertical-lr; text-orientation: upright; font-size: 0.32em; line-height: 1.05; letter-spacing: 0; }`;`.zy-tone { font-size: 0.4em; align-self: center; margin-left: 0.06em; line-height: 1; }` — 聲調于注音欄右側置中(課本慣例)
+3. **直欄樣式**:`.zy-col { writing-mode: vertical-lr; text-orientation: upright; font-size: 0.4em; line-height: 1.05; letter-spacing: 0; }`;`.zy-tone { font-size: 0.4em; align-self: center; margin-left: 0.06em; line-height: 1; }` — 聲調于注音欄右側置中(課本慣例)
 4. **行高回收**:`--text-question--line-height` 1.9 → 1.6;元件層 `leading-[1.9]` → `leading-[1.6]`(全案 sed,集中一 commit);直欄高度上限以 `max-height: 1em` + overflow visible 保險,避免三符號音節撐行
-5. **等寬字塊(Sean 補充:字距要均勻)**:注音欄 wrapper 固定寬(`width: 0.5em`,欄內符號置中;聲調以絕對定位貼欄右不佔寬)— 每個帶注音字塊 advance = 1em(字)+ 0.5em(欄),與符號數無關;混排的無注音 token 維持自然流。字元間不再因注音寬度失衡
+5. **等寬字塊(Sean 補充:字距要均勻)**:注音欄 wrapper 固定寬(`width: 0.55em`,欄內符號置中;聲調以絕對定位貼欄右不佔寬)— 每個帶注音字塊 advance = 1em(字)+ 0.5em(欄),與符號數無關;混排的無注音 token 維持自然流。字元間不再因注音寬度失衡
 6. **字高對齊**:ruby inline-flex `align-items: center` 讓字與注音欄垂直置中對齊;注音欄 `margin-left: 0.08em` 與字保持細縫
 6. **驗證策略**:theme.test.ts 改斷言新樣式(writing-mode/vertical、0.32em);ZhuyinText.test 補 rt 內兩 span 結構;截圖(首頁+題卡,手機/桌機×雙主題)為最終視覺 gate
 

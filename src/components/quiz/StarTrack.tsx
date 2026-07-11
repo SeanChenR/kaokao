@@ -73,7 +73,7 @@ export function StarTrack({ questions, answers, current }: StarTrackProps) {
           );
         })}
       </div>
-      <p className="text-xs text-muted font-num leading-[1.9]">
+      <p className="text-xs text-muted font-num leading-[1.6]">
         <ZhuyinText rich={UI.questionNo!} /> {current + 1}/5 <ZhuyinText rich={UI.questionUnit!} />・
         <ZhuyinText rich={UI.answeredLabel!} /> {answeredTotal}/5
       </p>

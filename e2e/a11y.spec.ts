@@ -51,3 +51,15 @@ test("reduced motion: question change has no positional animation", async ({ bro
   });
   expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(transform);
 });
+
+test("uniform zhuyin block width across 1-3 symbol syllables", async ({ page }) => {
+  await page.goto("/");
+  // 同一字級區塊內比較(rt 寬度以 em 計,跨字級本就不同):首頁歡迎段含一~三符號音節
+  const widths = await page
+    .locator("main p")
+    .first()
+    .locator("ruby rt")
+    .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().width));
+  expect(widths.length).toBeGreaterThan(3);
+  expect(Math.max(...widths) - Math.min(...widths)).toBeLessThan(0.5); // 等寬字塊(spec: Uniform character rhythm)
+});

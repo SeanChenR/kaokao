@@ -77,24 +77,47 @@
   --shadow-glow-success: var(--glow-success);
   --shadow-glow-error: var(--glow-error);
   --shadow-glow-accent: var(--glow-accent);
-  /* 題目字級:≥1.25rem + 注音空間 line-height ≥1.9(ui-style.md) */
+  /* 題目字級:≥1.25rem;右側直欄注音不佔上方空間,行高 1.6(ui-style.md) */
   --text-question: 1.375rem;
-  --text-question--line-height: 1.9;
+  --text-question--line-height: 1.6; /* 注音改右側直欄後回收上方空間 */
 }
 
 @utility font-num {
   font-variant-numeric: tabular-nums;
 }
 
-/* 注音 ruby — 0.55em(0.5em 對中年級偏小,見 question-bank design Decision 9) */
+/* 注音 ruby — 台灣課本式:直欄在字右側,聲調欄右中、輕聲欄頂(zhuyin-side-layout)
+   display 覆蓋停用瀏覽器 ruby 佈局;欄固定寬 → 字塊等寬、字距均勻(Sean 指示) */
 ruby {
-  ruby-align: center;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: baseline;
 }
 rt {
-  font-size: 0.55em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 1em; /* 蓋掉 UA 預設 rt font-size 50%,否則下方 em 全部再腰斬(PR#9 review HIGH) */
+  width: 0.55em; /* 固定欄寬:advance 與符號數無關(等寬字塊) */
+  margin-left: 0.05em;
   font-weight: 400;
   color: var(--info);
-  letter-spacing: 0.02em;
+}
+rt .zy-col {
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+  font-size: 0.4em; /* 0.3em 在內文字級下不可讀;欄高可略超字高,行高 1.6 有餘裕 */
+  line-height: 1.05;
+  max-height: 4em; /* 以 zy-col 自身 em 計 ≈ 主字 1.6em,防極端溢出 */
+}
+rt .zy-tone {
+  position: absolute; /* 貼欄右不佔寬 */
+  right: -0.16em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.4em;
+  line-height: 1;
 }
 
 ::selection {

@@ -41,7 +41,7 @@ export function LeaderboardList({ highlightId = null, limit = 10 }: LeaderboardL
         })}
       </ol>
       {myRank !== null && (
-        <p className="mt-2 text-sm text-muted text-center leading-[1.9]">
+        <p className="mt-2 text-sm text-muted text-center leading-[1.6]">
           <ZhuyinText rich={UI.rankLine1!} />
           <span className="font-num font-bold text-primary">#{myRank}</span> — <ZhuyinText rich={UI.rankLine2!} />
         </p>
