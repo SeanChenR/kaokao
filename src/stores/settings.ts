@@ -8,6 +8,9 @@ interface SettingsState {
   /** 注音顯示(預設開;舊 payload 靠 persist shallow merge 自動補上) */
   zhuyin: boolean;
   setZhuyin: (zhuyin: boolean) => void;
+  /** 上次作答姓名 — 下次預填種子;本場名字在 quiz store(跨 change 契約見 quiz-flow design) */
+  lastName: string;
+  setLastName: (lastName: string) => void;
 }
 
 export const useSettings = create<SettingsState>()(
@@ -17,8 +20,16 @@ export const useSettings = create<SettingsState>()(
       setTheme: (theme) => set({ theme }),
       zhuyin: true,
       setZhuyin: (zhuyin) => set({ zhuyin }),
+      lastName: "",
+      setLastName: (lastName) => set({ lastName }),
     }),
-    { name: "kaokao-settings" },
+    {
+      name: "kaokao-settings",
+      version: 1,
+      // v0(僅 theme)→ v1:欄位皆為加法,原樣沿用即可;未來非加法變更在此轉換
+      migrate: (persisted) => persisted as Record<string, unknown>,
+      partialize: (s) => ({ theme: s.theme, zhuyin: s.zhuyin, lastName: s.lastName }),
+    },
   ),
 );
 

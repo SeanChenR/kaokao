@@ -93,3 +93,15 @@ describe("zhuyin preference", () => {
     expect(localStorage.getItem("kaokao-settings")).toContain('"zhuyin":false');
   });
 });
+
+describe("lastName", () => {
+  test("defaults empty, persists, legacy payload merges safely", async () => {
+    stubMatchMedia(false);
+    localStorage.setItem("kaokao-settings", JSON.stringify({ state: { theme: "dark" }, version: 0 }));
+    const { useSettings } = await freshStore();
+    expect(useSettings.getState().lastName).toBe("");
+    expect(useSettings.getState().theme).toBe("dark");
+    useSettings.getState().setLastName("小明");
+    expect(localStorage.getItem("kaokao-settings")).toContain('"lastName":"小明"');
+  });
+});

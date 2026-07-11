@@ -17,7 +17,7 @@ export function ZhuyinText({ rich, className }: ZhuyinTextProps) {
   return (
     <span className={className}>
       {rich.map((segment, si) => (
-        <span key={si} className="whitespace-nowrap">
+        <span key={si} className="inline-block whitespace-nowrap">
           {segment.map((token, ti) =>
             zhuyin && token.z ? (
               <ruby key={ti} lang="zh-TW">
