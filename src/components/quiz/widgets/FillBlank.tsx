@@ -11,7 +11,7 @@ interface FillBlankProps {
 /** 填空 — input 不進 heading(design Decision 4);onChange 即寫 store,IME 收尾自然覆蓋 */
 export function FillBlank({ question, value = "", onChange }: FillBlankProps) {
   return (
-    <p className="mt-6 text-question leading-[1.9] font-bold text-text">
+    <p className="mt-6 text-question leading-[1.6] font-bold text-text">
       <input
         type="text"
         aria-label={`${plainText(question.stem)}(填入答案)`}

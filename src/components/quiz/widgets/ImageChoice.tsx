@@ -41,7 +41,7 @@ export function ImageChoice({ question, value, onChange }: ImageChoiceProps) {
               data-[state=checked]:border-primary data-[state=checked]:bg-selection"
           >
             <ShapeIcon code={shape.code} index={i} selected={selected} />
-            <span aria-hidden="true" className="text-sm text-muted leading-[1.9]">
+            <span aria-hidden="true" className="text-sm text-muted leading-[1.6]">
               <ZhuyinText rich={shape.label} />
             </span>
             </motion.button>

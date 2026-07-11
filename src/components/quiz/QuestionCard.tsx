@@ -45,9 +45,9 @@ export function QuestionCard({ question, index, total, value, onChange }: Questi
   return (
     <Card className="px-6 py-7 sm:px-8">
       <div className="flex items-center gap-2.5 flex-wrap">
-        <span className="text-base font-bold text-primary font-num leading-[1.9]"><ZhuyinText rich={UI.questionNo!} /> {index + 1} <ZhuyinText rich={UI.questionUnit!} /></span>
-        <span className="text-sm text-muted font-num leading-[1.9]"><ZhuyinText rich={UI.totalPrefix!} /> {total} <ZhuyinText rich={UI.questionUnit!} /></span>
-        <span className="ml-auto text-sm font-bold px-3 py-1 rounded-full text-info bg-bg border border-line leading-[1.9]">
+        <span className="text-base font-bold text-primary font-num leading-[1.6]"><ZhuyinText rich={UI.questionNo!} /> {index + 1} <ZhuyinText rich={UI.questionUnit!} /></span>
+        <span className="text-sm text-muted font-num leading-[1.6]"><ZhuyinText rich={UI.totalPrefix!} /> {total} <ZhuyinText rich={UI.questionUnit!} /></span>
+        <span className="ml-auto text-sm font-bold px-3 py-1 rounded-full text-info bg-bg border border-line leading-[1.6]">
           <ZhuyinText rich={TYPE_LABELS[question.type]} />
         </span>
       </div>
@@ -61,7 +61,7 @@ export function QuestionCard({ question, index, total, value, onChange }: Questi
       >
         <ZhuyinText rich={question.stem} />
       </h2>
-      <p className="mt-1 text-sm text-muted leading-[1.9]"><ZhuyinText rich={TYPE_HINTS[question.type]} /></p>
+      <p className="mt-1 text-sm text-muted leading-[1.6]"><ZhuyinText rich={TYPE_HINTS[question.type]} /></p>
 
       <QuestionSlot question={question} value={value} onChange={onChange} />
     </Card>

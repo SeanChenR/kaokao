@@ -20,7 +20,7 @@ function SingleLikeReview({ q, value }: { q: Question & { type: "single" | "imag
   const correct = label(q.answer);
   const ok = isCorrect(q, value);
   return (
-    <div className="mt-2 text-sm leading-[1.9]">
+    <div className="mt-2 text-sm leading-[1.6]">
       <p className="text-muted">
         <ZhuyinText rich={UI.myAnswer!} />
         {mine ? <ZhuyinText rich={mine} className={ok ? "text-success" : "text-error"} /> : <span className="text-error">{NO_ANSWER}</span>}
@@ -39,7 +39,7 @@ function FillReview({ q, value }: { q: Question & { type: "fill" }; value: Answe
   const mine = typeof value === "string" && value.trim() !== "" ? value.trim() : null;
   const ok = isCorrect(q, value);
   return (
-    <div className="mt-2 text-sm leading-[1.9]">
+    <div className="mt-2 text-sm leading-[1.6]">
       <p className="text-muted">
         <ZhuyinText rich={UI.myAnswer!} />
         {mine ? <span className={ok ? "text-success" : "text-error"}>{mine}</span> : <span className="text-error">{NO_ANSWER}</span>}
@@ -54,7 +54,7 @@ function MultiReview({ q, value }: { q: Question & { type: "multi" }; value: Ans
   const chosen = new Set(Array.isArray(value) ? (value as number[]) : []);
   const correct = new Set(q.answer);
   return (
-    <ul className="mt-2 text-sm leading-[1.9] flex flex-col gap-0.5">
+    <ul className="mt-2 text-sm leading-[1.6] flex flex-col gap-0.5">
       {q.options.map((opt, i) => {
         const state = chosen.has(i)
           ? correct.has(i)
@@ -80,7 +80,7 @@ function MultiReview({ q, value }: { q: Question & { type: "multi" }; value: Ans
 function MatchReview({ q, value }: { q: Question & { type: "match" }; value: AnswerValue | undefined }) {
   const pairs = Array.isArray(value) ? (value as (number | null)[]) : q.left.map(() => null);
   return (
-    <ul className="mt-2 text-sm leading-[1.9] flex flex-col gap-0.5">
+    <ul className="mt-2 text-sm leading-[1.6] flex flex-col gap-0.5">
       {q.left.map((left, li) => {
         const mineIdx = pairs[li] ?? null;
         const mineLabel = mineIdx !== null ? (q.right[mineIdx] ?? null) : null; // 越界(資料改版/竄改)走未作答
@@ -120,10 +120,10 @@ export function ReviewList({ questions, answers }: ReviewListProps) {
             className={`px-4 py-3.5 rounded-2xl bg-surface border border-line border-l-4 ${ok ? "border-l-success" : "border-l-error"}`}
           >
             <div className="flex items-start gap-2.5">
-              <span className="text-sm font-bold text-muted font-num flex-none leading-[1.9]"><ZhuyinText rich={UI.questionNo!} /> {i + 1} <ZhuyinText rich={UI.questionUnit!} /></span>
-              <span className="flex-1 text-sm text-text leading-[1.9]"><ZhuyinText rich={q.stem} /></span>
+              <span className="text-sm font-bold text-muted font-num flex-none leading-[1.6]"><ZhuyinText rich={UI.questionNo!} /> {i + 1} <ZhuyinText rich={UI.questionUnit!} /></span>
+              <span className="flex-1 text-sm text-text leading-[1.6]"><ZhuyinText rich={q.stem} /></span>
               <span
-                className={`flex-none text-xs font-bold px-2.5 py-1 rounded-full text-surface leading-[1.9] ${ok ? "bg-success" : "bg-error"}`}
+                className={`flex-none text-xs font-bold px-2.5 py-1 rounded-full text-surface leading-[1.6] ${ok ? "bg-success" : "bg-error"}`}
               >
                 <ZhuyinText rich={ok ? UI.correctBadge! : UI.wrongBadge!} />
               </span>

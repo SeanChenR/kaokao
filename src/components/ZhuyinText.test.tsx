@@ -59,3 +59,19 @@ describe("ZhuyinText", () => {
     expect(lastSegment.querySelector("ruby")).toBeNull();
   });
 });
+
+describe("right-side vertical layout structure", () => {
+  test("rt splits column and tone; neutral dot stays in column top", async () => {
+    const { useSettings } = await import("../stores/settings");
+    useSettings.setState({ zhuyin: true });
+    const { ZhuyinText: ZT } = await import("./ZhuyinText");
+    const { container } = render(
+      <ZT rich={[[{ t: "選", z: "ㄒㄩㄢˇ" }, { t: "的", z: "˙ㄉㄜ" }]]} />,
+    );
+    const rts = container.querySelectorAll("rt");
+    expect(rts[0]!.querySelector(".zy-col")!.textContent).toBe("ㄒㄩㄢ");
+    expect(rts[0]!.querySelector(".zy-tone")!.textContent).toBe("ˇ");
+    expect(rts[1]!.querySelector(".zy-col")!.textContent).toBe("˙ㄉㄜ");
+    expect(rts[1]!.querySelector(".zy-tone")).toBeNull();
+  });
+});

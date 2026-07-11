@@ -22,20 +22,20 @@ export function SubmitDialog({ open, unanswered, onOpenChange }: SubmitDialogPro
         <AlertDialog.Content className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-40px)] max-w-90
           bg-surface border border-line rounded-3xl shadow-card p-6 text-center">
           <p aria-hidden="true" className="text-3xl mb-1.5">🌙</p>
-          <AlertDialog.Title className="text-lg font-bold text-text leading-[1.9]">
+          <AlertDialog.Title className="text-lg font-bold text-text leading-[1.6]">
             <ZhuyinText rich={UI.dialogTitleA!} /> {unanswered} <ZhuyinText rich={UI.dialogTitleB!} />
           </AlertDialog.Title>
-          <AlertDialog.Description className="mt-2 text-sm text-muted leading-[1.9]">
+          <AlertDialog.Description className="mt-2 text-sm text-muted leading-[1.6]">
             <ZhuyinText rich={UI.dialogBody1!} />
             <br />
             <ZhuyinText rich={UI.dialogBody2!} />
           </AlertDialog.Description>
           <div className="flex gap-2.5 mt-5">
             <AlertDialog.Cancel asChild>
-              <Button aria-label={UI_PLAIN.goBack} variant="ghost" className="flex-1 leading-[1.9]"><ZhuyinText rich={UI.goBack!} /></Button>
+              <Button aria-label={UI_PLAIN.goBack} variant="ghost" className="flex-1 leading-[1.6]"><ZhuyinText rich={UI.goBack!} /></Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action asChild>
-              <Button aria-label={UI_PLAIN.submitAnyway} className="flex-1 leading-[1.9]" onClick={() => useQuiz.getState().submit({})}>
+              <Button aria-label={UI_PLAIN.submitAnyway} className="flex-1 leading-[1.6]" onClick={() => useQuiz.getState().submit({})}>
                 <ZhuyinText rich={UI.submitAnyway!} />
               </Button>
             </AlertDialog.Action>

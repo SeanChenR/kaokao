@@ -101,7 +101,7 @@ export function ResultScreen() {
   return (
     <main className="min-h-screen max-w-xl w-full mx-auto px-4 pt-14 pb-8 flex flex-col gap-6">
       <Card className="px-6 py-8 text-center">
-        {autoSubmitted && <p className="text-warning font-bold mb-2 leading-[1.9]"><ZhuyinText rich={UI.autoSubmitted!} /></p>}
+        {autoSubmitted && <p className="text-warning font-bold mb-2 leading-[1.6]"><ZhuyinText rich={UI.autoSubmitted!} /></p>}
         <div aria-hidden="true" className="flex justify-center gap-3 mb-3">
           {questions.map((q, i) => {
             const ok = isCorrect(q, answers[q.id]);
@@ -119,28 +119,28 @@ export function ResultScreen() {
           })}
         </div>
         <p aria-hidden="true" className="text-4xl">{tier.emoji}</p>
-        <h1 ref={headingRef} tabIndex={-1} className="mt-2 text-2xl font-bold text-text focus:outline-none leading-[1.9]">
+        <h1 ref={headingRef} tabIndex={-1} className="mt-2 text-2xl font-bold text-text focus:outline-none leading-[1.6]">
           {tier.title(score)}
         </h1>
-        <p className="mt-1.5 text-sm text-muted leading-[1.9]">{tier.message}</p>
+        <p className="mt-1.5 text-sm text-muted leading-[1.6]">{tier.message}</p>
         <p role="status" className="sr-only">{`答對 ${score} 題,共 ${total} 題`}</p>
         <div className="mt-5 inline-flex items-baseline gap-3 px-7 py-3.5 rounded-2xl bg-bg border border-line">
           <span className="font-num text-4xl font-bold text-primary leading-none">{score}/{total}</span>
-          <span className="text-sm text-muted leading-[1.9]"><ZhuyinText rich={UI.elapsedLabel!} /> {formatMs(elapsedSec * 1000)}</span>
+          <span className="text-sm text-muted leading-[1.6]"><ZhuyinText rich={UI.elapsedLabel!} /> {formatMs(elapsedSec * 1000)}</span>
         </div>
       </Card>
 
       <section aria-label="作答回顧">
-        <h2 className="text-base font-bold text-text mb-3 leading-[1.9]"><ZhuyinText rich={UI.review!} /></h2>
+        <h2 className="text-base font-bold text-text mb-3 leading-[1.6]"><ZhuyinText rich={UI.review!} /></h2>
         <ReviewList questions={questions} answers={answers} />
       </section>
 
       <section aria-label="排行榜">
-        <h2 className="text-base font-bold text-text mb-3 leading-[1.9]"><ZhuyinText rich={UI.leaderboardTitle!} /></h2>
+        <h2 className="text-base font-bold text-text mb-3 leading-[1.6]"><ZhuyinText rich={UI.leaderboardTitle!} /></h2>
         <LeaderboardList highlightId={lastEntryId} />
       </section>
 
-      <Button aria-label={UI_PLAIN.playAgain} className="w-full py-3.5 text-lg leading-[1.9]" onClick={() => useQuiz.getState().reset()}>
+      <Button aria-label={UI_PLAIN.playAgain} className="w-full py-3.5 text-lg leading-[1.6]" onClick={() => useQuiz.getState().reset()}>
         <ZhuyinText rich={UI.playAgain!} />
       </Button>
     </main>

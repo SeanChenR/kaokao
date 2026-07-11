@@ -22,7 +22,7 @@ interface Line {
 }
 
 const itemCard =
-  "w-full min-h-12 px-4 py-3 rounded-2xl cursor-pointer text-center text-lg leading-[1.9] " +
+  "w-full min-h-12 px-4 py-3 rounded-2xl cursor-pointer text-center text-lg leading-[1.6] " +
   "text-text bg-surface border-2 border-line motion-safe:transition-[border-color,box-shadow,opacity] motion-safe:duration-150 " +
   "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none";
 

@@ -33,7 +33,7 @@ export function QuizScreen() {
   return (
     <main className="min-h-screen flex flex-col max-w-2xl w-full mx-auto px-4 pb-5 pt-18 lg:pt-6 gap-4">
       <header className="flex items-center justify-between gap-3">
-        <span className="text-base font-bold text-text flex-none hidden sm:block leading-[1.9]"><ZhuyinText rich={UI.brand!} /></span>
+        <span className="text-base font-bold text-text flex-none hidden sm:block leading-[1.6]"><ZhuyinText rich={UI.brand!} /></span>
         <StarTrack questions={questions} answers={answers} current={current} />
         <CountdownTimer deadline={deadlineOf(startedAt)} />
       </header>
@@ -59,19 +59,19 @@ export function QuizScreen() {
       </div>
 
       <nav className="flex items-center justify-between gap-3" aria-label="題目導航">
-        <Button aria-label={UI_PLAIN.prev} variant="ghost" disabled={current === 0} onClick={() => useQuiz.getState().prev()} className="leading-[1.9]">
+        <Button aria-label={UI_PLAIN.prev} variant="ghost" disabled={current === 0} onClick={() => useQuiz.getState().prev()} className="leading-[1.6]">
           <ZhuyinText rich={UI.prev!} />
         </Button>
         {isLast ? (
           <Button
             aria-label={UI_PLAIN.submit}
             onClick={trySubmit}
-            className={`leading-[1.9] ${isAnswered(question, answers[question.id]) ? "shadow-glow-success bg-success" : ""}`}
+            className={`leading-[1.6] ${isAnswered(question, answers[question.id]) ? "shadow-glow-success bg-success" : ""}`}
           >
             <ZhuyinText rich={UI.submit!} />
           </Button>
         ) : (
-          <Button aria-label={UI_PLAIN.next} onClick={() => useQuiz.getState().next()} className="leading-[1.9]">
+          <Button aria-label={UI_PLAIN.next} onClick={() => useQuiz.getState().next()} className="leading-[1.6]">
             <ZhuyinText rich={UI.next!} />
           </Button>
         )}
