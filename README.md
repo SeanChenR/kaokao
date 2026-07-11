@@ -22,6 +22,10 @@ bun run subset-fonts  # 重建自架字型(改 scripts/charset.txt 後執行)
 bun run annotate      # 題目草稿 → 注音初稿(drafts/ → staging/,人工校對後入 questions.json)
 ```
 
+## 備註
+
+排行榜為 localStorage 單機資料;初始的五筆「示範」紀錄為 demo seed(介面上有「示範」標記,樣式較淡),真實成績會照排序插入並優先呈現。
+
 ## 技術棧與設計思路
 
 - 技術選型與理由:`docs/rules/stack.md`

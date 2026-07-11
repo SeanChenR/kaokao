@@ -31,7 +31,7 @@ test("full flow: five typed questions in order, star jump, dialog, submit", asyn
   // 預設焦點在「回去作答」(安全動作)
   await expect(page.getByRole("button", { name: "回去作答" })).toBeFocused();
   await page.getByRole("button", { name: "直接送出" }).click();
-  await expect(page.getByText("作答完成 🎉")).toBeVisible();
+  await expect(page.getByText("作答回顧")).toBeVisible();
 });
 
 test("reload resumes the same questions and continues the clock", async ({ page }) => {
@@ -80,7 +80,7 @@ test("real answering: all five types, star track fills, direct submit", async ({
   await expect(page.getByText("已答 5/5")).toBeVisible();
   // 全答 → 直接送出,無 dialog
   await page.getByRole("button", { name: "送出答案" }).click();
-  await expect(page.getByText("作答完成 🎉")).toBeVisible();
+  await expect(page.getByText("作答回顧")).toBeVisible();
 });
 
 test("zhuyin toggle strips ruby from option cards too", async ({ page }) => {
