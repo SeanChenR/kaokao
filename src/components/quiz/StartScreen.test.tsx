@@ -37,6 +37,7 @@ describe("StartScreen", () => {
     render(<StartScreen />);
     const input = screen.getByLabelText("你的名字") as HTMLInputElement;
     expect(input.value).toBe("小美");
+    expect(screen.getByText("今夜排行榜")).toBeTruthy(); // 排行榜預覽(spec: Start screen preview)
     fireEvent.keyDown(input, { key: "Enter" });
     expect(useQuiz.getState().phase).toBe("quiz");
   });

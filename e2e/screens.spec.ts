@@ -20,3 +20,23 @@ for (const theme of ["light", "dark"] as const) {
     });
   }
 }
+
+import { answerCorrectly, currentQuestion } from "./helpers";
+
+
+for (const theme of ["light", "dark"] as const) {
+  test(`result shots ${theme}`, async ({ browser }) => {
+    const page = await browser.newPage({ colorScheme: theme, viewport: { width: 375, height: 900 } });
+    await page.goto("/");
+    await page.getByLabel("你的名字").fill("截圖星");
+    await page.getByRole("button", { name: "開始測驗" }).click();
+    // 快速全對作答
+    for (let i = 0; i < 5; i++) {
+      await answerCorrectly(page, await currentQuestion(page));
+      if (i < 4) await page.getByRole("button", { name: "下一題" }).click();
+    }
+    await page.getByRole("button", { name: "送出答案" }).click();
+    await page.waitForTimeout(700);
+    await page.screenshot({ path: `${SHOT}/result-perfect-${theme}.png`, fullPage: true });
+  });
+}

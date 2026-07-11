@@ -50,6 +50,7 @@ export function QuestionCard({ question, index, total, value, onChange }: Questi
       <h2
         ref={stemRef}
         id={`stem-${question.id}`}
+        data-question-id={question.id}
         tabIndex={-1}
         className="mt-4 text-question font-bold text-text focus:outline-none"
       >
