@@ -92,8 +92,11 @@ ruby {
   display: inline-flex;
   align-items: center;
   vertical-align: baseline;
-  /* 每個字塊自帶右間距 — 相鄰選擇器蓋不到詞組邊界與文字節點(Sean 三度回報的根因) */
-  margin-inline-end: 0.22em;
+  /* 字塊自帶左右間距(右側較大)— 不依賴相鄰選擇器(Sean 調校) */
+  margin-inline: 0.1em 0.3em;
+}
+button rt {
+  color: inherit; /* 按鈕內注音與國字同色(Sean) */
 }
 rt {
   display: inline-flex;
