@@ -113,3 +113,21 @@ test("every adjacent zhuyin block pair has a visible gap (cross-segment too)", a
   expect(gaps.length).toBeGreaterThan(5);
   expect(Math.min(...gaps)).toBeGreaterThanOrEqual(3); // 任兩相鄰字塊實際像素間隙(左右皆帶)
 });
+
+test("three-symbol zhuyin column never exceeds the base character height", async ({ page }) => {
+  await page.goto("/");
+  const bad = await page.evaluate(() => {
+    const out: string[] = [];
+    document.querySelectorAll("ruby").forEach((ruby) => {
+      const col = ruby.querySelector(".zy-col");
+      if (!col) return;
+      const base = ruby.firstChild?.textContent ?? "";
+      const rubyBox = ruby.getBoundingClientRect();
+      const colBox = col.getBoundingClientRect();
+      // 國字高 ≈ ruby 高(flex 對齊);欄高不得超過(容 1px 誤差)
+      if (colBox.height > rubyBox.height + 1) out.push(`${base}:${colBox.height.toFixed(1)}>${rubyBox.height.toFixed(1)}`);
+    });
+    return out;
+  });
+  expect(bad).toEqual([]);
+});
