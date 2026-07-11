@@ -2,7 +2,7 @@
 
 ### Requirement: Ruby rendering of rich zhuyin text
 
-The system SHALL provide a single shared ZhuyinText component that renders rich zhuyin content. When zhuyin display is enabled, every Chinese-character token SHALL render as `<ruby lang="zh-TW">` with its reading in an `<rt aria-hidden="true">`; non-Chinese tokens SHALL render as plain text nodes with no rt element. Each word segment SHALL be wrapped so a line break cannot occur inside the segment. The reading SHALL be laid out Taiwan-textbook style: a vertical bopomofo column to the RIGHT of the base character (top to bottom), with trailing tone marks (ˊˇˋ) centered to the right of that column and the neutral-tone dot (˙) at the top of the column. The column SHALL not exceed the base character's line box in a way that overlaps adjacent lines.
+The system SHALL provide a single shared ZhuyinText component that renders rich zhuyin content. When zhuyin display is enabled, every Chinese-character token SHALL render as `<ruby lang="zh-TW">` with its reading in an `<rt aria-hidden="true">`; non-Chinese tokens SHALL render as plain text nodes with no rt element. Each word segment SHALL be wrapped so a line break cannot occur inside the segment. The reading SHALL be laid out Taiwan-textbook style: a vertical bopomofo column to the RIGHT of the base character (top to bottom), with trailing tone marks (ˊˇˋ) centered to the right of that column and the neutral-tone dot (˙) at the top of the column. The column SHALL not exceed the base character's line box in a way that overlaps adjacent lines. Every annotated character block SHALL occupy a uniform advance width — the reading gutter has a fixed width regardless of how many bopomofo symbols or tone marks it holds — so inter-character spacing stays visually even (Sean, 2026-07-11).
 
 #### Scenario: Enabled rendering contract
 
@@ -13,6 +13,11 @@ The system SHALL provide a single shared ZhuyinText component that renders rich 
 
 - **WHEN** a screen reader traverses rendered zhuyin text
 - **THEN** only the base characters are announced; rt content is excluded from the accessibility tree
+
+#### Scenario: Uniform character rhythm
+
+- **WHEN** a line mixes syllables of one, two, and three bopomofo symbols
+- **THEN** all annotated character blocks have the same advance width and the gaps between characters are equal
 
 #### Scenario: Tone placement
 
