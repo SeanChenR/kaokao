@@ -29,8 +29,16 @@ export function ZhuyinText({ rich, className }: ZhuyinTextProps) {
                 {token.t}
                 {/* 直欄:前置 ˙ 留欄頂;尾調拆入 zy-tone(台灣正字法,spec: Tone placement) */}
                 <rt aria-hidden="true">
-                  <span className="zy-col">{token.z.replace(/[ˊˇˋ]$/, "")}</span>
-                  {/[ˊˇˋ]$/.test(token.z) && <span className="zy-tone">{token.z.slice(-1)}</span>}
+                  {(() => {
+                    const tone = /[ˊˇˋ]$/.test(token.z!) ? token.z!.slice(-1) : null;
+                    const col = tone ? token.z!.slice(0, -1) : token.z!;
+                    return (
+                      <>
+                        <span className="zy-col">{col}</span>
+                        {tone && <span className="zy-tone">{tone}</span>}
+                      </>
+                    );
+                  })()}
                 </rt>
               </ruby>
             ) : (
