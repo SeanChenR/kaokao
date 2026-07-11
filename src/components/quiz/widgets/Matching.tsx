@@ -130,7 +130,7 @@ export function Matching({ question, value, onChange }: MatchingProps) {
           />
         ))}
       </svg>
-      <div className="grid grid-cols-2 gap-x-9 gap-y-3">
+      <div className="grid grid-cols-2 gap-x-6 sm:gap-x-9 gap-y-3">
         <div data-testid="match-left" className="flex flex-col gap-3">
           {question.left.map((item, li) => {
             const paired = pairs[li] !== null;

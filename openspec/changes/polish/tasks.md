@@ -16,5 +16,5 @@
 
 ## 4. 總檢
 
-- [ ] 4.1 e2e a11y 斷言:html lang、每畫面單 h1、切題過場單 h2、SoundToggle tab+aria-pressed、reduced-motion 切題無位移(spec 兩 Requirement);驗證:playwright 綠
-- [ ] 4.2 RWD 走查(375/768/1280 × 雙主題截圖):排行榜列 flex-wrap、match 375px gap 調整;全套 gate。驗證:指令零錯+截圖目視
+- [x] 4.1 e2e a11y 斷言:html lang、每畫面單 h1、切題過場單 h2、SoundToggle tab+aria-pressed、reduced-motion 切題無位移(spec 兩 Requirement);驗證:playwright 綠
+- [x] 4.2 RWD 走查(375/768/1280 × 雙主題截圖):排行榜列 flex-wrap、match 375px gap 調整;全套 gate。驗證:指令零錯+截圖目視

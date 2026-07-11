@@ -22,7 +22,7 @@ export function LeaderboardList({ highlightId = null, limit = 10 }: LeaderboardL
           return (
             <li
               key={e.id}
-              className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm
+              className={`flex flex-wrap items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm
                 ${mine ? "bg-selection border-2 border-primary shadow-glow-primary" : "bg-bg border border-transparent"}
                 ${e.demo ? "opacity-60" : ""}`}
             >
