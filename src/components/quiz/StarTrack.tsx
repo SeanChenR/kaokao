@@ -1,6 +1,11 @@
+import { useRef } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import type { Question } from "../../data/schema";
+import { springSnappy } from "../../motion/presets";
 import { type AnswerValue, isAnswered } from "../../quiz/answers";
 import { useQuiz } from "../../stores/quiz";
+import { ZhuyinText } from "../ZhuyinText";
+import { UI } from "../../ui-text.gen";
 
 interface StarTrackProps {
   questions: Question[];
@@ -12,7 +17,13 @@ const STAR_COLORS = ["text-primary", "text-success", "text-accent"];
 
 /** 星空進度軌道 — 唯一跳題入口(spec: quiz-navigation / Star track progress and jumping) */
 export function StarTrack({ questions, answers, current }: StarTrackProps) {
+  const reduced = useReducedMotion();
   const answered = questions.map((q) => isAnswered(q, answers[q.id]));
+  // 掛載當下已答的星不 pop(reload 續作場景);之後轉為已答才 pop(spec: pop when becomes answered)
+  const poppedRef = useRef<Set<string> | null>(null);
+  if (poppedRef.current === null) {
+    poppedRef.current = new Set(questions.filter((_, i) => answered[i]).map((q) => q.id));
+  }
   const answeredTotal = answered.filter(Boolean).length;
 
   return (
@@ -46,19 +57,25 @@ export function StarTrack({ questions, answers, current }: StarTrackProps) {
                 ${isCurrent ? "motion-safe:animate-pulse" : ""}`}
               style={{ left: `${xPercent}%`, bottom: `${bottomPx - 14}px` }}
             >
-              <span
+              <motion.span
                 aria-hidden="true"
-                className={`${isCurrent ? "text-2xl" : "text-lg"} leading-none motion-safe:transition-all motion-safe:duration-300
+                key={lit ? "lit" : "dim"}
+                initial={reduced || !lit || poppedRef.current?.has(q.id) ? false : { scale: 0.4 }}
+                animate={{ scale: 1 }}
+                transition={reduced ? { duration: 0 } : springSnappy}
+                onAnimationComplete={() => lit && poppedRef.current?.add(q.id)}
+                className={`${isCurrent ? "text-2xl" : "text-lg"} leading-none inline-block
                   ${lit ? `${STAR_COLORS[i % 3]} drop-shadow-[0_0_8px_currentColor]` : "text-muted opacity-50"}`}
               >
                 {lit ? "★" : "☆"}
-              </span>
+              </motion.span>
             </button>
           );
         })}
       </div>
-      <p className="text-xs text-muted font-num">
-        第 {current + 1}/5 題・已答 {answeredTotal}/5
+      <p className="text-xs text-muted font-num leading-[1.9]">
+        <ZhuyinText rich={UI.questionNo!} /> {current + 1}/5 <ZhuyinText rich={UI.questionUnit!} />・
+        <ZhuyinText rich={UI.answeredLabel!} /> {answeredTotal}/5
       </p>
     </div>
   );

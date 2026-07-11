@@ -28,7 +28,7 @@ describe("StarTrack", () => {
     expect(current.getAttribute("aria-current")).toBe("step");
     fireEvent.click(screen.getByRole("button", { name: /第 3 題/ }));
     expect(useQuiz.getState().current).toBe(2);
-    expect(screen.getByText(/已答 1\/5/)).toBeTruthy();
+    expect(screen.getByText((_, el) => el?.tagName === "P" && /已答 1\/5/.test(el.textContent ?? ""))).toBeTruthy();
     void bank;
   });
 });

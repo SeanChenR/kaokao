@@ -1,5 +1,7 @@
 import { rankOf, useLeaderboard } from "../../stores/leaderboard";
 import { formatMs } from "../../quiz/time";
+import { ZhuyinText } from "../ZhuyinText";
+import { UI } from "../../ui-text.gen";
 
 interface LeaderboardListProps {
   /** 高亮本次(以 entry id,永不以 name)— spec: Current-run highlight */
@@ -22,15 +24,15 @@ export function LeaderboardList({ highlightId = null, limit = 10 }: LeaderboardL
           return (
             <li
               key={e.id}
-              className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm
+              className={`flex flex-wrap items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm
                 ${mine ? "bg-selection border-2 border-primary shadow-glow-primary" : "bg-bg border border-transparent"}
                 ${e.demo ? "opacity-60" : ""}`}
             >
               <span aria-hidden="true" className="w-7 text-center font-num">{MEDALS[i] ?? i + 1}</span>
               <span className={`flex-1 font-bold ${mine ? "text-primary" : "text-text"}`}>
                 {e.name}
-                {mine && <span className="text-xs">(你)</span>}
-                {e.demo && <span className="ml-1.5 text-[10px] font-normal text-muted border border-line rounded px-1">示範</span>}
+                {mine && <span className="text-xs"><ZhuyinText rich={UI.you!} /></span>}
+                {e.demo && <span className="ml-1.5 text-[10px] font-normal text-muted border border-line rounded px-1"><ZhuyinText rich={UI.demoTag!} /></span>}
               </span>
               <span className="font-num text-muted mr-2">{formatMs(e.elapsedSec * 1000)}</span>
               <span className="font-num font-bold text-primary">{e.score}/5</span>
@@ -39,8 +41,9 @@ export function LeaderboardList({ highlightId = null, limit = 10 }: LeaderboardL
         })}
       </ol>
       {myRank !== null && (
-        <p className="mt-2 text-sm text-muted text-center">
-          你這次的名次:<span className="font-num font-bold text-primary">#{myRank}</span> — 再挑戰一次往上爬!
+        <p className="mt-2 text-sm text-muted text-center leading-[1.9]">
+          <ZhuyinText rich={UI.rankLine1!} />
+          <span className="font-num font-bold text-primary">#{myRank}</span> — <ZhuyinText rich={UI.rankLine2!} />
         </p>
       )}
     </div>

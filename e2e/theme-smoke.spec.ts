@@ -6,7 +6,7 @@ test("dark-OS first paint is dark (FOUC guard)", async ({ browser }) => {
   const page = await browser.newPage({ colorScheme: "dark" });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  await expect(page.getByRole("heading", { name: /考考/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /考\s*考/ })).toBeVisible();
 });
 
 test("toggle switches theme and persists across reload", async ({ browser }) => {

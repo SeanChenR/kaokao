@@ -32,7 +32,7 @@ describe("App shell", () => {
 
     act(() => useQuiz.getState().start("小星"));
     expect(await screen.findByRole("timer")).toBeTruthy();
-    expect(screen.getByText(/第 1\/5 題/)).toBeTruthy();
+    expect(screen.getByText((_, el) => el?.tagName === "P" && /第 1\/5 題/.test(el.textContent ?? ""))).toBeTruthy();
 
     act(() => useQuiz.getState().submit({ auto: true }));
     expect(await screen.findByText("時間到,自動交卷!")).toBeTruthy();

@@ -13,8 +13,6 @@ beforeEach(async () => {
   localStorage.clear();
   sessionStorage.clear();
   stubMatchMedia();
-  const { useSettings } = await import("../../stores/settings");
-  useSettings.setState({ zhuyin: true });
 });
 
 const seg = (t: string) => [t.split("").map((ch) => (/\p{Script=Han}/u.test(ch) ? { t: ch, z: "ㄅ" } : { t: ch }))];

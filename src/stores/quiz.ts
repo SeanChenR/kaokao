@@ -7,6 +7,7 @@ import { scoreOf } from "../quiz/score";
 import { useLeaderboard } from "./leaderboard";
 import { draw } from "../quiz/draw";
 import { useSettings } from "./settings";
+import { blip, unlock } from "../audio/blip";
 
 export const bank = bankJson as unknown as QuestionBank;
 
@@ -53,6 +54,7 @@ export const useQuiz = create<QuizState>()(
         const trimmed = name.trim();
         if (trimmed === "" || trimmed.length > 12) return;
         useSettings.getState().setLastName(trimmed);
+        unlock(); // 開始測驗的 click 是 AudioContext 解鎖點之一
         set({
           ...initial,
           phase: "quiz",
@@ -82,6 +84,7 @@ export const useQuiz = create<QuizState>()(
         const byId = new Map(bank.questions.map((q) => [q.id, q]));
         const questions = s.drawnIds.map((id) => byId.get(id)).filter((q) => q !== undefined);
         const score = scoreOf(questions, s.answers);
+        blip(880, 0.18);
         const lastEntryId = useLeaderboard.getState().add({ name: s.name, score, elapsedSec });
         set({ phase: "result", autoSubmitted: auto, finishedAt, lastEntryId });
       },

@@ -2,13 +2,14 @@ import type { Question, Rich } from "../../data/schema";
 import type { AnswerValue } from "../../quiz/answers";
 import { isCorrect } from "../../quiz/score";
 import { ZhuyinText } from "../ZhuyinText";
+import { UI } from "../../ui-text.gen";
 
 interface ReviewListProps {
   questions: Question[];
   answers: Record<string, AnswerValue>;
 }
 
-const NO_ANSWER = "(沒有作答)";
+const NO_ANSWER = <ZhuyinText rich={UI.noAnswer!} />;
 
 function SingleLikeReview({ q, value }: { q: Question & { type: "single" | "image" }; value: AnswerValue | undefined }) {
   const label = (i: number | null | undefined): Rich | null => {
@@ -21,11 +22,13 @@ function SingleLikeReview({ q, value }: { q: Question & { type: "single" | "imag
   return (
     <div className="mt-2 text-sm leading-[1.9]">
       <p className="text-muted">
-        你的答案:{mine ? <ZhuyinText rich={mine} className={ok ? "text-success" : "text-error"} /> : <span className="text-error">{NO_ANSWER}</span>}
+        <ZhuyinText rich={UI.myAnswer!} />
+        {mine ? <ZhuyinText rich={mine} className={ok ? "text-success" : "text-error"} /> : <span className="text-error">{NO_ANSWER}</span>}
       </p>
       {!ok && correct && (
         <p className="text-muted">
-          正確答案:<ZhuyinText rich={correct} className="text-success" />
+          <ZhuyinText rich={UI.correctAnswer!} />
+          <ZhuyinText rich={correct} className="text-success" />
         </p>
       )}
     </div>
@@ -38,9 +41,10 @@ function FillReview({ q, value }: { q: Question & { type: "fill" }; value: Answe
   return (
     <div className="mt-2 text-sm leading-[1.9]">
       <p className="text-muted">
-        你的答案:{mine ? <span className={ok ? "text-success" : "text-error"}>{mine}</span> : <span className="text-error">{NO_ANSWER}</span>}
+        <ZhuyinText rich={UI.myAnswer!} />
+        {mine ? <span className={ok ? "text-success" : "text-error"}>{mine}</span> : <span className="text-error">{NO_ANSWER}</span>}
       </p>
-      {!ok && <p className="text-muted">正確答案:<span className="text-success">{q.accept[0]}</span></p>}
+      {!ok && <p className="text-muted"><ZhuyinText rich={UI.correctAnswer!} /><span className="text-success">{q.accept[0]}</span></p>}
     </div>
   );
 }
@@ -54,17 +58,17 @@ function MultiReview({ q, value }: { q: Question & { type: "multi" }; value: Ans
       {q.options.map((opt, i) => {
         const state = chosen.has(i)
           ? correct.has(i)
-            ? { mark: "✓", text: "選對了", cls: "text-success" }
-            : { mark: "✗", text: "多選了", cls: "text-error" }
+            ? { mark: "✓", text: UI.correctPick!, cls: "text-success" }
+            : { mark: "✗", text: UI.wrongPick!, cls: "text-error" }
           : correct.has(i)
-            ? { mark: "△", text: "漏選了", cls: "text-warning" }
+            ? { mark: "△", text: UI.missedPick!, cls: "text-warning" }
             : null;
         if (!state) return null;
         return (
           <li key={i} className={`${state.cls} flex items-center gap-1.5`}>
             <span aria-hidden="true">{state.mark}</span>
             <ZhuyinText rich={opt} />
-            <span className="text-muted">({state.text})</span>
+            <span className="text-muted"><ZhuyinText rich={state.text} /></span>
           </li>
         );
       })}
@@ -93,7 +97,8 @@ function MatchReview({ q, value }: { q: Question & { type: "match" }; value: Ans
             )}
             {!ok && (
               <span className="text-muted">
-                (正解:<ZhuyinText rich={q.right[correctIdx]!} className="text-success" />)
+                (<ZhuyinText rich={UI.rightAnswerIs!} />
+                <ZhuyinText rich={q.right[correctIdx]!} className="text-success" />)
               </span>
             )}
           </li>
@@ -115,12 +120,12 @@ export function ReviewList({ questions, answers }: ReviewListProps) {
             className={`px-4 py-3.5 rounded-2xl bg-surface border border-line border-l-4 ${ok ? "border-l-success" : "border-l-error"}`}
           >
             <div className="flex items-start gap-2.5">
-              <span className="text-sm font-bold text-muted font-num flex-none">第 {i + 1} 題</span>
+              <span className="text-sm font-bold text-muted font-num flex-none leading-[1.9]"><ZhuyinText rich={UI.questionNo!} /> {i + 1} <ZhuyinText rich={UI.questionUnit!} /></span>
               <span className="flex-1 text-sm text-text leading-[1.9]"><ZhuyinText rich={q.stem} /></span>
               <span
-                className={`flex-none text-xs font-bold px-2.5 py-1 rounded-full text-surface ${ok ? "bg-success" : "bg-error"}`}
+                className={`flex-none text-xs font-bold px-2.5 py-1 rounded-full text-surface leading-[1.9] ${ok ? "bg-success" : "bg-error"}`}
               >
-                {ok ? "答對了!" : "再想想看"}
+                <ZhuyinText rich={ok ? UI.correctBadge! : UI.wrongBadge!} />
               </span>
             </div>
             {(q.type === "single" || q.type === "image") && <SingleLikeReview q={q} value={answers[q.id]} />}

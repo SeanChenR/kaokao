@@ -14,6 +14,11 @@ interface ZhuyinTextProps {
 export function ZhuyinText({ rich, className }: ZhuyinTextProps) {
   const zhuyin = useSettings((s) => s.zhuyin);
 
+  if (!zhuyin) {
+    // 關閉時輸出單一文字節點:語意最乾淨,測試的 getByText 也能直取(spec: off 無 ruby/rt)
+    return <span className={className}>{rich.flatMap((seg) => seg.map((t) => t.t)).join("")}</span>;
+  }
+
   return (
     <span className={className}>
       {rich.map((segment, si) => (

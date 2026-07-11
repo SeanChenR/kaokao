@@ -19,8 +19,6 @@ beforeEach(async () => {
   sessionStorage.clear();
   stubMatchMedia();
   confettiMock.mockClear();
-  const { useSettings } = await import("../../stores/settings");
-  useSettings.setState({ zhuyin: true });
 });
 
 async function submitWith(correctCount: "all" | "none") {

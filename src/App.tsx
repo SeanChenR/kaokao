@@ -4,6 +4,7 @@ import { StarField } from "./components/StarField";
 import { QuizScreen } from "./components/quiz/QuizScreen";
 import { ResultScreen } from "./components/quiz/ResultScreen";
 import { StartScreen } from "./components/quiz/StartScreen";
+import { SoundToggle } from "./components/ui/SoundToggle";
 import { ThemeToggle } from "./components/ui/ThemeToggle";
 import { ZhuyinToggle } from "./components/ui/ZhuyinToggle";
 import { initThemeSync } from "./stores/settings";
@@ -17,6 +18,7 @@ export function App() {
     <>
       <StarField />
       <div className="fixed top-4 right-4 z-10 flex gap-2.5">
+        <SoundToggle />
         <ZhuyinToggle />
         <ThemeToggle />
       </div>

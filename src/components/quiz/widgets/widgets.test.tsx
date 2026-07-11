@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, mock } from "bun:test";
+import { afterAll, beforeAll, beforeEach, describe, expect, test, mock } from "bun:test";
 import { fireEvent, render, screen } from "@testing-library/react";
 import type { FillQ, ImageQ, MatchQ, MultiQ, SingleQ } from "../../../data/schema";
 import { FillBlank } from "./FillBlank";
@@ -20,7 +20,7 @@ beforeEach(async () => {
   sessionStorage.clear();
   stubMatchMedia();
   const { useSettings } = await import("../../../stores/settings");
-  useSettings.setState({ zhuyin: true }); // 防其他測試檔留下的單例狀態污染
+  useSettings.setState({ zhuyin: false }); // 預設關(全域規則);驗 ruby 的測試自行開
 });
 
 const seg = (t: string) => t.split("").map((ch) => (/\p{Script=Han}/u.test(ch) ? { t: ch, z: "ㄅ" } : { t: ch }));
@@ -51,7 +51,9 @@ describe("SingleChoice", () => {
     for (const call of onChange.mock.calls) expect(call[0]).not.toBeNull();
   });
 
-  test("options render zhuyin", () => {
+  test("options render zhuyin", async () => {
+    const { useSettings } = await import("../../../stores/settings");
+    useSettings.setState({ zhuyin: true });
     const { container } = render(<SingleChoice question={singleQ} value={undefined} onChange={() => {}} />);
     expect(container.querySelector("ruby")).toBeTruthy();
   });
@@ -84,7 +86,7 @@ describe("FillBlank", () => {
     expect(input.getAttribute("aria-label")).toContain("一年有");
     fireEvent.change(input, { target: { value: "12" } });
     expect(onChange).toHaveBeenLastCalledWith("12");
-    expect(screen.getByText("個")).toBeTruthy();
+    expect(screen.getByText("個月")).toBeTruthy();
   });
 });
 
@@ -127,5 +129,29 @@ describe("ImageChoice", () => {
     const triangle = screen.getByRole("radio", { name: "三角形" });
     fireEvent.click(triangle);
     expect(onChange).toHaveBeenLastCalledWith(1);
+  });
+});
+
+describe("sound triggers", () => {
+  // mock.module 是 process-wide:結束後還原為真模組,避免污染後續測試檔(review MEDIUM-4)
+  let realBlip: typeof import("../../../audio/blip");
+  beforeAll(async () => {
+    realBlip = await import("../../../audio/blip");
+  });
+  afterAll(() => {
+    mock.module("../../../audio/blip", () => realBlip);
+  });
+
+  test("multi: adding blips, removing stays silent", async () => {
+    const blipMock = mock(() => {});
+    mock.module("../../../audio/blip", () => ({ blip: blipMock, unlock: mock(() => {}), melody: mock(() => {}) }));
+    const { MultiChoice: Fresh } = await import(`./MultiChoice.tsx?sound=${Math.random()}`);
+    const onChange = mock(() => {});
+    const { rerender } = render(<Fresh question={multiQ} value={[]} onChange={onChange} />);
+    fireEvent.click(screen.getAllByRole("checkbox")[1]!);
+    expect(blipMock).toHaveBeenCalledTimes(1);
+    rerender(<Fresh question={multiQ} value={[1]} onChange={onChange} />);
+    fireEvent.click(screen.getAllByRole("checkbox")[1]!); // 取消
+    expect(blipMock).toHaveBeenCalledTimes(1); // 不再響
   });
 });

@@ -26,3 +26,21 @@ export async function answerCorrectly(page: Page, q: Q): Promise<void> {
     }
   }
 }
+
+import { expect } from "@playwright/test";
+
+/** 點下一題並等切換完成(mode="wait" 離場期間舊 h2 仍在,直接讀會拿到舊題) */
+export async function nextQuestion(page: Page): Promise<void> {
+  const stem = page.getByRole("heading", { level: 2 });
+  const before = await stem.getAttribute("data-question-id");
+  await page.getByRole("button", { name: "下一題" }).click();
+  await expect(stem).not.toHaveAttribute("data-question-id", before ?? "");
+}
+
+/** 容注音文字比對:真瀏覽器預設注音開,textContent 會混入 rt 注音字元 */
+export function zt(text: string): RegExp {
+  const esc = text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(
+    [...esc].map((ch) => (/\p{Script=Han}/u.test(ch) ? `${ch}[ㄅ-ㄩˊˇˋ˙]*` : ch)).join(""),
+  );
+}
