@@ -3,6 +3,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import bankJson from "../data/questions.json";
 import type { Question, QuestionBank } from "../data/schema";
 import { type AnswerValue, isAnswered } from "../quiz/answers";
+import { scoreOf } from "../quiz/score";
+import { useLeaderboard } from "./leaderboard";
 import { draw } from "../quiz/draw";
 import { useSettings } from "./settings";
 
@@ -19,6 +21,8 @@ interface QuizState {
   current: number;
   answers: Record<string, AnswerValue>;
   startedAt: number | null;
+  finishedAt: number | null;
+  lastEntryId: string | null;
   autoSubmitted: boolean;
   start: (name: string) => void;
   goTo: (i: number) => void;
@@ -36,6 +40,8 @@ const initial = {
   current: 0,
   answers: {} as Record<string, AnswerValue>,
   startedAt: null as number | null,
+  finishedAt: null as number | null,
+  lastEntryId: null as string | null,
   autoSubmitted: false,
 };
 
@@ -67,8 +73,17 @@ export const useQuiz = create<QuizState>()(
         set((s) => ({ answers: { ...s.answers, [id]: value } }));
       },
       submit: ({ auto = false }) => {
-        if (get().phase !== "quiz") return; // idempotent guard
-        set({ phase: "result", autoSubmitted: auto });
+        const s = get();
+        if (s.phase !== "quiz") return; // idempotent guard — 寫榜也只此一次
+        const startedAt = s.startedAt ?? Date.now();
+        // auto 送出用 deadline 當 finishedAt,用時語意乾淨(spec: Elapsed time recording)
+        const finishedAt = auto ? startedAt + QUIZ_DURATION_MS : Date.now();
+        const elapsedSec = Math.min(QUIZ_DURATION_MS / 1000, Math.round((finishedAt - startedAt) / 1000));
+        const byId = new Map(bank.questions.map((q) => [q.id, q]));
+        const questions = s.drawnIds.map((id) => byId.get(id)).filter((q) => q !== undefined);
+        const score = scoreOf(questions, s.answers);
+        const lastEntryId = useLeaderboard.getState().add({ name: s.name, score, elapsedSec });
+        set({ phase: "result", autoSubmitted: auto, finishedAt, lastEntryId });
       },
       reset: () => set({ ...initial }),
     }),
@@ -82,6 +97,8 @@ export const useQuiz = create<QuizState>()(
         current: s.current,
         answers: s.answers,
         startedAt: s.startedAt,
+        finishedAt: s.finishedAt,
+        lastEntryId: s.lastEntryId,
         autoSubmitted: s.autoSubmitted,
       }),
       onRehydrateStorage: () => (state) => {

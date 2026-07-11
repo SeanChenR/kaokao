@@ -1,8 +1,8 @@
 ## 1. 計分與資料層
 
-- [ ] 1.1 實作 src/quiz/score.ts(isCorrect 五型 + scoreOf)(spec: Per-type correctness judgement);驗證:score.test.ts 判分矩陣全綠(含未答=錯、fill trim、match 部分=錯)RED→GREEN
-- [ ] 1.2 實作 src/stores/leaderboard.ts(entry 含 uuid、add 排序截 Top10、rankOf、SEED 為 declarative initial、persist kaokao-leaderboard)(spec: Leaderboard ordering and retention、Demo seed entries);驗證:leaderboard.test.ts(排序/同分比時間/截斷/seed merge 不重複/demo 不高亮)
-- [ ] 1.3 quiz store 增 finishedAt + lastEntryId(interface/initial/partialize 三處)並在 submit guard 內算分寫榜(auto 時 finishedAt=deadline)(spec: Elapsed time recording、MODIFIED Quiz session state machine、Session survives a reload);驗證:quiz.test.ts 補(雙觸發一筆、auto elapsed=600、reload 保留 finishedAt/lastEntryId)
+- [x] 1.1 實作 src/quiz/score.ts(isCorrect 五型 + scoreOf)(spec: Per-type correctness judgement);驗證:score.test.ts 判分矩陣全綠(含未答=錯、fill trim、match 部分=錯)RED→GREEN
+- [x] 1.2 實作 src/stores/leaderboard.ts(entry 含 uuid、add 排序截 Top10、rankOf、SEED 為 declarative initial、persist kaokao-leaderboard)(spec: Leaderboard ordering and retention、Demo seed entries);驗證:leaderboard.test.ts(排序/同分比時間/截斷/seed merge 不重複/demo 不高亮)
+- [x] 1.3 quiz store 增 finishedAt + lastEntryId(interface/initial/partialize 三處)並在 submit guard 內算分寫榜(auto 時 finishedAt=deadline)(spec: Elapsed time recording、MODIFIED Quiz session state machine、Session survives a reload);驗證:quiz.test.ts 補(雙觸發一筆、auto elapsed=600、reload 保留 finishedAt/lastEntryId)
 
 ## 2. 結果頁
 
