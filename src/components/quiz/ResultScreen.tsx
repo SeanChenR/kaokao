@@ -99,7 +99,7 @@ export function ResultScreen() {
   }, []);
 
   return (
-    <main className="min-h-screen max-w-xl w-full mx-auto px-4 pt-14 pb-8 flex flex-col gap-6">
+    <main className="min-h-screen max-w-2xl w-full mx-auto px-4 pt-14 pb-8 flex flex-col gap-6">
       <Card className="px-6 py-8 text-center">
         {autoSubmitted && <p className="text-warning font-bold mb-2 leading-[1.6]"><ZhuyinText rich={UI.autoSubmitted!} /></p>}
         <div aria-hidden="true" className="flex justify-center gap-3 mb-3">
@@ -123,7 +123,7 @@ export function ResultScreen() {
           {tier.title(score)}
         </h1>
         <p className="mt-1.5 text-sm text-muted leading-[1.6]">{tier.message}</p>
-        <p role="status" className="sr-only">{`答對 ${score} 題,共 ${total} 題`}</p>
+        <p role="status" className="sr-only">{`答對 ${score} 題，共 ${total} 題`}</p>
         <div className="mt-5 inline-flex items-baseline gap-3 px-7 py-3.5 rounded-2xl bg-bg border border-line">
           <span className="font-num text-4xl font-bold text-primary leading-none">{score}/{total}</span>
           <span className="text-sm text-muted leading-[1.6]"><ZhuyinText rich={UI.elapsedLabel!} /> {formatMs(elapsedSec * 1000)}</span>

@@ -7,12 +7,12 @@
   --bg: #15141b;
   --surface: #1f1d2b;
   --text: #edecee;
-  --muted: #9d9aa7;
+  --muted: #c3c0cf; /* 深色提亮(Sean:有些字太暗) */
   --primary: #a277ff;
   --success: #61ffca;
   --error: #ff6767;
   --warning: #ffca85;
-  --info: #82e2ff;
+  --info: #a8ecff; /* 更亮的 cyan(注音/提示) */
   --accent: #f694ff;
   --selection: #3d375e7f;
   --line: rgba(162, 119, 255, 0.22);
@@ -97,7 +97,7 @@ ruby {
 ruby + ruby,
 ruby + span,
 span + ruby {
-  margin-left: 0.09em;
+  margin-left: 0.16em; /* 字距再加大(Sean 2026-07-11) */
 }
 rt {
   display: inline-flex;

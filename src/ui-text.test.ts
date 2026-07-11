@@ -34,3 +34,24 @@ describe("ui-text.gen", () => {
     expect(reading("dialogBody1", "們")).toBe("˙ㄇㄣ");
   });
 });
+
+test("no half-width punctuation anywhere in student-facing data (中文配全形)", async () => {
+  const HALF = /[,!?():;]/;
+  const offenders: string[] = [];
+  for (const [key, rich] of Object.entries(UI)) {
+    for (const seg of rich) for (const tok of seg) if (HALF.test(tok.t)) offenders.push(`ui:${key}:${tok.t}`);
+  }
+  const bank = (await import("./data/questions.json")) as unknown as {
+    questions: Array<Record<string, unknown>>;
+  };
+  const scan = (rich: Array<Array<{ t: string }>>, where: string) => {
+    for (const seg of rich) for (const tok of seg) if (HALF.test(tok.t)) offenders.push(`${where}:${tok.t}`);
+  };
+  for (const q of bank.questions) {
+    scan(q.stem as never, `bank:${q.id}`);
+    for (const k of ["options", "left", "right"]) for (const o of (q[k] as never[]) ?? []) scan(o, `bank:${q.id}`);
+    if (q.suffix) scan(q.suffix as never, `bank:${q.id}`);
+    for (const sh of (q.shapes as Array<{ label: never }>) ?? []) scan(sh.label, `bank:${q.id}`);
+  }
+  expect(offenders).toEqual([]);
+});

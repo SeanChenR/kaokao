@@ -21,7 +21,7 @@ describe("LeaderboardList", () => {
     const mine = useLeaderboard.getState().add({ name: "小明", score: 4, elapsedSec: 150 });
     const { LeaderboardList } = await import("./LeaderboardList");
     render(<LeaderboardList highlightId={mine} />);
-    expect(screen.getAllByText("(你)")).toHaveLength(1);
+    expect(screen.getAllByText("（你）")).toHaveLength(1);
   });
 
   test("off-board run shows overall rank line; demo entries are marked", async () => {
