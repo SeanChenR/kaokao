@@ -83,3 +83,31 @@ describe("quiz store", () => {
     expect(unansweredCount()).toBe(4);
   });
 });
+
+describe("submission scoring and leaderboard", () => {
+  test("double trigger writes exactly one entry; auto elapsed caps at 600", async () => {
+    const { useQuiz } = await fresh();
+    const { useLeaderboard } = await import("./leaderboard");
+    const before = useLeaderboard.getState().history.length;
+    useQuiz.getState().start("榜上星");
+    useQuiz.getState().submit({ auto: true });
+    useQuiz.getState().submit({}); // 第二次觸發
+    const history = useLeaderboard.getState().history;
+    expect(history.length).toBe(before + 1);
+    const mine = history[history.length - 1]!;
+    expect(mine.name).toBe("榜上星");
+    expect(mine.elapsedSec).toBe(600); // auto → deadline
+    expect(useQuiz.getState().finishedAt).not.toBeNull();
+    expect(useQuiz.getState().lastEntryId).toBe(mine.id);
+  });
+
+  test("finishedAt and lastEntryId survive rehydrate", async () => {
+    const a = await fresh();
+    a.useQuiz.getState().start("續命星");
+    a.useQuiz.getState().submit({});
+    const { finishedAt, lastEntryId } = a.useQuiz.getState();
+    const b = await fresh();
+    expect(b.useQuiz.getState().finishedAt).toBe(finishedAt);
+    expect(b.useQuiz.getState().lastEntryId).toBe(lastEntryId);
+  });
+});

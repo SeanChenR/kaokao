@@ -3,6 +3,7 @@ import { useQuiz } from "../../stores/quiz";
 import { useSettings } from "../../stores/settings";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
+import { LeaderboardList } from "./LeaderboardList";
 
 /** 開始畫面 — spec: quiz-session 開始條件;錯誤回饋 a11y(aria-invalid + describedby) */
 export function StartScreen() {
@@ -60,6 +61,14 @@ export function StartScreen() {
         <Button className="w-full mt-4 py-3.5 text-lg" onClick={tryStart}>
           開始測驗
         </Button>
+
+        <div className="mt-7 text-left">
+          <div className="flex items-center gap-2.5 mb-3">
+            <h2 className="text-sm font-bold text-text">今夜排行榜</h2>
+            <span className="flex-1 h-px bg-line" aria-hidden="true" />
+          </div>
+          <LeaderboardList limit={5} />
+        </div>
       </Card>
     </main>
   );
