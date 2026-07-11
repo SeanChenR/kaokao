@@ -19,7 +19,7 @@ export function SubmitDialog({ open, unanswered, onOpenChange }: SubmitDialogPro
           className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[3px]"
           onClick={() => onOpenChange(false)}
         />
-        <AlertDialog.Content className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-40px)] max-w-90
+        <AlertDialog.Content className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-40px)] max-w-lg
           bg-surface border border-line rounded-3xl shadow-card p-6 text-center">
           <p aria-hidden="true" className="text-3xl mb-1.5">🌙</p>
           <AlertDialog.Title className="text-lg font-bold text-text leading-[1.6]">
@@ -30,12 +30,12 @@ export function SubmitDialog({ open, unanswered, onOpenChange }: SubmitDialogPro
             <br />
             <ZhuyinText rich={UI.dialogBody2!} />
           </AlertDialog.Description>
-          <div className="flex gap-2.5 mt-5">
+          <div className="flex flex-col sm:flex-row gap-2.5 mt-5">
             <AlertDialog.Cancel asChild>
-              <Button aria-label={UI_PLAIN.goBack} variant="ghost" className="flex-1 leading-[1.6]"><ZhuyinText rich={UI.goBack!} /></Button>
+              <Button aria-label={UI_PLAIN.goBack} variant="ghost" className="flex-1 leading-[1.6] whitespace-nowrap"><ZhuyinText rich={UI.goBack!} /></Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action asChild>
-              <Button aria-label={UI_PLAIN.submitAnyway} className="flex-1 leading-[1.6]" onClick={() => useQuiz.getState().submit({})}>
+              <Button aria-label={UI_PLAIN.submitAnyway} className="flex-1 leading-[1.6] whitespace-nowrap" onClick={() => useQuiz.getState().submit({})}>
                 <ZhuyinText rich={UI.submitAnyway!} />
               </Button>
             </AlertDialog.Action>
