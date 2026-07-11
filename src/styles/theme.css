@@ -93,14 +93,22 @@ ruby {
   align-items: center;
   vertical-align: baseline;
 }
+/* 字塊間呼吸:ruby 與後續內容保持間隙,注音欄不再貼死下一個字(Sean 回報) */
+ruby + ruby,
+ruby + span,
+span + ruby {
+  margin-left: 0.09em;
+}
 rt {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   position: relative;
   font-size: 1em; /* 蓋掉 UA 預設 rt font-size 50%,否則下方 em 全部再腰斬(PR#9 review HIGH) */
-  width: 0.55em; /* 固定欄寬:advance 與符號數無關(等寬字塊) */
+  width: 0.72em; /* 固定欄寬:含聲調空間,advance 與符號數無關(等寬字塊) */
   margin-left: 0.05em;
+  justify-content: flex-start;
+  padding-left: 0.03em;
   font-weight: 400;
   color: var(--info);
 }
@@ -112,8 +120,8 @@ rt .zy-col {
   max-height: 4em; /* 以 zy-col 自身 em 計 ≈ 主字 1.6em,防極端溢出 */
 }
 rt .zy-tone {
-  position: absolute; /* 貼欄右不佔寬 */
-  right: -0.16em;
+  position: absolute; /* 聲調收在欄內右側,不再入侵後字(zhuyin-spacing-fix) */
+  right: 0.02em;
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.4em;
