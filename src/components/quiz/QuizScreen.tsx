@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { springSnappy } from "../../motion/presets";
 import { isAnswered } from "../../quiz/answers";
 import { deadlineOf } from "../../quiz/time";
 import { drawnQuestions, unansweredCount, useQuiz } from "../../stores/quiz";
@@ -14,6 +16,7 @@ export function QuizScreen() {
   const answers = useQuiz((s) => s.answers);
   const startedAt = useQuiz((s) => s.startedAt);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const reduced = useReducedMotion();
 
   const questions = drawnQuestions();
   const question = questions[current];
@@ -34,13 +37,23 @@ export function QuizScreen() {
       </header>
 
       <div className="flex-1">
-        <QuestionCard
-          question={question}
-          index={current}
-          total={questions.length}
-          value={answers[question.id]}
-          onChange={(v) => useQuiz.getState().setAnswer(question.id, v)}
-        />
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={question.id}
+            initial={reduced ? false : { x: 36, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={reduced ? undefined : { x: -24, opacity: 0 }}
+            transition={reduced ? { duration: 0 } : springSnappy}
+          >
+            <QuestionCard
+              question={question}
+              index={current}
+              total={questions.length}
+              value={answers[question.id]}
+              onChange={(v) => useQuiz.getState().setAnswer(question.id, v)}
+            />
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       <nav className="flex items-center justify-between gap-3" aria-label="題目導航">

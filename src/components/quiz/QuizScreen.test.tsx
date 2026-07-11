@@ -20,7 +20,9 @@ describe("QuizScreen", () => {
     const { QuizScreen } = await import("./QuizScreen");
     render(<QuizScreen />);
     fireEvent.click(screen.getByRole("button", { name: "下一題" }));
-    const stem = await screen.findByRole("heading", { level: 2 });
+    // waitFor 與 motion frameloop 在 happy-dom 互餓;固定等待後直接斷言(rAF 兩拍 << 250ms)
+    await new Promise((r) => setTimeout(r, 250));
+    const stem = screen.getByRole("heading", { level: 2 });
     expect(document.activeElement).toBe(stem);
   });
 

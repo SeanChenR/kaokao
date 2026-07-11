@@ -34,7 +34,11 @@ export function QuestionCard({ question, index, total, value, onChange }: Questi
   const stemRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    stemRef.current?.focus();
+    // mode="wait" 下本卡 mount 即為進場;等兩拍讓 spring 起步後對焦,preventScroll 防位移中捲動
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => stemRef.current?.focus({ preventScroll: true }));
+    });
+    return () => cancelAnimationFrame(id);
   }, [question.id]);
 
   return (
