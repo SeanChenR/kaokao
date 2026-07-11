@@ -99,7 +99,7 @@ export function ResultScreen() {
   }, []);
 
   return (
-    <main className="min-h-screen max-w-2xl w-full mx-auto px-4 pt-14 pb-8 flex flex-col gap-6">
+    <main className="max-w-2xl w-full mx-auto px-4 pt-2 pb-8 flex flex-col gap-6">
       <Card className="px-6 py-8 text-center">
         {autoSubmitted && <p className="text-warning font-bold mb-2 leading-[1.6]"><ZhuyinText rich={UI.autoSubmitted!} /></p>}
         <div aria-hidden="true" className="flex justify-center gap-3 mb-3">

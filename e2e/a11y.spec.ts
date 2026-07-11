@@ -63,3 +63,31 @@ test("uniform zhuyin block width across 1-3 symbol syllables", async ({ page }) 
   expect(widths.length).toBeGreaterThan(3);
   expect(Math.max(...widths) - Math.min(...widths)).toBeLessThan(0.5); // 等寬字塊(spec: Uniform character rhythm)
 });
+
+test("tone marks render visibly on all viewports", async ({ page }) => {
+  await page.goto("/");
+  const tones = await page.locator(".zy-lane").evaluateAll((els) =>
+    els
+      .filter((el) => (el.textContent ?? "").trim() !== "")
+      .map((el) => {
+        const r = el.getBoundingClientRect();
+        return { w: r.width, h: r.height, inView: r.top >= 0 && r.left >= 0 };
+      }),
+  );
+  expect(tones.length).toBeGreaterThan(3); // 首頁必有多個帶調音節
+  for (const t of tones) {
+    expect(t.w).toBeGreaterThan(1); // 非零盒(真機聲調消失回歸防護)
+    expect(t.h).toBeGreaterThan(1);
+    expect(t.inView).toBe(true);
+  }
+});
+
+test("navbar does not overlap main content", async ({ page }) => {
+  await page.goto("/");
+  const overlap = await page.evaluate(() => {
+    const header = document.querySelector("header")!.getBoundingClientRect();
+    const main = document.querySelector("main")!.getBoundingClientRect();
+    return header.bottom > main.top + 1;
+  });
+  expect(overlap).toBe(false);
+});
