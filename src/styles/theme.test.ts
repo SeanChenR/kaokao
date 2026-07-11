@@ -48,7 +48,7 @@ describe("theme.css contract", () => {
 
 test("ruby renders a fixed-width right-side vertical column (uniform rhythm)", () => {
   expect(css).toMatch(/rt\s*\{[^}]*font-size: 1em/); // 必須蓋掉 UA rt{font-size:50%}
-  expect(css).toMatch(/rt\s*\{[^}]*width: 0\.55em/); // 等寬字塊(Sean:字距均勻)
+  expect(css).toMatch(/rt\s*\{[^}]*width: 0\.72em/); // 等寬字塊(Sean:字距均勻)
   expect(css).toMatch(/rt\s*\{[^}]*color: var\(--info\)/);
   expect(css).toContain("writing-mode: vertical-lr");
   expect(css).toMatch(/zy-tone[\s\S]*?position: absolute/);
