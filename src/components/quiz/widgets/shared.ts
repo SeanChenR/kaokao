@@ -6,8 +6,8 @@ export const optionCard =
   "text-lg leading-[1.9] text-text bg-surface border-2 border-line " +
   "hover:border-primary motion-safe:transition-[border-color,box-shadow,background-color] motion-safe:duration-150 " +
   "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none " +
-  "data-[state=checked]:border-primary data-[state=checked]:bg-selection data-[state=checked]:shadow-glow-primary " +
-  "aria-checked:border-primary aria-checked:bg-selection aria-checked:shadow-glow-primary";
+  "data-[state=checked]:border-primary data-[state=checked]:bg-selection data-[state=checked]:shadow-glow-primary data-[state=checked]:motion-safe:scale-[1.02] " +
+  "aria-checked:border-primary aria-checked:bg-selection aria-checked:shadow-glow-primary aria-checked:motion-safe:scale-[1.02]";
 
 export function plainText(rich: Rich): string {
   return rich.flatMap((seg) => seg.map((t) => t.t)).join("");

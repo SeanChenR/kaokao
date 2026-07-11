@@ -1,4 +1,6 @@
+import { motion, useReducedMotion } from "motion/react";
 import type { Question } from "../../data/schema";
+import { springSnappy } from "../../motion/presets";
 import { type AnswerValue, isAnswered } from "../../quiz/answers";
 import { useQuiz } from "../../stores/quiz";
 
@@ -12,6 +14,7 @@ const STAR_COLORS = ["text-primary", "text-success", "text-accent"];
 
 /** 星空進度軌道 — 唯一跳題入口(spec: quiz-navigation / Star track progress and jumping) */
 export function StarTrack({ questions, answers, current }: StarTrackProps) {
+  const reduced = useReducedMotion();
   const answered = questions.map((q) => isAnswered(q, answers[q.id]));
   const answeredTotal = answered.filter(Boolean).length;
 
@@ -46,13 +49,17 @@ export function StarTrack({ questions, answers, current }: StarTrackProps) {
                 ${isCurrent ? "motion-safe:animate-pulse" : ""}`}
               style={{ left: `${xPercent}%`, bottom: `${bottomPx - 14}px` }}
             >
-              <span
+              <motion.span
                 aria-hidden="true"
-                className={`${isCurrent ? "text-2xl" : "text-lg"} leading-none motion-safe:transition-all motion-safe:duration-300
+                key={lit ? "lit" : "dim"}
+                initial={reduced || !lit ? false : { scale: 0.4 }}
+                animate={{ scale: 1 }}
+                transition={reduced ? { duration: 0 } : springSnappy}
+                className={`${isCurrent ? "text-2xl" : "text-lg"} leading-none inline-block
                   ${lit ? `${STAR_COLORS[i % 3]} drop-shadow-[0_0_8px_currentColor]` : "text-muted opacity-50"}`}
               >
                 {lit ? "★" : "☆"}
-              </span>
+              </motion.span>
             </button>
           );
         })}

@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { springSoft } from "../../../motion/presets";
 import type { MatchQ } from "../../../data/schema";
 import { useSettings } from "../../../stores/settings";
 import { ZhuyinText } from "../../ZhuyinText";
@@ -37,6 +39,7 @@ export function Matching({ question, value, onChange }: MatchingProps) {
   const leftRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const rightRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const zhuyin = useSettings((s) => s.zhuyin);
+  const reduced = useReducedMotion();
 
   const measure = useCallback(() => {
     const wrap = wrapRef.current;
@@ -110,7 +113,19 @@ export function Matching({ question, value, onChange }: MatchingProps) {
     <div ref={wrapRef} role="group" aria-labelledby={`stem-${question.id}`} className="relative mt-6">
       <svg className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible" aria-hidden="true">
         {lines.map((l) => (
-          <line key={l.key} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" />
+          <motion.line
+            key={l.key}
+            x1={l.x1}
+            y1={l.y1}
+            x2={l.x2}
+            y2={l.y2}
+            initial={reduced ? false : { pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={reduced ? { duration: 0 } : springSoft}
+            stroke="var(--accent)"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
         ))}
       </svg>
       <div className="grid grid-cols-2 gap-x-9 gap-y-3">

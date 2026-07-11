@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { springSnappy } from "../../motion/presets";
 import { isCorrect } from "../../quiz/score";
 import { formatMs } from "../../quiz/time";
 import { drawnQuestions, useQuiz } from "../../stores/quiz";
@@ -61,6 +63,7 @@ export function ResultScreen() {
   const finishedAt = useQuiz((s) => s.finishedAt);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const firedRef = useRef(false);
+  const reduced = useReducedMotion();
 
   const questions = drawnQuestions();
   const total = questions.length;
@@ -86,12 +89,15 @@ export function ResultScreen() {
           {questions.map((q, i) => {
             const ok = isCorrect(q, answers[q.id]);
             return (
-              <span
+              <motion.span
                 key={q.id}
-                className={`text-3xl leading-none ${ok ? `${STAR_COLORS[i % 3]} drop-shadow-[0_0_10px_currentColor]` : "text-muted opacity-40"}`}
+                initial={reduced ? false : { scale: 0, rotate: -30 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={reduced ? { duration: 0 } : { ...springSnappy, delay: i * 0.12 }}
+                className={`inline-block text-3xl leading-none ${ok ? `${STAR_COLORS[i % 3]} drop-shadow-[0_0_10px_currentColor]` : "text-muted opacity-40"}`}
               >
                 {ok ? "★" : "☆"}
-              </span>
+              </motion.span>
             );
           })}
         </div>
