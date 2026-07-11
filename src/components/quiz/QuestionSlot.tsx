@@ -1,5 +1,10 @@
 import type { Question } from "../../data/schema";
-import type { AnswerValue } from "../../quiz/answers";
+import type { AnswerValue, AnswerValueMap } from "../../quiz/answers";
+import { FillBlank } from "./widgets/FillBlank";
+import { ImageChoice } from "./widgets/ImageChoice";
+import { Matching } from "./widgets/Matching";
+import { MultiChoice } from "./widgets/MultiChoice";
+import { SingleChoice } from "./widgets/SingleChoice";
 
 export interface QuestionSlotProps {
   question: Question;
@@ -7,14 +12,24 @@ export interface QuestionSlotProps {
   onChange: (value: AnswerValue) => void;
 }
 
-/**
- * 作答元件插槽 — 契約由 quiz-flow 擁有,question-types change 以五題型實作替換內容。
- * ponytail: 佔位版只標示開發中,不模擬互動。
- */
-export function QuestionSlot({ question }: QuestionSlotProps) {
-  return (
-    <p className="mt-6 text-sm text-muted border border-dashed border-line rounded-2xl p-6 text-center">
-      「{question.type}」作答元件開發中(question-types change)
-    </p>
-  );
+/** 五題型分派 — number 契約不外洩,string 轉換收在各 widget 內(design Decision 1) */
+export function QuestionSlot({ question, value, onChange }: QuestionSlotProps) {
+  switch (question.type) {
+    case "single":
+      return (
+        <SingleChoice question={question} value={value as AnswerValueMap["single"] | undefined} onChange={onChange} />
+      );
+    case "multi":
+      return (
+        <MultiChoice question={question} value={value as AnswerValueMap["multi"] | undefined} onChange={onChange} />
+      );
+    case "fill":
+      return <FillBlank question={question} value={value as AnswerValueMap["fill"] | undefined} onChange={onChange} />;
+    case "match":
+      return <Matching question={question} value={value as AnswerValueMap["match"] | undefined} onChange={onChange} />;
+    case "image":
+      return (
+        <ImageChoice question={question} value={value as AnswerValueMap["image"] | undefined} onChange={onChange} />
+      );
+  }
 }
