@@ -5,8 +5,17 @@ let ctx: AudioContext | null | undefined;
 
 function getContext(): AudioContext | null {
   if (ctx !== undefined) return ctx;
-  ctx = typeof AudioContext === "undefined" ? null : new AudioContext();
+  try {
+    ctx = typeof AudioContext === "undefined" ? null : new AudioContext();
+  } catch {
+    ctx = null;
+  }
   return ctx;
+}
+
+/** 測試注入點 — 僅測試使用 */
+export function __setTestContext(c: AudioContext | null | undefined): void {
+  ctx = c;
 }
 
 /** 在 user gesture 呼叫以解鎖(iOS Safari);SoundToggle 開啟與開始測驗是解鎖點 */
@@ -40,12 +49,11 @@ export function blip(freq: number, durationSec = 0.1): void {
   }
 }
 
-/** 依序播放短旋律(結果頁分級);context 未 running 時整段跳過 */
-export function melody(freqs: number[], noteSec = 0.16): void {
-  if (!useSettings.getState().sound) return;
+/** 依序播放短旋律(結果頁分級);context 未 running 時整段跳過。回傳取消函式(unmount 清理) */
+export function melody(freqs: number[], noteSec = 0.16): () => void {
+  if (!useSettings.getState().sound) return () => {};
   const c = getContext();
-  if (!c || c.state !== "running") return;
-  freqs.forEach((f, i) => {
-    setTimeout(() => blip(f, noteSec), i * noteSec * 1000 * 0.9);
-  });
+  if (!c || c.state !== "running") return () => {};
+  const ids = freqs.map((f, i) => setTimeout(() => blip(f, noteSec), i * noteSec * 1000 * 0.9));
+  return () => ids.forEach(clearTimeout);
 }

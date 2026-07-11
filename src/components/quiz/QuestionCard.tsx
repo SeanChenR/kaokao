@@ -4,22 +4,23 @@ import type { AnswerValue } from "../../quiz/answers";
 import { Card } from "../ui/Card";
 import { ZhuyinText } from "../ZhuyinText";
 import { QuestionSlot } from "./QuestionSlot";
+import { UI } from "../../ui-text.gen";
 
-const TYPE_LABELS: Record<Question["type"], string> = {
-  single: "單選題",
-  multi: "多選題",
-  fill: "填空題",
-  match: "配對題",
-  image: "看圖選選看",
-};
+const TYPE_LABELS = {
+  single: UI.typeSingle!,
+  multi: UI.typeMulti!,
+  fill: UI.typeFill!,
+  match: UI.typeMatch!,
+  image: UI.typeImage!,
+} as const;
 
-const TYPE_HINTS: Record<Question["type"], string> = {
-  single: "選一個最正確的答案",
-  multi: "可以複選喔",
-  fill: "把答案打在空格裡",
-  match: "先點左邊,再點右邊配成一對",
-  image: "選出正確的圖形",
-};
+const TYPE_HINTS = {
+  single: UI.hintSingle!,
+  multi: UI.hintMulti!,
+  fill: UI.hintFill!,
+  match: UI.hintMatch!,
+  image: UI.hintImage!,
+} as const;
 
 interface QuestionCardProps {
   question: Question;
@@ -44,10 +45,10 @@ export function QuestionCard({ question, index, total, value, onChange }: Questi
   return (
     <Card className="px-6 py-7 sm:px-8">
       <div className="flex items-center gap-2.5 flex-wrap">
-        <span className="text-base font-bold text-primary font-num">第 {index + 1} 題</span>
-        <span className="text-sm text-muted font-num">/共 {total} 題</span>
-        <span className="ml-auto text-sm font-bold px-3 py-1 rounded-full text-info bg-bg border border-line">
-          {TYPE_LABELS[question.type]}
+        <span className="text-base font-bold text-primary font-num leading-[1.9]"><ZhuyinText rich={UI.questionNo!} /> {index + 1} <ZhuyinText rich={UI.questionUnit!} /></span>
+        <span className="text-sm text-muted font-num leading-[1.9]"><ZhuyinText rich={UI.totalPrefix!} /> {total} <ZhuyinText rich={UI.questionUnit!} /></span>
+        <span className="ml-auto text-sm font-bold px-3 py-1 rounded-full text-info bg-bg border border-line leading-[1.9]">
+          <ZhuyinText rich={TYPE_LABELS[question.type]} />
         </span>
       </div>
 
@@ -60,7 +61,7 @@ export function QuestionCard({ question, index, total, value, onChange }: Questi
       >
         <ZhuyinText rich={question.stem} />
       </h2>
-      <p className="mt-1 text-sm text-muted">{TYPE_HINTS[question.type]}</p>
+      <p className="mt-1 text-sm text-muted leading-[1.9]"><ZhuyinText rich={TYPE_HINTS[question.type]} /></p>
 
       <QuestionSlot question={question} value={value} onChange={onChange} />
     </Card>

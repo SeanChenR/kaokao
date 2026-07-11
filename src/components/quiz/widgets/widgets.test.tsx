@@ -20,7 +20,7 @@ beforeEach(async () => {
   sessionStorage.clear();
   stubMatchMedia();
   const { useSettings } = await import("../../../stores/settings");
-  useSettings.setState({ zhuyin: true }); // 防其他測試檔留下的單例狀態污染
+  useSettings.setState({ zhuyin: false }); // 預設關(全域規則);驗 ruby 的測試自行開
 });
 
 const seg = (t: string) => t.split("").map((ch) => (/\p{Script=Han}/u.test(ch) ? { t: ch, z: "ㄅ" } : { t: ch }));
@@ -51,7 +51,9 @@ describe("SingleChoice", () => {
     for (const call of onChange.mock.calls) expect(call[0]).not.toBeNull();
   });
 
-  test("options render zhuyin", () => {
+  test("options render zhuyin", async () => {
+    const { useSettings } = await import("../../../stores/settings");
+    useSettings.setState({ zhuyin: true });
     const { container } = render(<SingleChoice question={singleQ} value={undefined} onChange={() => {}} />);
     expect(container.querySelector("ruby")).toBeTruthy();
   });
@@ -84,7 +86,7 @@ describe("FillBlank", () => {
     expect(input.getAttribute("aria-label")).toContain("一年有");
     fireEvent.change(input, { target: { value: "12" } });
     expect(onChange).toHaveBeenLastCalledWith("12");
-    expect(screen.getByText("個")).toBeTruthy();
+    expect(screen.getByText("個月")).toBeTruthy();
   });
 });
 

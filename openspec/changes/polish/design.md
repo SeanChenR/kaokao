@@ -13,7 +13,7 @@
 1. **AnimatePresence `mode="wait"`**:exit 完才 enter,任意時刻恰一張題卡/一個 h2;motion.div `key=question.id`,x: 36→0 spring;焦點移轉從 QuestionCard 的 useEffect 改為 motion 的 onAnimationComplete 呼叫 `focus({preventScroll:true})`;`useReducedMotion()` 時 transition duration 0 並立即對焦
 2. **spring presets 集中 src/motion/presets.ts**:`springSnappy`(題卡/星星,stiffness 400 damping 30)、`springSoft`(選項 scale,stiffness 300 damping 25);全站只從 presets 取
 3. **音效 src/audio/blip.ts**:模組級惰性單例 `getContext()`(`typeof AudioContext === "undefined"` 回 null → 全 API no-op);`unlock()` 在 gesture 內 resume;`blip(freq, dur)` sine + gain 包絡(attack 10ms/release 尾音,peak 0.12);`melody(notes)` 序列播放,播前 `state === "running"` gate;所有播放先查 `useSettings.getState().sound`
-4. **觸發點**:單選/圖片選取(新值≠舊值)、多選勾選(取消不響)、配對成功、送出 940Hz、結果頁旋律(滿分 523/659/784 上行;≥60% 兩音;其餘不播)
+4. **觸發點**:單選/圖片選取(新值≠舊值)、多選勾選(取消不響)、配對成功、送出 880Hz、結果頁旋律(滿分 523/659/784 上行;≥60% 兩音;其餘不播)
 5. **SoundToggle**:🔕(關)/🔔(開)圖示、aria-pressed、開啟的那次 click 內呼叫 unlock()(iOS 解鎖點);settings.sound 預設 false + partialize + 測試(比照 zhuyin 範式)
 6. **happydom.ts 加 `MotionGlobalConfig.instantAnimations = true`**(from "motion/react" 的 MotionGlobalConfig… 實際匯出自 "motion"),bun test 下動畫瞬時、exit 即卸載
 7. **星軌 pop**:剛變 answered 的星以 motion.span scale [1→1.35→1] spring;current 的 animate-pulse 保留

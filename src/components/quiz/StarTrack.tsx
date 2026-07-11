@@ -3,6 +3,8 @@ import type { Question } from "../../data/schema";
 import { springSnappy } from "../../motion/presets";
 import { type AnswerValue, isAnswered } from "../../quiz/answers";
 import { useQuiz } from "../../stores/quiz";
+import { ZhuyinText } from "../ZhuyinText";
+import { UI } from "../../ui-text.gen";
 
 interface StarTrackProps {
   questions: Question[];
@@ -64,8 +66,9 @@ export function StarTrack({ questions, answers, current }: StarTrackProps) {
           );
         })}
       </div>
-      <p className="text-xs text-muted font-num">
-        第 {current + 1}/5 題・已答 {answeredTotal}/5
+      <p className="text-xs text-muted font-num leading-[1.9]">
+        <ZhuyinText rich={UI.questionNo!} /> {current + 1}/5 <ZhuyinText rich={UI.questionUnit!} />・
+        <ZhuyinText rich={UI.answeredLabel!} /> {answeredTotal}/5
       </p>
     </div>
   );

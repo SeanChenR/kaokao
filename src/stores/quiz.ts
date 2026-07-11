@@ -84,7 +84,7 @@ export const useQuiz = create<QuizState>()(
         const byId = new Map(bank.questions.map((q) => [q.id, q]));
         const questions = s.drawnIds.map((id) => byId.get(id)).filter((q) => q !== undefined);
         const score = scoreOf(questions, s.answers);
-        blip(940, 0.18);
+        blip(880, 0.18);
         const lastEntryId = useLeaderboard.getState().add({ name: s.name, score, elapsedSec });
         set({ phase: "result", autoSubmitted: auto, finishedAt, lastEntryId });
       },

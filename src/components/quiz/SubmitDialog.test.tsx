@@ -17,7 +17,7 @@ beforeEach(() => {
 describe("SubmitDialog", () => {
   test("announces the unanswered count with safe/confirm actions", () => {
     render(<SubmitDialog open unanswered={3} onOpenChange={() => {}} />);
-    expect(screen.getByText("還有 3 題沒寫完喔")).toBeTruthy();
+    expect(screen.getByText((_, el) => el?.tagName === "H2" && (el.textContent ?? "").includes("還有 3 題沒寫完喔"))).toBeTruthy();
     expect(screen.getByRole("button", { name: "回去作答" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "直接送出" })).toBeTruthy();
   });

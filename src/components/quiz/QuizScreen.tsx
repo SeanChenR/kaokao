@@ -9,6 +9,8 @@ import { CountdownTimer } from "./CountdownTimer";
 import { QuestionCard } from "./QuestionCard";
 import { StarTrack } from "./StarTrack";
 import { SubmitDialog } from "./SubmitDialog";
+import { ZhuyinText } from "../ZhuyinText";
+import { UI, UI_PLAIN } from "../../ui-text.gen";
 
 /** 作答畫面骨架 — spec: quiz-navigation */
 export function QuizScreen() {
@@ -57,18 +59,21 @@ export function QuizScreen() {
       </div>
 
       <nav className="flex items-center justify-between gap-3" aria-label="題目導航">
-        <Button variant="ghost" disabled={current === 0} onClick={() => useQuiz.getState().prev()}>
-          上一題
+        <Button aria-label={UI_PLAIN.prev} variant="ghost" disabled={current === 0} onClick={() => useQuiz.getState().prev()} className="leading-[1.9]">
+          <ZhuyinText rich={UI.prev!} />
         </Button>
         {isLast ? (
           <Button
+            aria-label={UI_PLAIN.submit}
             onClick={trySubmit}
-            className={isAnswered(question, answers[question.id]) ? "shadow-glow-success bg-success" : ""}
+            className={`leading-[1.9] ${isAnswered(question, answers[question.id]) ? "shadow-glow-success bg-success" : ""}`}
           >
-            送出答案
+            <ZhuyinText rich={UI.submit!} />
           </Button>
         ) : (
-          <Button onClick={() => useQuiz.getState().next()}>下一題</Button>
+          <Button aria-label={UI_PLAIN.next} onClick={() => useQuiz.getState().next()} className="leading-[1.9]">
+            <ZhuyinText rich={UI.next!} />
+          </Button>
         )}
       </nav>
 

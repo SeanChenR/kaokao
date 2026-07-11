@@ -1,4 +1,6 @@
+import { motion, useReducedMotion } from "motion/react";
 import { RadioGroup } from "radix-ui";
+import { springSoft } from "../../../motion/presets";
 import type { ImageQ } from "../../../data/schema";
 import { ZhuyinText } from "../../ZhuyinText";
 import { plainText } from "./shared";
@@ -13,6 +15,7 @@ interface ImageChoiceProps {
 
 /** 圖片題 — lucide 圖形卡(design Decision 6);radio 語意,label=形狀名 */
 export function ImageChoice({ question, value, onChange }: ImageChoiceProps) {
+  const reduced = useReducedMotion();
   return (
     <RadioGroup.Root
       aria-labelledby={`stem-${question.id}`}
@@ -27,11 +30,11 @@ export function ImageChoice({ question, value, onChange }: ImageChoiceProps) {
       {question.shapes.map((shape, i) => {
         const selected = value === i;
         return (
-          <RadioGroup.Item
-            key={i}
-            value={String(i)}
-            aria-label={plainText(shape.label)}
-            className="flex flex-col items-center justify-center gap-2 aspect-square rounded-2xl cursor-pointer
+          <RadioGroup.Item key={i} value={String(i)} aria-label={plainText(shape.label)} asChild>
+            <motion.button
+              whileTap={reduced ? undefined : { scale: 1.02 }}
+              transition={springSoft}
+              className="flex flex-col items-center justify-center gap-2 aspect-square rounded-2xl cursor-pointer
               bg-surface border-2 border-line hover:border-primary
               motion-safe:transition-[border-color,box-shadow] motion-safe:duration-150
               focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none
@@ -41,7 +44,8 @@ export function ImageChoice({ question, value, onChange }: ImageChoiceProps) {
             <span aria-hidden="true" className="text-sm text-muted leading-[1.9]">
               <ZhuyinText rich={shape.label} />
             </span>
-          </RadioGroup.Item>
+            </motion.button>
+        </RadioGroup.Item>
         );
       })}
     </RadioGroup.Root>
