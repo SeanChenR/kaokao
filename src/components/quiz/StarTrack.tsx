@@ -16,8 +16,8 @@ export function StarTrack({ questions, answers, current }: StarTrackProps) {
   const answeredTotal = answered.filter(Boolean).length;
 
   return (
-    <div className="flex flex-col items-center gap-0.5">
-      <div className="relative h-13 w-full max-w-65" aria-label="題目進度">
+    <div className="flex flex-col items-center gap-0.5 flex-1 min-w-0 max-w-65">
+      <div className="relative h-13 w-full" aria-label="題目進度">
         <svg viewBox="0 0 260 52" preserveAspectRatio="none" className="absolute inset-0 w-full h-full" aria-hidden="true">
           <path
             d="M6,44 Q130,4 254,44"

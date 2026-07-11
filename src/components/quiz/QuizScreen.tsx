@@ -28,7 +28,7 @@ export function QuizScreen() {
   return (
     <main className="min-h-screen flex flex-col max-w-2xl w-full mx-auto px-4 py-5 gap-4">
       <header className="flex items-center justify-between gap-3">
-        <span className="text-base font-bold text-text tracking-wider flex-none">考考</span>
+        <span className="text-base font-bold text-text tracking-wider flex-none hidden sm:block">考考</span>
         <StarTrack questions={questions} answers={answers} current={current} />
         <CountdownTimer deadline={deadlineOf(startedAt)} />
       </header>

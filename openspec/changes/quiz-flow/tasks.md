@@ -19,5 +19,5 @@
 
 ## 4. 收尾
 
-- [ ] 4.1 e2e/quiz-flow.spec.ts:姓名 → 開始 → 五題固定順序 → 星軌跳題 → 未答 dialog → 送出 → result;reload 續命(同題、時間連續)(spec: Session survives a reload);行為:全流程通。驗證:bunx playwright test 綠
-- [ ] 4.2 全套 gate:typecheck/lint/test/e2e/build 零錯;start/quiz 雙主題×雙視口截圖自檢。驗證:指令零錯誤 + 截圖目視
+- [x] 4.1 e2e/quiz-flow.spec.ts:姓名 → 開始 → 五題固定順序 → 星軌跳題 → 未答 dialog → 送出 → result;reload 續命(同題、時間連續)(spec: Session survives a reload);行為:全流程通。驗證:bunx playwright test 綠
+- [x] 4.2 全套 gate:typecheck/lint/test/e2e/build 零錯;start/quiz 雙主題×雙視口截圖自檢。驗證:指令零錯誤 + 截圖目視
