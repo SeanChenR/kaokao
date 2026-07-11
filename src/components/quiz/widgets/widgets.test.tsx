@@ -116,12 +116,8 @@ describe("Matching", () => {
     expect(container.textContent).toContain("配對取消了");
   });
 
-  test("keyboard: Enter on native buttons drives the same machine", () => {
-    const onChange = mock(() => {});
-    render(<Matching question={matchQ} value={[null, null]} onChange={onChange} />);
-    const buttons = screen.getAllByRole("button");
-    for (const b of buttons) expect(b.tagName).toBe("BUTTON");
-  });
+  // 鍵盤 Enter/Space 由原生 button 保證,真實鍵盤行為由 e2e「arrow keys」與 Playwright keyboard 驗;
+  // happy-dom 的 keyDown 不會合成 click,RTL 層不做同義反覆斷言(review MEDIUM #4)
 });
 
 describe("ImageChoice", () => {

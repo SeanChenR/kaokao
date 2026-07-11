@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import type { MatchQ, Rich } from "../../../data/schema";
+import type { MatchQ } from "../../../data/schema";
 import { useSettings } from "../../../stores/settings";
 import { ZhuyinText } from "../../ZhuyinText";
+import { plainText } from "./shared";
 
 interface MatchingProps {
   question: MatchQ;
@@ -15,10 +16,6 @@ interface Line {
   x2: number;
   y2: number;
   key: string;
-}
-
-function plainText(rich: Rich): string {
-  return rich.flatMap((seg) => seg.map((t) => t.t)).join("");
 }
 
 const itemCard =
@@ -111,13 +108,13 @@ export function Matching({ question, value, onChange }: MatchingProps) {
 
   return (
     <div ref={wrapRef} role="group" aria-labelledby={`stem-${question.id}`} className="relative mt-6">
-      <svg className="absolute inset-0 w-full h-full pointer-events-none z-2 overflow-visible" aria-hidden="true">
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-visible" aria-hidden="true">
         {lines.map((l) => (
           <line key={l.key} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" />
         ))}
       </svg>
       <div className="grid grid-cols-2 gap-x-9 gap-y-3">
-        <div className="flex flex-col gap-3">
+        <div data-testid="match-left" className="flex flex-col gap-3">
           {question.left.map((item, li) => {
             const paired = pairs[li] !== null;
             const active = selectedLeft === li;
@@ -137,7 +134,7 @@ export function Matching({ question, value, onChange }: MatchingProps) {
             );
           })}
         </div>
-        <div className="flex flex-col gap-3">
+        <div data-testid="match-right" className="flex flex-col gap-3">
           {question.right.map((item, ri) => {
             const occupied = pairs.includes(ri);
             return (

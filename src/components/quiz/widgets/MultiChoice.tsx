@@ -1,6 +1,6 @@
 import type { MultiQ } from "../../../data/schema";
 import { ZhuyinText } from "../../ZhuyinText";
-import { optionCard } from "./SingleChoice";
+import { optionCard } from "./shared";
 
 interface MultiChoiceProps {
   question: MultiQ;

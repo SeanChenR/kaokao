@@ -66,13 +66,12 @@ test("real answering: all five types, star track fills, direct submit", async ({
   await page.getByRole("textbox").fill("12");
   await page.getByRole("button", { name: "下一題" }).click();
   // 4 配對:依序全連
-  const group = page.getByRole("group");
-  const items = group.getByRole("button");
-  const n = await items.count();
-  const half = n / 2;
+  const lefts = page.getByTestId("match-left").getByRole("button");
+  const rights = page.getByTestId("match-right").getByRole("button");
+  const half = await lefts.count();
   for (let i = 0; i < half; i++) {
-    await items.nth(i).click();
-    await items.nth(half + i).click();
+    await lefts.nth(i).click();
+    await rights.nth(i).click();
   }
   await expect(page.locator("svg line")).toHaveCount(half);
   await page.getByRole("button", { name: "下一題" }).click();
@@ -91,4 +90,15 @@ test("zhuyin toggle strips ruby from option cards too", async ({ page }) => {
   await expect(page.locator("[role=radiogroup] ruby")).toHaveCount(0);
   await page.getByRole("button", { name: "注音顯示" }).click();
   await expect(page.locator("[role=radiogroup] ruby").first()).toBeVisible();
+});
+
+
+test("keyboard: arrows move radio focus, Space selects", async ({ page }) => {
+  await startQuiz(page, "鍵盤星");
+  await page.getByRole("radio").first().click();
+  await page.keyboard.press("ArrowDown");
+  const second = page.getByRole("radio").nth(1);
+  await expect(second).toBeFocused();
+  await page.keyboard.press(" ");
+  await expect(second).toHaveAttribute("aria-checked", "true");
 });

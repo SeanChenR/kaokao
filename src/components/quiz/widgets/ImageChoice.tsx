@@ -1,16 +1,13 @@
 import { RadioGroup } from "radix-ui";
-import type { ImageQ, Rich } from "../../../data/schema";
+import type { ImageQ } from "../../../data/schema";
 import { ZhuyinText } from "../../ZhuyinText";
+import { plainText } from "./shared";
 import { ShapeIcon } from "./ShapeIcon";
 
 interface ImageChoiceProps {
   question: ImageQ;
   value: number | null | undefined;
   onChange: (value: number) => void;
-}
-
-function plainText(rich: Rich): string {
-  return rich.flatMap((seg) => seg.map((t) => t.t)).join("");
 }
 
 /** 圖片題 — lucide 圖形卡(design Decision 6);radio 語意,label=形狀名 */

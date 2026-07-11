@@ -1,20 +1,13 @@
 import { RadioGroup } from "radix-ui";
 import type { SingleQ } from "../../../data/schema";
 import { ZhuyinText } from "../../ZhuyinText";
+import { optionCard } from "./shared";
 
 interface SingleChoiceProps {
   question: SingleQ;
   value: number | null | undefined;
   onChange: (value: number) => void;
 }
-
-export const optionCard =
-  "flex items-center gap-3.5 w-full min-h-12 px-5 py-3 rounded-2xl cursor-pointer text-left " +
-  "text-lg leading-[1.9] text-text bg-surface border-2 border-line " +
-  "hover:border-primary motion-safe:transition-[border-color,box-shadow,background-color] motion-safe:duration-150 " +
-  "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none " +
-  "data-[state=checked]:border-primary data-[state=checked]:bg-selection data-[state=checked]:shadow-glow-primary " +
-  "aria-checked:border-primary aria-checked:bg-selection aria-checked:shadow-glow-primary";
 
 /** 單選 — Radix RadioGroup;string↔number 轉換內收;不可取消(design Decision 2) */
 export function SingleChoice({ question, value, onChange }: SingleChoiceProps) {

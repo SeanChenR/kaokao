@@ -1,14 +1,11 @@
 import type { FillQ } from "../../../data/schema";
 import { ZhuyinText } from "../../ZhuyinText";
+import { plainText } from "./shared";
 
 interface FillBlankProps {
   question: FillQ;
   value: string | undefined;
   onChange: (value: string) => void;
-}
-
-function plainText(rich: FillQ["stem"]): string {
-  return rich.flatMap((seg) => seg.map((t) => t.t)).join("");
 }
 
 /** 填空 — input 不進 heading(design Decision 4);onChange 即寫 store,IME 收尾自然覆蓋 */
