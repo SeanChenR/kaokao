@@ -8,67 +8,12 @@ TBD - created by archiving change 'quiz-flow'. Update Purpose after archive.
 
 ### Requirement: Quiz session state machine
 
-The quiz session SHALL progress through the phases start, quiz, and result. Starting a session SHALL require a trimmed name of 1 to 12 characters, draw the questions, record the start timestamp, and store the name for next-visit prefill. Answer mutations and submissions SHALL be no-ops outside the quiz phase, and submitting SHALL be idempotent — concurrent manual and automatic triggers produce exactly one transition to result.
+The quiz session SHALL progress through the phases start, quiz, and result. Starting a session SHALL require a trimmed name of 1 to 12 characters, draw the questions, record the start timestamp, and store the name for next-visit prefill. Answer mutations and submissions SHALL be no-ops outside the quiz phase, and submitting SHALL be idempotent — concurrent manual and automatic triggers produce exactly one transition to result. Submission SHALL additionally record the finish timestamp (equal to the deadline for automatic submission) and write exactly one leaderboard entry for the run, remembering that entry's id for highlighting.
 
 #### Scenario: Double submit collapses to one
 
 - **WHEN** the countdown reaches zero at the same moment the user confirms the submit dialog
-- **THEN** the session transitions to result exactly once and later answer edits are ignored
-
-
-<!-- @trace
-source: quiz-flow
-updated: 2026-07-11
-code:
-  - src/stores/settings.ts
-  - src/data/validate.ts
-  - src/components/ZhuyinText.tsx
-  - src/components/quiz/CountdownTimer.tsx
-  - src/components/quiz/QuestionSlot.tsx
-  - src/styles/theme.css
-  - src/quiz/answers.ts
-  - src/components/quiz/StartScreen.tsx
-  - src/App.tsx
-  - src/data/questions.json
-  - docs/rules/ui-style.md
-  - bun.lock
-  - src/data/schema.ts
-  - src/components/ui/ZhuyinToggle.tsx
-  - src/quiz/draw.ts
-  - src/components/quiz/QuestionCard.tsx
-  - src/components/quiz/SubmitDialog.tsx
-  - src/data/drafts/bank.txt
-  - package.json
-  - src/components/quiz/StarTrack.tsx
-  - scripts/annotate-zhuyin.ts
-  - src/stores/quiz.ts
-  - src/components/quiz/QuizScreen.tsx
-  - docs/roadmap.md
-  - README.md
-  - src/quiz/time.ts
-tests:
-  - src/components/ZhuyinText.test.tsx
-  - src/data/polyphone.test.ts
-  - e2e/screens.spec.ts
-  - src/components/quiz/StartScreen.test.tsx
-  - src/quiz/answers.test.ts
-  - src/quiz/draw.test.ts
-  - src/App.test.tsx
-  - e2e/quiz-flow.spec.ts
-  - src/components/ui/ZhuyinToggle.test.tsx
-  - src/components/quiz/StarTrack.test.tsx
-  - src/stores/quiz.test.ts
-  - src/styles/theme.test.ts
-  - src/data/validate.test.ts
-  - src/data/bank.test.ts
-  - src/components/quiz/QuizScreen.test.tsx
-  - src/components/quiz/CountdownTimer.test.tsx
-  - src/stores/settings.test.ts
-  - src/quiz/time.test.ts
-  - src/data/charset-coverage.test.ts
-  - src/data/annotate-zhuyin.test.ts
-  - src/components/quiz/SubmitDialog.test.tsx
--->
+- **THEN** the session transitions to result exactly once, later answer edits are ignored, and exactly one leaderboard entry is written
 
 ---
 ### Requirement: Question drawing
@@ -208,67 +153,17 @@ tests:
 ---
 ### Requirement: Session survives a reload
 
-Session state (phase, drawn question ids, answers, name, start timestamp) SHALL persist in sessionStorage so an accidental reload resumes the same questions with the same remaining time. When persisted question ids no longer exist in the bank, the session SHALL reset to start. When sessionStorage is unavailable, the quiz SHALL still run within the page lifetime.
+Session state (phase, drawn question ids, answers, name, start timestamp, finish timestamp, and the current run's leaderboard entry id) SHALL persist in sessionStorage so an accidental reload resumes the same questions with the same remaining time, and a reload on the result page keeps the same score, elapsed time, and highlighted leaderboard row. When persisted question ids no longer exist in the bank, the session SHALL reset to start. When sessionStorage is unavailable, the quiz SHALL still run within the page lifetime.
 
 #### Scenario: Accidental reload resumes
 
 - **WHEN** the user reloads mid-quiz
 - **THEN** the same five questions, given answers, and a remaining time consistent with the original deadline are restored
 
+#### Scenario: Result page reload keeps the outcome
 
-<!-- @trace
-source: quiz-flow
-updated: 2026-07-11
-code:
-  - src/stores/settings.ts
-  - src/data/validate.ts
-  - src/components/ZhuyinText.tsx
-  - src/components/quiz/CountdownTimer.tsx
-  - src/components/quiz/QuestionSlot.tsx
-  - src/styles/theme.css
-  - src/quiz/answers.ts
-  - src/components/quiz/StartScreen.tsx
-  - src/App.tsx
-  - src/data/questions.json
-  - docs/rules/ui-style.md
-  - bun.lock
-  - src/data/schema.ts
-  - src/components/ui/ZhuyinToggle.tsx
-  - src/quiz/draw.ts
-  - src/components/quiz/QuestionCard.tsx
-  - src/components/quiz/SubmitDialog.tsx
-  - src/data/drafts/bank.txt
-  - package.json
-  - src/components/quiz/StarTrack.tsx
-  - scripts/annotate-zhuyin.ts
-  - src/stores/quiz.ts
-  - src/components/quiz/QuizScreen.tsx
-  - docs/roadmap.md
-  - README.md
-  - src/quiz/time.ts
-tests:
-  - src/components/ZhuyinText.test.tsx
-  - src/data/polyphone.test.ts
-  - e2e/screens.spec.ts
-  - src/components/quiz/StartScreen.test.tsx
-  - src/quiz/answers.test.ts
-  - src/quiz/draw.test.ts
-  - src/App.test.tsx
-  - e2e/quiz-flow.spec.ts
-  - src/components/ui/ZhuyinToggle.test.tsx
-  - src/components/quiz/StarTrack.test.tsx
-  - src/stores/quiz.test.ts
-  - src/styles/theme.test.ts
-  - src/data/validate.test.ts
-  - src/data/bank.test.ts
-  - src/components/quiz/QuizScreen.test.tsx
-  - src/components/quiz/CountdownTimer.test.tsx
-  - src/stores/settings.test.ts
-  - src/quiz/time.test.ts
-  - src/data/charset-coverage.test.ts
-  - src/data/annotate-zhuyin.test.ts
-  - src/components/quiz/SubmitDialog.test.tsx
--->
+- **WHEN** the user reloads on the result screen
+- **THEN** the score, elapsed time, and highlighted leaderboard entry remain unchanged and no duplicate entry is written
 
 ---
 ### Requirement: Answer-state contract
