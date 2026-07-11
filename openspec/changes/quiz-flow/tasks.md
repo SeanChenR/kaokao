@@ -1,7 +1,7 @@
 ## 1. 型別契約與抽題
 
-- [ ] 1.1 實作 src/quiz/answers.ts:`AnswerValueMap` 型別映射與 `isAnswered(q, v)`(spec: Answer-state contract);行為:五型別未答語意正確(match 部分連線=未答、fill 空白=未答)。驗證:src/quiz/answers.test.ts 全型別矩陣(RED→GREEN)
-- [ ] 1.2 實作 src/quiz/draw.ts `draw(bank, rng = Math.random)`(spec: Question drawing);行為:每型一題、固定順序、rng 注入、同型等機率。驗證:src/quiz/draw.test.ts(固定 seed 重現、1000 次統計分佈、順序斷言)
+- [x] 1.1 實作 src/quiz/answers.ts:`AnswerValueMap` 型別映射與 `isAnswered(q, v)`(spec: Answer-state contract);行為:五型別未答語意正確(match 部分連線=未答、fill 空白=未答)。驗證:src/quiz/answers.test.ts 全型別矩陣(RED→GREEN)
+- [x] 1.2 實作 src/quiz/draw.ts `draw(bank, rng = Math.random)`(spec: Question drawing);行為:每型一題、固定順序、rng 注入、同型等機率。驗證:src/quiz/draw.test.ts(固定 seed 重現、1000 次統計分佈、順序斷言)
 
 ## 2. Store 與計時
 
