@@ -47,10 +47,13 @@ export function QuestionCard({ question, index, total, value, onChange }: Questi
         </span>
       </div>
 
-      <h2 ref={stemRef} tabIndex={-1} className="mt-4 text-question font-bold text-text focus:outline-none">
+      <h2
+        ref={stemRef}
+        id={`stem-${question.id}`}
+        tabIndex={-1}
+        className="mt-4 text-question font-bold text-text focus:outline-none"
+      >
         <ZhuyinText rich={question.stem} />
-        {question.type === "fill" && <span className="text-primary"> ___ </span>}
-        {question.type === "fill" && question.suffix && <ZhuyinText rich={question.suffix} />}
       </h2>
       <p className="mt-1 text-sm text-muted">{TYPE_HINTS[question.type]}</p>
 
