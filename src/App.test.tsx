@@ -36,5 +36,6 @@ describe("App shell", () => {
 
     act(() => useQuiz.getState().submit({ auto: true }));
     expect(await screen.findByText("時間到,自動交卷!")).toBeTruthy();
+    expect(screen.getByRole("status").textContent).toContain("共 5 題");
   });
 });

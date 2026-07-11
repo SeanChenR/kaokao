@@ -8,8 +8,8 @@
 
 - [x] 2.1 實作 ReviewList.tsx(ul/li、文字 badge、三型序列化:單值/multi 三態/match 逐列,未答佔位,ZhuyinText)(spec: Structured answer review);驗證:ReviewList.test.tsx(multi delta、match 部分連線、未答)
 - [x] 2.2 實作 LeaderboardList.tsx(排序列、demo muted+示範標、以 id 高亮、rankOf 補位列)(spec: Current-run highlight、Demo seed entries);驗證:LeaderboardList.test.tsx(同名不誤標、不在榜顯名次)
-- [ ] 2.3 實作 ResultScreen.tsx(h1 focus、role=status 播報、四級文案、星軌全亮 aria-hidden、confetti 分級+reduced-motion 略過+動態 import+mock.module 測試隔離、再玩一次)並接入 App(spec: Result reveal accessibility、Tiered feedback without blame);驗證:ResultScreen.test.tsx(status 文字、焦點、confetti mock 依分數呼叫/不呼叫)
-- [ ] 2.4 StartScreen 加排行榜預覽前 5(共用 LeaderboardList 簡化模式)(spec: Start screen preview);驗證:StartScreen.test.tsx 補斷言
+- [x] 2.3 實作 ResultScreen.tsx(h1 focus、role=status 播報、四級文案、星軌全亮 aria-hidden、confetti 分級+reduced-motion 略過+動態 import+mock.module 測試隔離、再玩一次)並接入 App(spec: Result reveal accessibility、Tiered feedback without blame);驗證:ResultScreen.test.tsx(status 文字、焦點、confetti mock 依分數呼叫/不呼叫)
+- [x] 2.4 StartScreen 加排行榜預覽前 5(共用 LeaderboardList 簡化模式)(spec: Start screen preview);驗證:StartScreen.test.tsx 補斷言
 
 ## 3. 收尾
 
