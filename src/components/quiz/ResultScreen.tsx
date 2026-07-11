@@ -40,10 +40,13 @@ async function fireConfetti(level: "full" | "light"): Promise<void> {
     canvas.setAttribute("aria-hidden", "true");
     canvas.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50";
     document.body.appendChild(canvas);
-    const instance = confetti.create(canvas, { resize: true });
-    const count = level === "full" ? 160 : 70;
-    await instance({ particleCount: count, spread: 75, origin: { y: 0.25 }, colors: CONFETTI_COLORS });
-    canvas.remove();
+    try {
+      const instance = confetti.create(canvas, { resize: true });
+      const count = level === "full" ? 160 : 70;
+      await instance({ particleCount: count, spread: 75, origin: { y: 0.25 }, colors: CONFETTI_COLORS });
+    } finally {
+      canvas.remove();
+    }
   } catch {
     // 裝飾非核心,失敗靜默略過(design 失敗模式)
   }
@@ -63,7 +66,7 @@ export function ResultScreen() {
   const total = questions.length;
   const score = questions.filter((q) => isCorrect(q, answers[q.id])).length;
   const tier = tierOf(score, total);
-  const elapsed = finishedAt !== null && startedAt !== null ? finishedAt - startedAt : 0;
+  const elapsedSec = finishedAt !== null && startedAt !== null ? Math.round((finishedAt - startedAt) / 1000) : 0; // 與寫榜同一捨入
 
   useEffect(() => {
     headingRef.current?.focus();
@@ -100,7 +103,7 @@ export function ResultScreen() {
         <p role="status" className="sr-only">{`答對 ${score} 題,共 ${total} 題`}</p>
         <div className="mt-5 inline-flex items-baseline gap-3 px-7 py-3.5 rounded-2xl bg-bg border border-line">
           <span className="font-num text-4xl font-bold text-primary leading-none">{score}/{total}</span>
-          <span className="text-sm text-muted">用時 {formatMs(elapsed)}</span>
+          <span className="text-sm text-muted">用時 {formatMs(elapsedSec * 1000)}</span>
         </div>
       </Card>
 
