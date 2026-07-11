@@ -98,25 +98,24 @@ rt {
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 0.5em; /* 固定欄寬:advance 與符號數無關 */
-  height: 1em;
-  margin-left: 0.06em;
+  width: 0.55em; /* 固定欄寬:advance 與符號數無關(等寬字塊) */
+  margin-left: 0.05em;
   font-weight: 400;
   color: var(--info);
 }
 rt .zy-col {
   writing-mode: vertical-lr;
   text-orientation: upright;
-  font-size: 0.3em;
-  line-height: 1.1;
-  letter-spacing: 0.05em;
+  font-size: 0.4em; /* 0.3em 在內文字級下不可讀;欄高可略超字高,行高 1.6 有餘裕 */
+  line-height: 1.05;
+  max-height: 4em; /* 以 zy-col 自身 em 計 ≈ 主字 1.6em,防極端溢出 */
 }
 rt .zy-tone {
-  position: absolute; /* 貼欄右不佔寬,維持等寬字塊 */
-  right: -0.14em;
+  position: absolute; /* 貼欄右不佔寬 */
+  right: -0.16em;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 0.34em;
+  font-size: 0.4em;
   line-height: 1;
 }
 
