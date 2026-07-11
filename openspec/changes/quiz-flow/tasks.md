@@ -5,8 +5,8 @@
 
 ## 2. Store 與計時
 
-- [ ] 2.1 實作 src/stores/quiz.ts(spec: Quiz session state machine、Session survives a reload):phase 狀態機、start/goTo/setAnswer/submit/reset、sessionStorage persist(key kaokao-quiz)、submit idempotent、setAnswer phase guard、drawnIds 失效偵測 reset;行為:契約全兌現。驗證:src/stores/quiz.test.ts(含雙觸發一次、reload 還原、壞 drawnIds reset)
-- [ ] 2.2 settings store 加 `lastName` + `partialize` + `version:1`(spec: Quiz session state machine 的 name prefill);行為:start() 寫入 lastName,舊 payload merge 安全。驗證:settings.test.ts 補測試
+- [x] 2.1 實作 src/stores/quiz.ts(spec: Quiz session state machine、Session survives a reload):phase 狀態機、start/goTo/setAnswer/submit/reset、sessionStorage persist(key kaokao-quiz)、submit idempotent、setAnswer phase guard、drawnIds 失效偵測 reset;行為:契約全兌現。驗證:src/stores/quiz.test.ts(含雙觸發一次、reload 還原、壞 drawnIds reset)
+- [x] 2.2 settings store 加 `lastName` + `partialize` + `version:1`(spec: Quiz session state machine 的 name prefill);行為:start() 寫入 lastName,舊 payload merge 安全。驗證:settings.test.ts 補測試
 - [ ] 2.3 實作 src/quiz/time.ts(`deadline(startedAt)`、`remainingMs(deadline, now)`)與 src/components/quiz/CountdownTimer.tsx(spec: Deadline-based countdown with auto submit、Countdown display accessibility);行為:deadline 重算不遞減、role=timer、m:ss tabular、≤60s warning+motion-safe 脈動、60s/10s 一次性 polite 播報、歸零 submit({auto:true})。驗證:time.test.ts(假時鐘)+ CountdownTimer.test.tsx(live region 一次性)
 
 ## 3. 畫面元件
