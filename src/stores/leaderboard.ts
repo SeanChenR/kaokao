@@ -12,6 +12,7 @@ export interface LeaderboardEntry {
 }
 
 const TOP_N = 10;
+const HISTORY_CAP = 200; // ponytail: 防 localStorage 無界成長;超過即丟最舊
 
 function newId(): string {
   try {
@@ -49,7 +50,7 @@ export const useLeaderboard = create<LeaderboardState>()(
       add: (partial) => {
         const entry: LeaderboardEntry = { ...partial, id: newId(), at: Date.now() };
         set((s) => ({
-          history: [...s.history, entry],
+          history: [...s.history, entry].slice(-HISTORY_CAP),
           entries: [...s.entries, entry].sort(byRank).slice(0, TOP_N),
         }));
         return entry.id;

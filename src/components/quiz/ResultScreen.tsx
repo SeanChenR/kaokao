@@ -35,8 +35,15 @@ const CONFETTI_COLORS = ["#a277ff", "#61ffca", "#ffca85", "#ff6767", "#82e2ff", 
 async function fireConfetti(level: "full" | "light"): Promise<void> {
   try {
     const { default: confetti } = await import("canvas-confetti");
+    // 自建 canvas 掛 aria-hidden(spec: confetti SHALL be decorative)
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("aria-hidden", "true");
+    canvas.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50";
+    document.body.appendChild(canvas);
+    const instance = confetti.create(canvas, { resize: true });
     const count = level === "full" ? 160 : 70;
-    confetti({ particleCount: count, spread: 75, origin: { y: 0.25 }, colors: CONFETTI_COLORS, disableForReducedMotion: true });
+    await instance({ particleCount: count, spread: 75, origin: { y: 0.25 }, colors: CONFETTI_COLORS });
+    canvas.remove();
   } catch {
     // 裝飾非核心,失敗靜默略過(design 失敗模式)
   }
@@ -50,6 +57,7 @@ export function ResultScreen() {
   const startedAt = useQuiz((s) => s.startedAt);
   const finishedAt = useQuiz((s) => s.finishedAt);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const firedRef = useRef(false);
 
   const questions = drawnQuestions();
   const total = questions.length;
@@ -59,6 +67,8 @@ export function ResultScreen() {
 
   useEffect(() => {
     headingRef.current?.focus();
+    if (firedRef.current) return; // StrictMode 雙掛載冪等
+    firedRef.current = true;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduced && tier.confetti !== "none") void fireConfetti(tier.confetti);
     // 只在掛載時觸發一次

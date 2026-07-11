@@ -1,36 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
-import bank from "../src/data/questions.json" with { type: "json" };
+import { answerCorrectly, currentQuestion } from "./helpers";
 
-type Q = (typeof bank.questions)[number];
-
-const plain = (rich: Array<Array<{ t: string }>>) => rich.flatMap((s) => s.map((t) => t.t)).join("");
-
-async function currentQuestion(page: Page): Promise<Q> {
-  const stem = (await page.getByRole("heading", { level: 2 }).textContent())!.replace(/[ㄅ-ㄩˊˇˋ˙\s]/g, "");
-  const q = bank.questions.find((x) => plain(x.stem as never).replace(/\s/g, "") === stem);
-  if (!q) throw new Error(`找不到題目:${stem}`);
-  return q;
-}
-
-async function answerCorrectly(page: Page, q: Q): Promise<void> {
-  if (q.type === "single") {
-    await page.getByRole("radio").nth((q as { answer: number }).answer).click();
-  } else if (q.type === "multi") {
-    for (const i of (q as { answer: number[] }).answer) await page.getByRole("checkbox").nth(i).click();
-  } else if (q.type === "fill") {
-    await page.getByRole("textbox").fill((q as { accept: string[] }).accept[0]!);
-  } else if (q.type === "match") {
-    const answer = (q as { answer: number[] }).answer;
-    const lefts = page.getByTestId("match-left").getByRole("button");
-    const rights = page.getByTestId("match-right").getByRole("button");
-    for (let li = 0; li < answer.length; li++) {
-      await lefts.nth(li).click();
-      await rights.nth(answer[li]!).click();
-    }
-  } else {
-    await page.getByRole("radio").nth((q as { answer: number }).answer).click();
-  }
-}
 
 async function playPerfect(page: Page, name: string) {
   await page.goto("/");

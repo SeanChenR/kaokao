@@ -2,7 +2,6 @@ import type { Question, Rich } from "../../data/schema";
 import type { AnswerValue } from "../../quiz/answers";
 import { isCorrect } from "../../quiz/score";
 import { ZhuyinText } from "../ZhuyinText";
-import { plainText } from "./widgets/shared";
 
 interface ReviewListProps {
   questions: Question[];
@@ -80,14 +79,15 @@ function MatchReview({ q, value }: { q: Question & { type: "match" }; value: Ans
     <ul className="mt-2 text-sm leading-[1.9] flex flex-col gap-0.5">
       {q.left.map((left, li) => {
         const mineIdx = pairs[li] ?? null;
+        const mineLabel = mineIdx !== null ? (q.right[mineIdx] ?? null) : null; // 越界(資料改版/竄改)走未作答
         const correctIdx = q.answer[li]!;
         const ok = mineIdx === correctIdx;
         return (
           <li key={li} className="flex items-center gap-1.5 flex-wrap">
             <ZhuyinText rich={left} />
             <span aria-hidden="true">→</span>
-            {mineIdx !== null ? (
-              <ZhuyinText rich={q.right[mineIdx]!} className={ok ? "text-success" : "text-error"} />
+            {mineLabel ? (
+              <ZhuyinText rich={mineLabel} className={ok ? "text-success" : "text-error"} />
             ) : (
               <span className="text-error">{NO_ANSWER}</span>
             )}
@@ -116,7 +116,7 @@ export function ReviewList({ questions, answers }: ReviewListProps) {
           >
             <div className="flex items-start gap-2.5">
               <span className="text-sm font-bold text-muted font-num flex-none">第 {i + 1} 題</span>
-              <span className="flex-1 text-sm text-text leading-[1.9]">{plainText(q.stem)}</span>
+              <span className="flex-1 text-sm text-text leading-[1.9]"><ZhuyinText rich={q.stem} /></span>
               <span
                 className={`flex-none text-xs font-bold px-2.5 py-1 rounded-full text-surface ${ok ? "bg-success" : "bg-error"}`}
               >

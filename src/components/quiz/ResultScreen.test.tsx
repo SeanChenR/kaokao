@@ -3,8 +3,9 @@ import { act, render, screen } from "@testing-library/react";
 
 // spec: results-screen / Result reveal accessibility、Tiered feedback without blame
 
-const confettiMock = mock((_: unknown) => {});
-mock.module("canvas-confetti", () => ({ default: confettiMock }));
+const confettiMock = mock((_: unknown) => Promise.resolve());
+const createMock = mock((_canvas: unknown, _opts: unknown) => confettiMock);
+mock.module("canvas-confetti", () => ({ default: { create: createMock } }));
 
 function stubMatchMedia(reduced = false) {
   window.matchMedia = ((q: string) => ({
