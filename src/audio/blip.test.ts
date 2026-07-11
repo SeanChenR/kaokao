@@ -30,3 +30,35 @@ describe("blip (happy-dom: no AudioContext)", () => {
     expect(() => blip(660)).not.toThrow();
   });
 });
+
+describe("sound gate with injected context", () => {
+  test("sound=false never touches the oscillator; sound=true does", async () => {
+    const { __setTestContext } = await import("./blip");
+    const { useSettings } = await import("../stores/settings");
+    const created: string[] = [];
+    const fake = {
+      state: "running",
+      currentTime: 0,
+      destination: {},
+      createOscillator: () => {
+        created.push("osc");
+        return {
+          type: "", frequency: { value: 0 }, connect: () => {},
+          start: () => {}, stop: () => {},
+        };
+      },
+      createGain: () => ({
+        connect: () => {},
+        gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} },
+      }),
+    } as unknown as AudioContext;
+    __setTestContext(fake);
+    useSettings.setState({ sound: false });
+    blip(660);
+    expect(created).toHaveLength(0);
+    useSettings.setState({ sound: true });
+    blip(660);
+    expect(created).toHaveLength(1);
+    __setTestContext(undefined); // 還原惰性單例
+  });
+});

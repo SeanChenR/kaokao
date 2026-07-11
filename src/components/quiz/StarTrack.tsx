@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import type { Question } from "../../data/schema";
 import { springSnappy } from "../../motion/presets";
@@ -18,6 +19,11 @@ const STAR_COLORS = ["text-primary", "text-success", "text-accent"];
 export function StarTrack({ questions, answers, current }: StarTrackProps) {
   const reduced = useReducedMotion();
   const answered = questions.map((q) => isAnswered(q, answers[q.id]));
+  // 掛載當下已答的星不 pop(reload 續作場景);之後轉為已答才 pop(spec: pop when becomes answered)
+  const poppedRef = useRef<Set<string> | null>(null);
+  if (poppedRef.current === null) {
+    poppedRef.current = new Set(questions.filter((_, i) => answered[i]).map((q) => q.id));
+  }
   const answeredTotal = answered.filter(Boolean).length;
 
   return (
@@ -54,9 +60,10 @@ export function StarTrack({ questions, answers, current }: StarTrackProps) {
               <motion.span
                 aria-hidden="true"
                 key={lit ? "lit" : "dim"}
-                initial={reduced || !lit ? false : { scale: 0.4 }}
+                initial={reduced || !lit || poppedRef.current?.has(q.id) ? false : { scale: 0.4 }}
                 animate={{ scale: 1 }}
                 transition={reduced ? { duration: 0 } : springSnappy}
+                onAnimationComplete={() => lit && poppedRef.current?.add(q.id)}
                 className={`${isCurrent ? "text-2xl" : "text-lg"} leading-none inline-block
                   ${lit ? `${STAR_COLORS[i % 3]} drop-shadow-[0_0_8px_currentColor]` : "text-muted opacity-50"}`}
               >

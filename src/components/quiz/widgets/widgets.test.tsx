@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, mock } from "bun:test";
+import { afterAll, beforeAll, beforeEach, describe, expect, test, mock } from "bun:test";
 import { fireEvent, render, screen } from "@testing-library/react";
 import type { FillQ, ImageQ, MatchQ, MultiQ, SingleQ } from "../../../data/schema";
 import { FillBlank } from "./FillBlank";
@@ -133,6 +133,15 @@ describe("ImageChoice", () => {
 });
 
 describe("sound triggers", () => {
+  // mock.module 是 process-wide:結束後還原為真模組,避免污染後續測試檔(review MEDIUM-4)
+  let realBlip: typeof import("../../../audio/blip");
+  beforeAll(async () => {
+    realBlip = await import("../../../audio/blip");
+  });
+  afterAll(() => {
+    mock.module("../../../audio/blip", () => realBlip);
+  });
+
   test("multi: adding blips, removing stays silent", async () => {
     const blipMock = mock(() => {});
     mock.module("../../../audio/blip", () => ({ blip: blipMock, unlock: mock(() => {}), melody: mock(() => {}) }));
