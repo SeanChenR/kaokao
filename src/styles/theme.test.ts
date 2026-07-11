@@ -50,7 +50,7 @@ test("ruby v2: flex stacked column, reserved tone lane, no writing-mode/absolute
   expect(css).toMatch(/rt\s*\{[^}]*font-size: 1em/); // 蓋掉 UA rt font-size 50%
   expect(css).toMatch(/rt\s*\{[^}]*color: var\(--info\)/);
   expect(css).toMatch(/zy-lane[\s\S]*?width: 0\.42em/); // 恆佔位聲調 lane(等寬)
-  expect(css).toMatch(/ruby\s*\{[^}]*margin-inline-end/); // 自帶間距,不依賴相鄰選擇器
+  expect(css).toMatch(/ruby\s*\{[^}]*margin-inline: 0\.1em 0\.3em/); // 左右自帶間距(右較大)
   expect(css).not.toContain("ruby + ruby"); // 相鄰選擇器已證明蓋不全
   expect(css).not.toContain("writing-mode:"); // 屬性不得使用(註解提及不算)
   expect(css).not.toMatch(/zy-(tone|lane)[\s\S]*?position: absolute/);

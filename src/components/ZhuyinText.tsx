@@ -16,7 +16,7 @@ export function ZhuyinText({ rich, className }: ZhuyinTextProps) {
 
   if (!zhuyin) {
     // 關閉時輸出單一文字節點:語意最乾淨,測試的 getByText 也能直取(spec: off 無 ruby/rt)
-    return <span className={className}>{rich.flatMap((seg) => seg.map((t) => t.t)).join("")}</span>;
+    return <span data-zhuyin-text className={className}>{rich.flatMap((seg) => seg.map((t) => t.t)).join("")}</span>;
   }
 
   // 避頭點:以「行首禁則」標點開頭的 segment 併入前一組 nowrap,標點不落行首
@@ -32,7 +32,7 @@ export function ZhuyinText({ rich, className }: ZhuyinTextProps) {
   }
 
   return (
-    <span className={className}>
+    <span data-zhuyin-text className={className}>
       {groups.map((segment, si) => (
         <span key={si} className="inline-block whitespace-nowrap">
           {segment.map((token, ti) =>

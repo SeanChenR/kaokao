@@ -57,8 +57,8 @@ export function StarTrack({ questions, answers, current }: StarTrackProps) {
                 ${isCurrent ? "motion-safe:animate-pulse" : ""}`}
               style={{ left: `${xPercent}%`, bottom: `${bottomPx - 14}px` }}
             >
+              <span aria-hidden="true" className="flex flex-col items-center leading-none">
               <motion.span
-                aria-hidden="true"
                 key={lit ? "lit" : "dim"}
                 initial={reduced || !lit || poppedRef.current?.has(q.id) ? false : { scale: 0.4 }}
                 animate={{ scale: 1 }}
@@ -69,6 +69,10 @@ export function StarTrack({ questions, answers, current }: StarTrackProps) {
               >
                 {lit ? "★" : "☆"}
               </motion.span>
+              <span className={`text-[0.55rem] font-num mt-0.5 ${isCurrent ? "text-primary font-bold" : "text-muted"}`}>
+                {i + 1}
+              </span>
+              </span>
             </button>
           );
         })}
